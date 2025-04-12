@@ -153,8 +153,10 @@ const Order = () => {
 
   return (
     <div className="order-container">
-      <h1>Select Delivery Date</h1>
-      <p className="instruction">Choose a date for your ice delivery</p>
+      <div className="order-page-header">
+        <h1>Select Delivery Date</h1>
+        {/* <p className="instruction">Choose a date for your ice delivery to ensure availability. We offer a daily capacity of {MAX_DAILY_CAPACITY} ice blocks.</p> */}
+      </div>
       
       {error && <div className="error-message">{error}</div>}
       
@@ -171,9 +173,16 @@ const Order = () => {
               onClick={() => handleDateSelect(dateInfo.dateString)}
             >
               <div className="date-card-inner">
-                <div className="day-name">{dateInfo.dayName}</div>
-                <div className="day-number">{dateInfo.dayNumber}</div>
-                <div className="month">{dateInfo.month}</div>
+                <div className="date-info">
+                  <div className="date-circle">
+                    <div className="day-name">{dateInfo.dayName}</div>
+                    <div className="day-number">{dateInfo.dayNumber}</div>
+                  </div>
+                  <div className="month-year">
+                    <span className="month">{dateInfo.month}</span>
+                    <span className="year">{dateInfo.dateObj.getFullYear()}</span>
+                  </div>
+                </div>
                 
                 <div className="availability-indicator">
                   <div className="availability-label">
@@ -192,7 +201,7 @@ const Order = () => {
                 </div>
                 
                 <div className="order-info">
-                  <p>Orders placed: {orderCount} blocks</p>
+                  <p>Orders placed: <strong>{orderCount}</strong> blocks</p>
                   <p>Available: <strong>{availableBlocks}</strong> blocks</p>
                 </div>
               </div>
