@@ -1,96 +1,91 @@
 import React from "react";
-/*import CURRENTIceRatesAndAvailabilityAtYourFingertips from "./CURRENT-ICE-RATES-AND-AVAILABILITY-AT-YOUR-FINGERTIPS.png";
-import GETStarted from "./GET-STARTED.png";
-import LOGIN from "./LOGIN.png";
-import fileDelivery2 from "./file-delivery-2.png";*/
+import { Link } from "react-router-dom";
+import { useContext } from 'react';
+import { UserContext } from '../../../UserContext.jsx';
 import fileDelivery from "/ImagePool/file-delivery.png";
-
 import lockOpen from "/ImagePool/lock-open.png";
-import rectangle1 from "/ImagePool/rectangle-1.png";
-/*import "./style.css";*/
 import unsplashXnzrf6Rrkm4 from "/ImagePool/unsplash-xnzrf6rrkm4.png";
 import winter from "/ImagePool/winter.png";
-import './homes.css';
-import './homestyle.css';
+import './HomePage.css';
 
 export const HomePage = () => {
+  const { userPhone } = useContext(UserContext);
+
   return (
-    <div className="home-page">
-      <div className="overlap-group-wrapper">
-        <div className="overlap-group">
-          <img className="rectangle" alt="Rectangle" src={rectangle1} />
-
-          <img className="unsplash" alt="Unsplash" src={unsplashXnzrf6Rrkm4} />
-
-          <p className="heading">CURRENT ICE RATES AND AVAILABILITY AT YOUR FINGERTIPS</p>
-
-          <p className="text-wrapper">
+    <div className="homepage-container">
+      {/* Hero Section with full-screen background */}
+      <div className="hero-section">
+        <img className="hero-background" alt="Ice Factory Background" src={unsplashXnzrf6Rrkm4} />
+        
+        {/* Navigation Bar */}
+        <nav className="navbar">
+          <div className="navbar-left">
+            <img className="navbar-logo" alt="Winter Logo" src={winter} />
+            <div className="navbar-brand">Ice Factory</div>
+          </div>
+          
+          <div className="navbar-links">
+            <Link to="/" className="nav-link active">HOME</Link>
+            <Link to="/about" className="nav-link">ABOUT US</Link>
+            <Link to="/orders" className="nav-link">PLACE ORDER</Link>
+            <Link to="/contact" className="nav-link">CONTACT US</Link>
+          </div>
+          
+          <div className="navbar-auth">
+            {userPhone ? (
+              <Link to="/profile" className="auth-button user-profile">
+                MY ACCOUNT
+              </Link>
+            ) : (
+              <Link to="/login" className="auth-button login">
+                <img src={lockOpen} alt="Lock" className="login-icon" />
+                LOGIN
+              </Link>
+            )}
+          </div>
+        </nav>
+        
+        {/* Hero Content */}
+        <div className="hero-content">
+          <h1 className="hero-title">CURRENT ICE RATES AND AVAILABILITY AT YOUR FINGERTIPS</h1>
+          <p className="hero-description">
             Stay updated with our competitive ice rates and real-time
             availability. Order effortlessly and ensure your business never runs
             out of ice
           </p>
-
-          <div className="div" />
-
-          <img className="file-delivery" alt="File delivery" src={fileDelivery} />
-
-          <img className="img" alt="File delivery" src={fileDelivery} />
-
-          <div className="text-wrapper-2">Faster Delivery</div>
-
-          <div className="abcd-falan-dhimkhana">
-            abcd falan dhimkhana
-            <br />
-            jnfjneajkvneajfnb
-          </div>
-
-          <div className="abcd-falan-dhimkhana-2">
-            abcd falan dhimkhana
-            <br />
-            jnfjneajkvneajfnb
-          </div>
-
-          <div className="abcd-falan-dhimkhana-3">
-            abcd falan dhimkhana
-            <br />
-            jnfjneajkvneajfnb
-          </div>
-
-          <div className="text-wrapper-3">Faster Delivery</div>
-
-          <div className="text-wrapper-4">Faster Delivery</div>
-
-          <div className="text-wrapper-5">HOME</div>
-
-          <div className="text-wrapper-6">ABOUT US</div>
-
-          <div className="text-wrapper-7">PLACE ORDER</div>
-
-          <div className="text-wrapper-8">CONTACT US</div>
-
-          <div className="rectangle-2" />
-
-         
-          <p className="LOGIN">LOGIN</p>
-
-          <img className="lock-open" alt="Lock open" src={lockOpen} />
-
-          <div className="text-wrapper-9">Ice Factory</div>
-
-          <img className="winter" alt="Winter" src={winter} />
-
-          <div className="rectangle-3" />
-
-          <p className="GET-STARTED">GET STARTED</p>
-
-          <img
-            className="file-delivery-2"
-            alt="File delivery"
-            src={fileDelivery}
-          />
+          <Link to="/orders" className="cta-button">
+            GET STARTED
+          </Link>
+        </div><div className="features-section">
+        <div className="feature-card">
+          <img className="feature-icon" alt="File delivery" src={fileDelivery} />
+          <h3 className="feature-title">Faster Delivery</h3>
+          <p className="feature-description">
+            Quick and reliable delivery service ensures your ice arrives fresh and ready to use
+          </p>
+        </div>
+        
+        <div className="feature-card">
+          <img className="feature-icon" alt="File delivery" src={fileDelivery} />
+          <h3 className="feature-title">Real-Time Tracking</h3>
+          <p className="feature-description">
+            Monitor your order from placement to delivery with our advanced tracking system
+          </p>
+        </div>
+        
+        <div className="feature-card">
+          <img className="feature-icon" alt="File delivery" src={fileDelivery} />
+          <h3 className="feature-title">Quality Guarantee</h3>
+          <p className="feature-description">
+            We ensure the highest quality ice products for all your cooling needs
+          </p>
         </div>
       </div>
     </div>
+      </div>
+
+      
+      
   );
 };
 
