@@ -1,9 +1,12 @@
 import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-
+import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
-  plugins: [react()],
-  esbuild: {
+
+  plugins: [
+    tailwindcss(),
+  react()
+  ],
+     esbuild: {
  // This auto-imports React
     // jsxInject: `import React from 'react'`, // This auto-imports React
     jsx: 'automatic',
@@ -13,4 +16,5 @@ export default defineConfig({
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx']
   }
+
 })
