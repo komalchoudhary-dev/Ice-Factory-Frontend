@@ -21,7 +21,7 @@ function Registration() {
           <input type="text" placeholder="Country" />
           
           <p className="terms-text">
-            I do accept the terms and conditions of your company
+            I do accept the terms and conditions of your company.
           </p>
         </div>
         <button className="register-button">Register</button>
