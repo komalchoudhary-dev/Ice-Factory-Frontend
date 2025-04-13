@@ -13,7 +13,10 @@ console.log("Future date: ", futureDate);
     const ModifiedDate = futureDate.toLocaleDateString('en-GB', options);
     // Get today's date in YYYY-MM-DD format
     
-  const formattedDate = futureDate.toISOString().split("T")[0];
+  //const formattedDate = futureDate.toISOString().split("T")[0];
+  const localFutureDate = new Date(futureDate.getTime() - futureDate.getTimezoneOffset() * 60000);
+const formattedDate = localFutureDate.toISOString().split("T")[0];
+
    const [apiData, setApiData] = useState([]);
    
   // Fetch data from API
