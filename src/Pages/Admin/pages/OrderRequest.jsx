@@ -9,7 +9,7 @@ function Prakhar() {
     const [apiData, setApiData] = useState([]);
     // getting the data from the api
   function getData(){
-    const data = axios.get("http://localhost:8080/api/public/orders")
+    const data = axios.get("http://localhost:8080/api/public/orders/all")
     .then((response) => {
       console.log("Hiii ",response.data)
       setApiData(response.data);

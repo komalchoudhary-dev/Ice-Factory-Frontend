@@ -5,7 +5,7 @@ import profileIcon from "../../../assets/profile.png";
 
 const Navbar = () => {
   return (
-    <div className="h-12 bg-sky-200 border-b-1 border-black flex items-center justify-between px-6 left-56 z-10">
+    <div className="h-12 bg-blue-500 border-b-1 border-black flex items-center justify-between px-6 left-56 z-10">
       <div className="flex ">
         <img src={logo} alt="Ice Factory" className="h-10" />
       </div>
