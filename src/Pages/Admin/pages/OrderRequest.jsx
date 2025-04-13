@@ -1,5 +1,6 @@
 import React,{useState, useEffect} from "react";
 import Sidebar from "../components/Sidebar";
+import Navbar from "../components/Navbar";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { div, nav } from "framer-motion/client";
@@ -8,7 +9,7 @@ function Prakhar() {
     const [apiData, setApiData] = useState([]);
     // getting the data from the api
   function getData(){
-    const data = axios.get("http://localhost:8080/api/public/orders")
+    const data = axios.get("http://localhost:8080/api/public/orders/all")
     .then((response) => {
       console.log("Hiii ",response.data)
       setApiData(response.data);
@@ -46,7 +47,7 @@ function getNext15DaysOrderSummary(groupedData) {
   
     for (let i = 1; i <= 15; i++) {
       const nextDate = new Date(today);
-      nextDate.setDate(today.getDate() + i-5);
+      nextDate.setDate(today.getDate() + i);
       const dateStr = nextDate.toISOString().split('T')[0];
       const match = groupedData.find(item => item.deliveryDate === dateStr);
       result.push({
@@ -69,25 +70,46 @@ function getNext15DaysOrderSummary(groupedData) {
     const today = new Date();
     const formattedDate = today.toLocaleDateString('en-IN', {
         day: '2-digit',
-        month: 'short',
-        year: 'numeric'
+        month: 'long',
     });
+
+   
+    function convertDate(dateString) {
+      const options = { day: '2-digit', month: 'long' };
+      const formattedDate = new Date(dateString).toLocaleDateString('en-GB', options);
+      const dateParts = formattedDate.split(" "); // ['14', 'April']
+      return dateParts;
+    }
+    
+    
+    
     return(
+      <div className="flex flex-col">
+      <div ><Navbar /></div>
         <div className="flex">
                 <Sidebar/>
-                <div className="flex flex-col items-center bg-gray-100 w-full">
-                    <p>{formattedDate}</p>
-                    <div className="grid grid-cols-7 gap-4 p-4 m-2">{summary.map((data)=>{
+                <div className="p-6 bg-gray-200 w-full min-h-screen">
+                <h1 className="font-bold text-3xl text-black">Order Request</h1>
+<br />
+
+
+                <div className="flex flex-col items-center  bg-gray-200 w-full">
+                    {/* <p className="text-white">{formattedDate}</p> */}
+                    <div className="grid grid-cols-5 gap-4 p-10 m-2">{summary.map((data)=>{
                         return(
-                            <div className="bg-black text-white rounded-lg cursor-pointer" onClick={()=>navigate("/admin-dashboard")}>
-                                <p>{data.deliveryDate}</p>
+                            <div className="w-40 text-center h-20 bg-sky-500 text-white rounded-lg cursor-pointer" onClick={()=>navigate("/admin-order-request-detail")}>
+                                
+                                <p>{convertDate(data.deliveryDate)[0]}</p>
+                                <p>{convertDate(data.deliveryDate)[1]}</p>
                                 <p>{data.Request}</p>
                             </div>
                         )
                         })}
                     </div>
-                    <h2>Welcome to order Request</h2>
+                    
+                    </div>
                 </div>
+        </div>
         </div>) 
   }
   

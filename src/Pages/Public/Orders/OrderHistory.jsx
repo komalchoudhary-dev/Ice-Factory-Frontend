@@ -1,79 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../../../UserContext.jsx';
 import './OrderHistory.css';
 
 const OrderHistory = () => {
   const navigate = useNavigate();
+  const { userPhone } = useContext(UserContext);
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [filter, setFilter] = useState('all'); // all, pending, delivered, cancelled
+  const [filter, setFilter] = useState('all'); // all, pending, confirmed, delivered, rejected, cancelled
 
   useEffect(() => {
     const fetchOrderHistory = async () => {
+      if (!userPhone) {
+        setError("Please log in to view your order history");
+        setLoading(false);
+        return;
+      }
+
       try {
         setLoading(true);
         
-        // In a real app, you would fetch data from your backend API
-        // Example: const response = await fetch('http://localhost:8080/api/public/orders/history');
+        const response = await fetch(`http://localhost:8080/api/public/orders/history/${userPhone}`);
         
-        // For now, let's simulate an API response with mock data
-        setTimeout(() => {
-          const mockOrders = [
-            {
-              id: 'ORD-2025-001',
-              date: '2025-04-07',
-              deliveryDate: '2025-04-08',
-              customerName: 'John Doe',
-              totalAmount: 2500.00,
-              status: 'delivered',
-              items: [
-                { name: 'Ice Block', quantity: 25, price: 100.00 }
-              ],
-              paymentStatus: 'paid'
-            },
-            {
-              id: 'ORD-2025-002',
-              date: '2025-04-08',
-              deliveryDate: '2025-04-09',
-              customerName: 'John Doe',
-              totalAmount: 1500.00,
-              status: 'pending',
-              items: [
-                { name: 'Ice Block', quantity: 15, price: 100.00 }
-              ],
-              paymentStatus: 'paid'
-            },
-            {
-              id: 'ORD-2025-003',
-              date: '2025-04-09',
-              deliveryDate: '2025-04-11',
-              customerName: 'John Doe',
-              totalAmount: 2000.00,
-              status: 'processing',
-              items: [
-                { name: 'Ice Block', quantity: 20, price: 100.00 }
-              ],
-              paymentStatus: 'pending'
-            },
-            {
-              id: 'ORD-2025-004',
-              date: '2025-04-05',
-              deliveryDate: '2025-04-07',
-              customerName: 'John Doe',
-              totalAmount: 500.00,
-              status: 'cancelled',
-              items: [
-                { name: 'Ice Block', quantity: 5, price: 100.00 }
-              ],
-              paymentStatus: 'refunded',
-              cancellationReason: 'Customer requested cancellation'
-            }
-          ];
-          
-          setOrders(mockOrders);
-          setLoading(false);
-        }, 1000);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch order history: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        setOrders(data);
+        setLoading(false);
         
       } catch (err) {
         setError("Failed to load order history");
@@ -83,7 +40,7 @@ const OrderHistory = () => {
     };
     
     fetchOrderHistory();
-  }, []);
+  }, [userPhone]);
 
   const handleViewDetails = (orderId) => {
     // Navigate to order details page
@@ -91,12 +48,35 @@ const OrderHistory = () => {
   };
 
   const handleCancelOrder = async (orderId) => {
-    // In a real app, you would make an API call to cancel the order
-    // For now, let's just update the local state
-    if (window.confirm('Are you sure you want to cancel this order?')) {
-      setOrders(orders.map(order => 
-        order.id === orderId ? { ...order, status: 'cancelled' } : order
-      ));
+    if (!window.confirm('Are you sure you want to cancel this order?')) {
+      return;
+    }
+
+    try {
+      setLoading(true);
+      
+      const response = await fetch(`http://localhost:8080/api/public/orders/cancel/${orderId}`, {
+        method: 'PUT'
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Failed to cancel order: ${response.status}`);
+      }
+      
+      // Refresh order list
+      const updatedOrdersResponse = await fetch(`http://localhost:8080/api/public/orders/history/${userPhone}`);
+      if (!updatedOrdersResponse.ok) {
+        throw new Error(`Failed to refresh orders: ${updatedOrdersResponse.status}`);
+      }
+      
+      const updatedOrders = await updatedOrdersResponse.json();
+      setOrders(updatedOrders);
+      
+    } catch (err) {
+      setError("Failed to cancel order. Please try again.");
+      console.error("Error cancelling order:", err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -104,20 +84,21 @@ const OrderHistory = () => {
     const order = orders.find(o => o.id === orderId);
     if (order) {
       // Navigate to order page with pre-filled quantity
-      navigate('/orders');
+      navigate('/orders', { state: { quantity: order.quantity } });
     }
   };
 
   const filterOrders = () => {
     if (filter === 'all') return orders;
-    return orders.filter(order => order.status === filter);
+    return orders.filter(order => order.status.toLowerCase() === filter);
   };
 
   const getStatusClass = (status) => {
-    switch(status) {
+    switch(status.toLowerCase()) {
       case 'delivered': return 'status-success';
       case 'pending': return 'status-warning';
-      case 'processing': return 'status-info';
+      case 'confirmed': return 'status-info';
+      case 'rejected': return 'status-danger';
       case 'cancelled': return 'status-danger';
       default: return '';
     }
@@ -126,6 +107,36 @@ const OrderHistory = () => {
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
+  const formatTime = (timeString) => {
+    // If timeString is already in HH:MM:SS format
+    if (timeString && timeString.includes(':')) {
+      const timeParts = timeString.split(':');
+      const hours = parseInt(timeParts[0]);
+      const minutes = timeParts[1];
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      const formattedHours = hours % 12 || 12;
+      return `${formattedHours}:${minutes} ${ampm}`;
+    }
+    return timeString;
+  };
+
+  const getStatusDescription = (status) => {
+    switch(status.toLowerCase()) {
+      case 'pending': 
+        return 'Order placed, waiting for admin approval.';
+      case 'confirmed': 
+        return 'Order approved by admin and is being processed.';
+      case 'rejected': 
+        return 'Order was rejected by the admin.';
+      case 'cancelled': 
+        return 'Order was cancelled by you after confirmation.';
+      case 'delivered': 
+        return 'Order has been successfully delivered.';
+      default: 
+        return 'Status unknown.';
+    }
   };
 
   if (loading) {
@@ -177,16 +188,22 @@ const OrderHistory = () => {
             Pending
           </button>
           <button 
-            className={`filter-btn ${filter === 'processing' ? 'active' : ''}`} 
-            onClick={() => setFilter('processing')}
+            className={`filter-btn ${filter === 'confirmed' ? 'active' : ''}`} 
+            onClick={() => setFilter('confirmed')}
           >
-            Processing
+            Confirmed
           </button>
           <button 
             className={`filter-btn ${filter === 'delivered' ? 'active' : ''}`} 
             onClick={() => setFilter('delivered')}
           >
             Delivered
+          </button>
+          <button 
+            className={`filter-btn ${filter === 'rejected' ? 'active' : ''}`} 
+            onClick={() => setFilter('rejected')}
+          >
+            Rejected
           </button>
           <button 
             className={`filter-btn ${filter === 'cancelled' ? 'active' : ''}`} 
@@ -218,10 +235,10 @@ const OrderHistory = () => {
               <div className="order-header">
                 <div className="order-id-date">
                   <h3>Order #{order.id}</h3>
-                  <p>Placed on: {formatDate(order.date)}</p>
+                  <p>Placed on: {formatDate(order.orderDate)}</p>
                 </div>
                 <div className={`order-status ${getStatusClass(order.status)}`}>
-                  {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                  <span className="status-badge">{order.status}</span>
                 </div>
               </div>
               
@@ -232,40 +249,15 @@ const OrderHistory = () => {
                     <p>{formatDate(order.deliveryDate)}</p>
                   </div>
                   <div className="info-group">
-                    <label>Payment Status:</label>
-                    <p className={`payment-status ${order.paymentStatus}`}>
-                      {order.paymentStatus.charAt(0).toUpperCase() + order.paymentStatus.slice(1)}
-                    </p>
+                    <label>Quantity:</label>
+                    <p>{order.quantity} blocks</p>
                   </div>
                   <div className="info-group">
                     <label>Total Amount:</label>
                     <p className="amount">₹{order.totalAmount.toFixed(2)}</p>
                   </div>
                 </div>
-                
-                <div className="order-items">
-                  <h4>Order Summary</h4>
-                  <div className="item-list">
-                    {order.items.map((item, index) => (
-                      <div key={index} className="item">
-                        <div className="item-name-qty">
-                          <span className="item-quantity">{item.quantity} x</span>
-                          <span className="item-name">{item.name}</span>
-                        </div>
-                        <div className="item-subtotal">
-                          ₹{(item.quantity * item.price).toFixed(2)}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
               </div>
-              
-              {order.status === 'cancelled' && order.cancellationReason && (
-                <div className="cancellation-reason">
-                  <p><strong>Cancellation Reason:</strong> {order.cancellationReason}</p>
-                </div>
-              )}
               
               <div className="order-actions">
                 <button 
@@ -275,16 +267,25 @@ const OrderHistory = () => {
                   View Details
                 </button>
                 
-                {(order.status === 'pending' || order.status === 'processing') && (
+                {order.status.toLowerCase() === 'pending' && (
                   <button 
                     className="btn cancel" 
                     onClick={() => handleCancelOrder(order.id)}
                   >
-                    Cancel Order
+                    Cancel
                   </button>
                 )}
                 
-                {order.status === 'delivered' && (
+                {order.status.toLowerCase() === 'confirmed' && (
+                  <button 
+                    className="btn cancel" 
+                    onClick={() => handleCancelOrder(order.id)}
+                  >
+                    Cancel
+                  </button>
+                )}
+                
+                {order.status.toLowerCase() === 'delivered' && (
                   <button 
                     className="btn reorder"
                     onClick={() => handleReorder(order.id)}
