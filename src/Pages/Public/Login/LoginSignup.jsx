@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React,{ useState, useContext } from "react"; // Remove 'React' from this import
 import { useNavigate } from "react-router-dom";
+// Example: update in your components
+import { UserContext, UserProvider } from '../../../UserContext.jsx';
 import "./LoginSignup.css";
 import user_icon from "../../../assets/person.png";
 import email_icon from "../../../assets/email.png";
 import password_icon from "../../../assets/password.png";
-import phone_icon from "../../../assets/phone.png"; // You may need to add this image
+import phone_icon from "../../../assets/phone.png"; 
 
 const LoginSignup = () => {
   const [action, setAction] = useState("Login");
@@ -17,6 +19,7 @@ const LoginSignup = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { login, loading: userContextLoading } = useContext(UserContext);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -50,11 +53,11 @@ const LoginSignup = () => {
         const result = await response.json();
         
         if (result === true) {
-          // Login successful
-          // Store user phone in localStorage
-          localStorage.setItem('userPhone', formData.phone);
+          // Login successful - call the login function from context
+          // This will trigger the fetching of user details
+          await login(formData.phone);
           
-          // Redirect to appropriate page based on user type
+          // Redirect to home page
           navigate('/');
         } else {
           // Login failed
@@ -68,10 +71,13 @@ const LoginSignup = () => {
       }
     } else {
       // Sign Up logic would go here
-      // You can implement this later
+      // For now just show a message
       alert("Sign up functionality will be implemented soon!");
     }
   };
+
+  // Determine if we're in any loading state
+  const isLoading = loading || userContextLoading;
 
   return (
     <div className="container">
@@ -84,7 +90,6 @@ const LoginSignup = () => {
 
       <form onSubmit={handleSubmit}>
         <div className="inputs">
-          {/* Show Name field only when Sign Up is selected */}
           {action === "Sign Up" && (
             <div className="input">
               <img src={user_icon} alt="User Icon" />
@@ -121,20 +126,20 @@ const LoginSignup = () => {
           </div>
         </div>
 
-        {/* Show Forgot Password only for Login */}
         {action === "Login" && (
           <div className="forgot-password">
             Lost password? <span>Click Here</span>
           </div>
         )}
 
-        {loading && <div className="loading-spinner">Verifying...</div>}
+        {isLoading && <div className="loading-spinner">Verifying...</div>}
 
         <div className="submit-container">
           <button
             type="button"
             className={action === "Login" ? "submit gray" : "submit"}
             onClick={() => setAction("Sign Up")}
+            disabled={isLoading}
           >
             Sign Up
           </button>
@@ -142,6 +147,7 @@ const LoginSignup = () => {
           <button
             type="submit"
             className={action === "Sign Up" ? "submit gray" : "submit"}
+            disabled={isLoading}
           >
             {action === "Login" ? "Login" : "Create Account"}
           </button>
