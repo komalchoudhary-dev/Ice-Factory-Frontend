@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { UserContext } from '../../../UserContext.jsx';
 import './OrderDetails.css';
 
 const OrderDetails = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { userDetails, userPhone, formattedAddress, loading: userLoading } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   
@@ -20,6 +22,20 @@ const OrderDetails = () => {
     deliveryDate: selectedDate,
     quantity: 1
   });
+
+  // Pre-fill form data when userDetails are available
+  useEffect(() => {
+    if (userDetails) {
+      setFormData(prev => ({
+        ...prev,
+        customerName: userDetails.firstName && userDetails.lastName 
+          ? `${userDetails.firstName} ${userDetails.lastName}`
+          : prev.customerName,
+        customerPhone: userPhone || prev.customerPhone,
+        deliveryAddress: formattedAddress || prev.deliveryAddress
+      }));
+    }
+  }, [userDetails, userPhone, formattedAddress]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -63,6 +79,8 @@ const OrderDetails = () => {
     <div className="order-details-container">
       <div className="order-details-card">
         <h1>{submitSuccess ? 'Order Placed Successfully!' : 'Order Details'}</h1>
+        
+        {userLoading && <div className="loading-indicator">Loading your information...</div>}
         
         {submitSuccess ? (
           <div className="success-message">

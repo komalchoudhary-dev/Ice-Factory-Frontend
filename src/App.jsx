@@ -3,6 +3,8 @@ import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 
+import { UserContext, UserProvider } from './UserContext.jsx';
+
 const Order = lazy(() => import('./Pages/Public/Orders/Order.jsx'));
 const OrderDetails = lazy(() => import('./Pages/Public/Orders/OrderDetails.jsx'));
 const OrderHistory = lazy(() => import('./Pages/Public/Orders/OrderHistory.jsx'));
@@ -12,7 +14,11 @@ const AdminOrederRequests = lazy(() => import('./Pages/Admin/pages/OrderRequest.
 const AdminOrederToBeDelivered = lazy(() => import('./Pages/Admin/pages/OrdersToBeDelivered.jsx'));
 const AdminSalesReport = lazy(() => import('./Pages/Admin/pages/SalesReport.jsx'));
 const LoginSignup = lazy(() => import('./Pages/Public/Login/LoginSignup.jsx'));
+
 const Detail=lazy(() => import('./Pages/Admin/pages/detail.jsx'));
+const SignUp = lazy(() => import('./Pages/Public/Registration/Registration.jsx'));
+
+
 // Add missing components
 const LoadingBar = () => (
   <div className="loading-bar">
@@ -122,6 +128,11 @@ function AppRoutes() {
               <LoginSignup />
             </PageTransition>
           } />
+          <Route path="/signup" element={
+            <PageTransition>
+              <SignUp />
+            </PageTransition>
+          } />
         </Routes>
       </Suspense>
     </AnimatePresence>
@@ -130,9 +141,11 @@ function AppRoutes() {
 
 function App() {
   return (
-    <Router>
-      <AppRoutes />
-    </Router>
+    <UserProvider>
+      <Router>
+        <AppRoutes />
+      </Router>
+    </UserProvider>
   );
 }
 
