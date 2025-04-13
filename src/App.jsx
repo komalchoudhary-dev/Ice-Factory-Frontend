@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate, useLocat
 import { AnimatePresence, motion } from 'framer-motion';
 
 import { UserContext, UserProvider } from './UserContext.jsx';
+import Footer from './Components/Footer/Footer.jsx';
 
 const Order = lazy(() => import('./Pages/Public/Orders/Order.jsx'));
 const OrderDetails = lazy(() => import('./Pages/Public/Orders/OrderDetails.jsx'));
@@ -143,7 +144,10 @@ function App() {
   return (
     <UserProvider>
       <Router>
-        <AppRoutes />
+        <main className="app-content">
+          <AppRoutes />
+        </main>
+        <Footer />
       </Router>
     </UserProvider>
   );
