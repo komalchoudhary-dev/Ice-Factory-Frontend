@@ -1,4 +1,4 @@
-import './App.css'
+//import './App.css'
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -12,6 +12,7 @@ const AdminOrederRequests = lazy(() => import('./Pages/Admin/pages/OrderRequest.
 const AdminOrederToBeDelivered = lazy(() => import('./Pages/Admin/pages/OrdersToBeDelivered.jsx'));
 const AdminSalesReport = lazy(() => import('./Pages/Admin/pages/SalesReport.jsx'));
 const LoginSignup = lazy(() => import('./Pages/Public/Login/LoginSignup.jsx'));
+const Detail=lazy(() => import('./Pages/Admin/pages/detail.jsx'));
 // Add missing components
 const LoadingBar = () => (
   <div className="loading-bar">
@@ -99,6 +100,11 @@ function AppRoutes() {
           <Route path="/admin-order-request" element={
             <PageTransition>
             <AdminOrederRequests/>
+            </PageTransition>
+          } />
+          <Route path="/admin-order-request-detail" element={
+            <PageTransition>
+            <Detail/>
             </PageTransition>
           } />
           <Route path="/admin-tobe-delivered" element={
