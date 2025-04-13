@@ -12,6 +12,7 @@ import unsplashXnzrf6Rrkm4 from "/ImagePool/unsplash-xnzrf6rrkm4.png";
 import winter from "/ImagePool/winter.png";
 import './homes.css';
 import './homestyle.css';
+/*import './HomePage.css';*/
 
 export const HomePage = () => {
   return (

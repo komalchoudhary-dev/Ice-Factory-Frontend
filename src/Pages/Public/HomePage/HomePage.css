@@ -13,13 +13,13 @@
   width: 515px;
   height: 341px;
 }
-.UnsplashXnzRf6rrKm4_486_65 {
+.unsplash {
   background: #d3d3d3 url(<path-to-image>) 50% / cover no-repeat;
   flex-shrink: 0;
   width: 515px;
   height: 341px;
 }
-.CurrentIceRatesAndAvailabilityAtYourFingertips_27_4415 {
+.heading {
   color: #fff;
   backdrop-filter: blur(2px);
   flex-direction: column;
@@ -34,7 +34,7 @@
   line-height: 155%;
   display: inline-block;
 }
-.StayUpdatedWithOurCompetitiveIceRatesAndRealTimeAvailabilityOrderEffortlesslyAndEnsureYourBusinessNeverRunsOutOfIce_27_4416 {
+.text-wrapper {
   color: #fffc;
   backdrop-filter: blur(2px);
   flex-direction: column;
@@ -55,14 +55,14 @@
   width: 515px;
   height: 85px;
 }
-.FileDelivery_499_64,
-.FileDelivery_499_66 {
+.file-delivery,
+.file-delivery-2 {
   background: #d3d3d3 url(<path-to-image>) 50% / contain no-repeat;
   flex-shrink: 0;
   width: 39px;
   height: 22px;
 }
-.FasterDelivery_486_69 {
+.text-wrapper-2 {
   color: #000;
   backdrop-filter: blur(2px);
   flex-direction: column;
@@ -77,9 +77,9 @@
   line-height: 150%;
   display: inline-block;
 }
-.AbcdFalanDhimkhanaJnfjneajkvneajfnb_499_72,
-.AbcdFalanDhimkhanaJnfjneajkvneajfnb_499_75,
-.AbcdFalanDhimkhanaJnfjneajkvneajfnb_499_77 {
+.abcd-falan-dhimkhana,
+.abcd-falan-dhimkhana-2,
+.abcd-falan-dhimkhana-3 {
   color: #000;
   text-align: center;
   backdrop-filter: blur(2px);
@@ -95,8 +95,8 @@
   line-height: 150%;
   display: inline-block;
 }
-.FasterDelivery_499_68,
-.FasterDelivery_499_70 {
+.text-wrapper-3,
+.text-wrapper-4 {
   color: #000;
   backdrop-filter: blur(2px);
   flex-direction: column;
@@ -111,7 +111,7 @@
   line-height: 150%;
   display: inline-block;
 }
-.Home_250_22 {
+.text-wrapper-5 {
   color: #fff;
   text-align: center;
   flex-shrink: 0;
@@ -124,7 +124,7 @@
   line-height: normal;
   display: inline-block;
 }
-.AboutUs_2_13 {
+.text-wrapper-6 {
   color: #fff;
   text-align: center;
   flex-shrink: 0;
@@ -137,7 +137,7 @@
   line-height: normal;
   display: inline-block;
 }
-.PlaceOrder_2_21 {
+.text-wrapper-7 {
   color: #fff;
   text-align: center;
   flex-shrink: 0;
@@ -150,7 +150,7 @@
   line-height: normal;
   display: inline-block;
 }
-.ContactUs_2_11 {
+.text-wrapper-8 {
   color: #fff;
   text-align: center;
   flex-shrink: 0;
@@ -163,13 +163,13 @@
   line-height: normal;
   display: inline-block;
 }
-.Rectangle_10_250_18 {
+.rectangle-2 {
   background: #fff;
   flex-shrink: 0;
   width: 49px;
   height: 21px;
 }
-.Login_2_20 {
+.LOGIN {
   color: #000;
   text-align: center;
   flex-direction: column;
@@ -184,14 +184,14 @@
   line-height: normal;
   display: inline-block;
 }
-.LockOpen_73_11 {
+.lock-open {
   aspect-ratio: 5/6;
   fill: #000;
   flex-shrink: 0;
   width: 5px;
   height: 6px;
 }
-.IceFactory_2_8 {
+.text-wrapper-9 {
   color: #fff;
   flex-shrink: 0;
   width: 71px;
@@ -203,19 +203,19 @@
   line-height: normal;
   display: inline-block;
 }
-.Winter_486_66 {
+.winter {
   background: #d3d3d3 url(<path-to-image>) 50% / contain no-repeat;
   flex-shrink: 0;
   width: 16px;
   height: 29px;
 }
-.Rectangle_21_622_75 {
+.rectangle-3 {
   background: #fff;
   flex-shrink: 0;
   width: 58px;
   height: 28px;
 }
-.GetStarted_622_77 {
+.GET-STARTED {
   color: #000;
   text-align: center;
   flex-direction: column;
