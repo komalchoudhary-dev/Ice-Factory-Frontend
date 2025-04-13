@@ -9,8 +9,15 @@ function Prakhar() {
 
   // Get today's date in YYYY-MM-DD format
   const today = new Date();
-  const formattedDate = today.toISOString().split("T")[0];
+const localDate = new Date(today.getTime() - today.getTimezoneOffset() * 60000); // Adjust for timezone
+const formattedDate = localDate.toISOString().split("T")[0];
+console.log("Formatted date:", formattedDate);
 
+  // const today = new Date();
+  // const formattedDate = today.toISOString().split("T")[0];
+  console.log("Formatted date: ", formattedDate);
+  console.log("Today AAJJJ : ", today);
+  
   // Fetch data from API
   function getData() {
     axios
@@ -25,6 +32,7 @@ function Prakhar() {
   }
   const options = { weekday: 'short', day: 'numeric', month: 'long', year: 'numeric' };
   const ModifiedDate = today.toLocaleDateString('en-GB', options);
+  console.log("Forna ", ModifiedDate);
   useEffect(() => {
     getData();
   }, []);
