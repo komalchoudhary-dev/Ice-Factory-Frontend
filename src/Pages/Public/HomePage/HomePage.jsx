@@ -10,6 +10,6 @@ import Contact from './Contact.jsx';
 
 export default function Frame_1() {
   return (
-   <><Navbar /><Home /><About /><Orders /><History /><Login /><Contact /></>
+   <><Home /><About /><Orders /><History /><Login /><Contact /></>
      );
 }
