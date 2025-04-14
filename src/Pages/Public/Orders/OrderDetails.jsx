@@ -9,6 +9,7 @@ const OrderDetails = () => {
   const { userDetails, userPhone, formattedAddress, loading: userLoading } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [error, setError] = useState(null);
   
   // Get selected date from location state if available
   const selectedDate = location.state?.selectedDate || '';
@@ -49,29 +50,61 @@ const OrderDetails = () => {
     e.preventDefault();
     
     // Validate form
-    if (!formData.customerName || !formData.customerPhone || !formData.deliveryAddress || !formData.deliveryDate || formData.quantity < 1) {
-      alert('Please fill all required fields');
+    if (!formData.customerPhone || !formData.deliveryAddress || !formData.deliveryDate || formData.quantity < 1) {
+      setError('Please fill all required fields');
       return;
     }
     
     try {
       setLoading(true);
+      setError(null);
       
-      // Here you would send the order data to your backend API
-      // For now, we'll just simulate a successful order
+      // Format delivery date properly
+      const deliveryDate = new Date(formData.deliveryDate);
       
-      setTimeout(() => {
-        setLoading(false);
-        setSubmitSuccess(true);
-        
-        // Navigate after showing success message briefly
-        setTimeout(() => {
-          navigate('/order-history');
-        }, 1500);
-      }, 1000);
-    } catch (error) {
+      // Prepare order data for backend
+      // Note: Backend will set orderDate and orderTime automatically
+      const orderData = {
+        phone: formData.customerPhone,
+        quantity: parseInt(formData.quantity),
+        // The backend sets oderDate and oderTime, so we don't need to send them
+        deliveryDate: deliveryDate.toISOString(),
+        totalAmount: 0, // As per requirement, send 0 initially
+        admin_id: 1 // Default admin ID as per requirement
+      };
+      
+      console.log('Submitting order:', orderData);
+      
+      // Send POST request to backend
+      const response = await fetch('http://localhost:8080/api/public/orders/new', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderData),
+      });
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Failed to place order: ${response.status} - ${errorText}`);
+      }
+      
+      // Parse the created order from response
+      const createdOrder = await response.json();
+      console.log('Order created successfully:', createdOrder);
+      
       setLoading(false);
-      alert('Failed to place order. Please try again.');
+      setSubmitSuccess(true);
+      
+      // Navigate after showing success message briefly
+      setTimeout(() => {
+        navigate('/');
+      }, 1500);
+      
+    } catch (error) {
+      console.error('Error placing order:', error);
+      setLoading(false);
+      setError('Failed to place order. Please try again.');
     }
   };
 
@@ -81,6 +114,12 @@ const OrderDetails = () => {
         <h1>{submitSuccess ? 'Order Placed Successfully!' : 'Order Details'}</h1>
         
         {userLoading && <div className="loading-indicator">Loading your information...</div>}
+        
+        {error && (
+          <div className="error-message">
+            <p>{error}</p>
+          </div>
+        )}
         
         {submitSuccess ? (
           <div className="success-message">
