@@ -10,6 +10,7 @@ const OrderHistory = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState('all'); // all, pending, confirmed, delivered, rejected, cancelled
+  const [activeTab, setActiveTab] = useState('upcoming'); // upcoming, past
 
   useEffect(() => {
     const fetchOrderHistory = async () => {
@@ -43,7 +44,6 @@ const OrderHistory = () => {
   }, [userPhone]);
 
   const handleViewDetails = (orderId) => {
-    // Navigate to order details page
     navigate(`/order-details/${orderId}`);
   };
 
@@ -83,14 +83,41 @@ const OrderHistory = () => {
   const handleReorder = (orderId) => {
     const order = orders.find(o => o.id === orderId);
     if (order) {
-      // Navigate to order page with pre-filled quantity
       navigate('/orders', { state: { quantity: order.quantity } });
     }
   };
 
-  const filterOrders = () => {
-    if (filter === 'all') return orders;
-    return orders.filter(order => order.status.toLowerCase() === filter);
+  // Filter orders by status
+  const filterOrdersByStatus = (ordersList) => {
+    if (filter === 'all') return ordersList;
+    return ordersList.filter(order => order.status.toLowerCase() === filter);
+  };
+
+  // Separate orders into upcoming and past based on delivery date
+  const getUpcomingOrders = () => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Set to beginning of today
+    
+    return orders.filter(order => {
+      const deliveryDate = new Date(order.deliveryDate);
+      return deliveryDate >= today;
+    });
+  };
+
+  const getPastOrders = () => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Set to beginning of today
+    
+    return orders.filter(order => {
+      const deliveryDate = new Date(order.deliveryDate);
+      return deliveryDate < today;
+    });
+  };
+
+  // Get current filtered orders based on tab and status filter
+  const getCurrentOrders = () => {
+    const ordersList = activeTab === 'upcoming' ? getUpcomingOrders() : getPastOrders();
+    return filterOrdersByStatus(ordersList);
   };
 
   const getStatusClass = (status) => {
@@ -107,36 +134,6 @@ const OrderHistory = () => {
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(dateString).toLocaleDateString(undefined, options);
-  };
-
-  const formatTime = (timeString) => {
-    // If timeString is already in HH:MM:SS format
-    if (timeString && timeString.includes(':')) {
-      const timeParts = timeString.split(':');
-      const hours = parseInt(timeParts[0]);
-      const minutes = timeParts[1];
-      const ampm = hours >= 12 ? 'PM' : 'AM';
-      const formattedHours = hours % 12 || 12;
-      return `${formattedHours}:${minutes} ${ampm}`;
-    }
-    return timeString;
-  };
-
-  const getStatusDescription = (status) => {
-    switch(status.toLowerCase()) {
-      case 'pending': 
-        return 'Order placed, waiting for admin approval.';
-      case 'confirmed': 
-        return 'Order approved by admin and is being processed.';
-      case 'rejected': 
-        return 'Order was rejected by the admin.';
-      case 'cancelled': 
-        return 'Order was cancelled by you after confirmation.';
-      case 'delivered': 
-        return 'Order has been successfully delivered.';
-      default: 
-        return 'Status unknown.';
-    }
   };
 
   if (loading) {
@@ -163,13 +160,32 @@ const OrderHistory = () => {
     );
   }
 
+  const upcomingOrders = getUpcomingOrders();
+  const pastOrders = getPastOrders();
+
   return (
     <div className="order-history-container">
       <div className="page-header">
         <h1>Your Order History</h1>
         <p className="page-description">
-          View and manage all your previous orders
+          View and manage all your orders
         </p>
+      </div>
+      
+      {/* Tab navigation */}
+      <div className="history-tabs">
+        <button 
+          className={`tab-btn ${activeTab === 'upcoming' ? 'active' : ''}`}
+          onClick={() => setActiveTab('upcoming')}
+        >
+          Upcoming Orders ({upcomingOrders.length})
+        </button>
+        <button 
+          className={`tab-btn ${activeTab === 'past' ? 'active' : ''}`}
+          onClick={() => setActiveTab('past')}
+        >
+          Past Orders ({pastOrders.length})
+        </button>
       </div>
       
       <div className="filter-controls">
@@ -214,90 +230,101 @@ const OrderHistory = () => {
         </div>
       </div>
       
-      {filterOrders().length === 0 ? (
-        <div className="no-orders">
-          <div className="empty-state-icon">📋</div>
-          <h3>No orders found</h3>
-          <p>No {filter !== 'all' ? filter : ''} orders in your history.</p>
-          {filter !== 'all' && (
-            <button 
-              className="btn secondary" 
-              onClick={() => setFilter('all')}
-            >
-              Show All Orders
-            </button>
-          )}
-        </div>
-      ) : (
-        <div className="orders-list">
-          {filterOrders().map(order => (
-            <div key={order.id} className={`order-card ${getStatusClass(order.status)}`}>
-              <div className="order-header">
-                <div className="order-id-date">
-                  <h3>Order #{order.id}</h3>
-                  <p>Placed on: {formatDate(order.orderDate)}</p>
-                </div>
-                <div className={`order-status ${getStatusClass(order.status)}`}>
-                  <span className="status-badge">{order.status}</span>
-                </div>
-              </div>
-              
-              <div className="order-summary">
-                <div className="order-info">
-                  <div className="info-group">
-                    <label>Delivery Date:</label>
-                    <p>{formatDate(order.deliveryDate)}</p>
+      {/* Current filtered orders list */}
+      <div className="tab-content">
+        <h2 className="section-title">
+          {activeTab === 'upcoming' ? 'Upcoming Orders' : 'Past Orders'}
+        </h2>
+        
+        {getCurrentOrders().length === 0 ? (
+          <div className="no-orders">
+            <div className="empty-state-icon">📋</div>
+            <h3>No orders found</h3>
+            <p>
+              {filter !== 'all' 
+                ? `No ${filter} orders found in your ${activeTab === 'upcoming' ? 'upcoming' : 'past'} orders.`
+                : `You don't have any ${activeTab === 'upcoming' ? 'upcoming' : 'past'} orders.`}
+            </p>
+            {filter !== 'all' && (
+              <button 
+                className="btn secondary" 
+                onClick={() => setFilter('all')}
+              >
+                Show All Orders
+              </button>
+            )}
+          </div>
+        ) : (
+          <div className="orders-list">
+            {getCurrentOrders().map(order => (
+              <div key={order.id} className={`order-card ${getStatusClass(order.status)}`}>
+                <div className="order-header">
+                  <div className="order-id-date">
+                    <h3>Order #{order.id}</h3>
+                    <p>Placed on: {formatDate(order.orderDate)}</p>
                   </div>
-                  <div className="info-group">
-                    <label>Quantity:</label>
-                    <p>{order.quantity} blocks</p>
-                  </div>
-                  <div className="info-group">
-                    <label>Total Amount:</label>
-                    <p className="amount">₹{order.totalAmount.toFixed(2)}</p>
+                  <div className={`order-status ${getStatusClass(order.status)}`}>
+                    <span className="status-badge">{order.status}</span>
                   </div>
                 </div>
+                
+                <div className="order-summary">
+                  <div className="order-info">
+                    <div className="info-group">
+                      <label>Delivery Date:</label>
+                      <p>{formatDate(order.deliveryDate)}</p>
+                    </div>
+                    <div className="info-group">
+                      <label>Quantity:</label>
+                      <p>{order.quantity} blocks</p>
+                    </div>
+                    <div className="info-group">
+                      <label>Total Amount:</label>
+                      <p className="amount">₹{order.totalAmount.toFixed(2)}</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="order-actions">
+                  <button 
+                    className="btn view-details" 
+                    onClick={() => handleViewDetails(order.id)}
+                  >
+                    View Details
+                  </button>
+                  
+                  {activeTab === 'upcoming' && order.status.toLowerCase() === 'pending' && (
+                    <button 
+                      className="btn cancel" 
+                      onClick={() => handleCancelOrder(order.id)}
+                    >
+                      Cancel
+                    </button>
+                  )}
+                  
+                  {activeTab === 'upcoming' && order.status.toLowerCase() === 'confirmed' && (
+                    <button 
+                      className="btn cancel" 
+                      onClick={() => handleCancelOrder(order.id)}
+                    >
+                      Cancel
+                    </button>
+                  )}
+                  
+                  {order.status.toLowerCase() === 'delivered' && (
+                    <button 
+                      className="btn reorder"
+                      onClick={() => handleReorder(order.id)}
+                    >
+                      Reorder
+                    </button>
+                  )}
+                </div>
               </div>
-              
-              <div className="order-actions">
-                <button 
-                  className="btn view-details" 
-                  onClick={() => handleViewDetails(order.id)}
-                >
-                  View Details
-                </button>
-                
-                {order.status.toLowerCase() === 'pending' && (
-                  <button 
-                    className="btn cancel" 
-                    onClick={() => handleCancelOrder(order.id)}
-                  >
-                    Cancel
-                  </button>
-                )}
-                
-                {order.status.toLowerCase() === 'confirmed' && (
-                  <button 
-                    className="btn cancel" 
-                    onClick={() => handleCancelOrder(order.id)}
-                  >
-                    Cancel
-                  </button>
-                )}
-                
-                {order.status.toLowerCase() === 'delivered' && (
-                  <button 
-                    className="btn reorder"
-                    onClick={() => handleReorder(order.id)}
-                  >
-                    Reorder
-                  </button>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+            ))}
+          </div>
+        )}
+      </div>
       
       <div className="order-history-actions">
         <button className="btn primary" onClick={() => navigate('/orders')}>

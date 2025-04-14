@@ -15,7 +15,6 @@ const AdminOrederRequests = lazy(() => import('./Pages/Admin/pages/OrderRequest.
 const AdminOrederToBeDelivered = lazy(() => import('./Pages/Admin/pages/OrdersToBeDelivered.jsx'));
 const AdminSalesReport = lazy(() => import('./Pages/Admin/pages/SalesReport.jsx'));
 const LoginSignup = lazy(() => import('./Pages/Public/Login/LoginSignup.jsx'));
-
 const Detail=lazy(() => import('./Pages/Admin/pages/detail.jsx'));
 const SignUp = lazy(() => import('./Pages/Public/Registration/Registration.jsx'));
 
