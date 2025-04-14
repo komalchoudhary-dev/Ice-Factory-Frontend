@@ -9,6 +9,8 @@ function Prakhar() {
 
   // Get today's date in YYYY-MM-DD format
   const today = new Date();
+  //const futureDate = new Date();
+today.setDate(today.getDate()+3);
 const localDate = new Date(today.getTime() - today.getTimezoneOffset() * 60000); // Adjust for timezone
 const formattedDate = localDate.toISOString().split("T")[0];
 console.log("Formatted date:", formattedDate);

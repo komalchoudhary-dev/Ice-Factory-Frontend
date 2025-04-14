@@ -6,44 +6,20 @@ import fileDelivery from "/ImagePool/file-delivery.png";
 import lockOpen from "/ImagePool/lock-open.png";
 import unsplashXnzrf6Rrkm4 from "/ImagePool/unsplash-xnzrf6rrkm4.png";
 import winter from "/ImagePool/winter.png";
+import Navbar from './Navbar.jsx';
 import './HomePage.css';
 
 export const HomePage = () => {
   const { userPhone } = useContext(UserContext);
 
   return (
+    <><Navbar />
     <div className="homepage-container">
       {/* Hero Section with full-screen background */}
       <div className="hero-section">
         <img className="hero-background" alt="Ice Factory Background" src={unsplashXnzrf6Rrkm4} />
         
-        {/* Navigation Bar */}
-        <nav className="navbar">
-          <div className="navbar-left">
-            <img className="navbar-logo" alt="Winter Logo" src={winter} />
-            <div className="navbar-brand">Ice Factory</div>
-          </div>
-          
-          <div className="navbar-links">
-            <Link to="/" className="nav-link active">HOME</Link>
-            <Link to="/about" className="nav-link">ABOUT US</Link>
-            <Link to="/orders" className="nav-link">PLACE ORDER</Link>
-            <Link to="/contact" className="nav-link">CONTACT US</Link>
-          </div>
-          
-          <div className="navbar-auth">
-            {userPhone ? (
-              <Link to="/profile" className="auth-button user-profile">
-                MY ACCOUNT
-              </Link>
-            ) : (
-              <Link to="/login" className="auth-button login">
-                <img src={lockOpen} alt="Lock" className="login-icon" />
-                LOGIN
-              </Link>
-            )}
-          </div>
-        </nav>
+      
         
         {/* Hero Content - Modified layout with split design */}
         <div className="hero-content split-layout">
@@ -91,7 +67,7 @@ export const HomePage = () => {
         </div>
       </div>
     </div>
-  );
+  </>);
 };
 
 export default HomePage;
