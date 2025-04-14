@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { UserContext } from '../../../UserContext.jsx';
 import './OrderDetails.css';
+import Navbar from '../../../Components/Navbar/Navbar.jsx';
 
 const OrderDetails = () => {
   const navigate = useNavigate();
@@ -109,6 +110,8 @@ const OrderDetails = () => {
   };
 
   return (
+    <>
+    <Navbar />
     <div className="order-details-container">
       <div className="order-details-card">
         <h1>{submitSuccess ? 'Order Placed Successfully!' : 'Order Details'}</h1>
@@ -237,6 +240,7 @@ const OrderDetails = () => {
         )}
       </div>
     </div>
+    </>
   );
 };
 
