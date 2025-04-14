@@ -13,7 +13,10 @@
 // function Dashboard() {
 //   const [apiData, setApiData] = useState([]);
 //   const today = new Date();
-// const formattedDate = today.toISOString().split('T')[0];
+// // const formattedDate = today.toISOString().split('T')[0];
+// const localToday = new Date(today.getTime() - today.getTimezoneOffset() * 60000);
+// const formattedDate = localToday.toISOString().split('T')[0];
+
 //     console.log("Formatted Date: ", formattedDate);
 //   // getting the data from the api
 //   function getData(){
@@ -130,7 +133,10 @@ import lastMonth from '../../../assets/prevMonth.png';
 function Dashboard() {
   const [apiData, setApiData] = useState([]);
   const today = new Date();
-  const formattedDate = today.toISOString().split('T')[0];
+  // const formattedDate = today.toISOString().split('T')[0];
+  const localToday = new Date(today.getTime() - today.getTimezoneOffset() * 60000);
+const formattedDate = localToday.toISOString().split('T')[0];
+
 
   function getData(){
         const data = axios.get(`http://localhost:8080/api/public/orders/detailed?deliveryDate=${formattedDate}`)
@@ -143,7 +149,7 @@ function Dashboard() {
         });
       }
 
-  const options = { weekday: 'short', day: 'numeric', month: 'long', year: 'numeric' };
+  const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
   const ModifiedDate = today.toLocaleDateString('en-GB', options);
 
   useEffect(() => {
@@ -222,7 +228,7 @@ function Dashboard() {
           </div>
 
           {/* Graph Section */}
-          <p className="font-bold text-xl mb-3">Monthly Sales</p>
+          <p className="font-bold text-xl mb-3 h-min-screen">Monthly Sales</p>
           <div className="h-64 bg-gray border border-gray-300 rounded-lg shadow flex items-center justify-center">
             Graph Placeholder
           </div>
