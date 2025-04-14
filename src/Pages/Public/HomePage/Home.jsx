@@ -1,27 +1,85 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext } from 'react';
 import { UserContext } from '../../../UserContext.jsx';
 import fileDelivery from "/ImagePool/file-delivery.png";
 import lockOpen from "/ImagePool/lock-open.png";
 import unsplashXnzrf6Rrkm4 from "/ImagePool/unsplash-xnzrf6rrkm4.png";
 import winter from "/ImagePool/winter.png";
-import Navbar from './Navbar.jsx';
+import Navbar from '../../../Components/Navbar/Navbar.jsx';
 import './HomePage.css';
+import logoutIcon from "/ImagePool/lock-open.png"; 
+import './Home.css';
 
 export const HomePage = () => {
-  const { userPhone } = useContext(UserContext);
+  const { userPhone, userDetails, logout } = useContext(UserContext);
+  const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
 
   return (
-    <><Navbar />
+    <>
     <div className="homepage-container">
       {/* Hero Section with full-screen background */}
       <div className="hero-section">
         <img className="hero-background" alt="Ice Factory Background" src={unsplashXnzrf6Rrkm4} />
         
-      
+        <nav className="navbar home-navbar">
+          <div className="navbar-container">
+            <div className="navbar-left">
+              <Link to="/">
+                <img className="navbar-logo" alt="Winter Logo" src={winter} />
+                <div className="navbar-brand">Ice Factory</div>
+              </Link>
+              
+              {/* Welcome message when user is logged in */}
+              {userPhone && userDetails?.firstName && (
+                <div className="welcome-message">
+                  Welcome, {userDetails.firstName}!
+                </div>
+              )}
+            </div>
+            
+            <div className="navbar-center">
+              <div className="navbar-links">
+                <Link to="/" className="nav-link active">HOME</Link>
+                <Link to="/about" className="nav-link">ABOUT</Link>
+                <Link to="/orders" className="nav-link">ORDER</Link>
+                <Link to="/contact" className="nav-link">CONTACT</Link>
+              </div>
+            </div>
+            
+            <div className="navbar-auth">
+              {userPhone ? (
+                <div className="auth-buttons">
+                  <Link to="/profile" className="auth-button user-profile">
+                    MY ACCOUNT
+                  </Link>
+                  <button onClick={handleLogout} className="auth-button logout">
+                    <img src={logoutIcon} alt="Logout" className="logout-icon" />
+                    LOGOUT
+                  </button>
+                </div>
+              ) : (
+                <Link to="/login" className="auth-button login">
+                  <img src={lockOpen} alt="Lock" className="login-icon" />
+                  LOGIN
+                </Link>
+              )}
+            </div>
+            
+            <div className="hamburger" onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}>
+              <span className="bar"></span>
+              <span className="bar"></span>
+              <span className="bar"></span>
+            </div>
+          </div>
+        </nav>
         
-        {/* Hero Content - Modified layout with split design */}
         <div className="hero-content split-layout">
           <div className="hero-text">
             <h1 className="hero-title">CURRENT ICE RATES AND AVAILABILITY AT YOUR FINGERTIPS</h1>
