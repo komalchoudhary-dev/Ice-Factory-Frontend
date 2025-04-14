@@ -1,5 +1,6 @@
 import React from 'react';
 import { h1 } from 'framer-motion/client';
+
 import About from './About.jsx';
 import Login from './Login.jsx';
 import History from './History.jsx';
@@ -13,3 +14,4 @@ export default function Frame_1() {
    <><Home /><About /><Orders /><History /><Login /><Contact /></>
      );
 }
+
