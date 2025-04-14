@@ -1,0 +1,120 @@
+.registration-container {
+    display: flex;
+    min-height: 100vh;
+    text-align: center;
+    font-family: 'Roboto';
+  }
+  
+  .form-section {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Push buttons to bottom */
+  }
+  
+  /*.left {
+    background-color: #fff;
+  }*/
+  
+  .right {
+    background-color: #c2d4f7;
+  }
+  
+  h2 {
+    font-size: 25px;
+    margin-bottom: 20px;
+  }
+  
+  .form-fields {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+  
+  input {
+    padding: 15px;
+    margin: 10px 0;
+    border: none;
+    height: 40px;
+    margin-top: 20px;
+    background: #fff;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    width: 50%;
+    outline: none;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  
+  .form-row {
+    display: flex;
+    gap: 16px;
+    width: 50%;
+    margin: 0 auto; /* This centers the .form-row horizontally */
+    justify-content: center; /* Optional: ensures children are centered inside */
+  }
+  
+  
+  .form-row input {
+    flex: 1;
+    height: 40px;
+  }
+
+  
+  .register-button {
+   /* background-color: #8ea5d8;
+    color: #000;
+    padding: 12px 20px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    align-self: center; /* This centers it horizontally */
+    /*margin-bottom: 40px;*/
+    background-color: #8ea5d8;
+  color: #000;
+  padding: 8px 50px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  align-self: center;
+  margin-top: 20px;
+  transition: all 0.2s ease;
+  border-radius: 20px;
+  }
+  .register-button:hover {
+    background-color: #7d91c8; /* slightly darker blue */
+    transform: translateY(-2px);
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);
+  }
+  
+  .terms-text {
+    font-size: 14px;
+    color: #333;
+    margin-top: 20px;
+  }
+  /*.register-button:hover,
+.google-button:hover {
+  background-color: #7a96d3; /* Slightly darker on hover */
+  /*transform: translateY(-2px);
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);
+  transition: all 0.2s ease;
+}*/
+input:hover {
+    background-color: #f9f9f9;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+    transition: all 0.2s ease;
+  }
+  input:focus {
+    border: 1px solid #8ea5d8;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(142, 165, 216, 0.3);
+  }
+  input,
+  button {
+    transition: all 0.2s ease;
+  }
+  

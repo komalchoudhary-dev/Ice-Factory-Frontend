@@ -7,7 +7,7 @@
   }
   
   .home-page .overlap-group-wrapper {
-    background-image: url(./home-page.png);
+    background-image: url('./home-page.png');
     background-position: 50% 50%;
     background-size: cover;
     height: 339px;
@@ -243,24 +243,36 @@ line-height: 155%; /* 18.6px */
     left: 489px;
     position: absolute;
     top: 6px;
-    width: 49px;
+    width: 58px; /* Increased a bit */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
   }
+  
   
   .home-page .LOGIN {
-    height: 4px;
-    left: 510px;
+    color: #003b73;
+    font-family: "Roboto-Regular", Helvetica;
+    font-size: 6px; /* Same as other navbar links */
+    font-weight: 500;
     position: absolute;
-    top: 15px;
-    width: 16px;
+    top: 11px; /* Adjusted to center vertically */
+    left: 510px; /* Adjusted for better horizontal position */
+    width: auto;
+    text-align: center;
+    line-height: normal;
   }
   
+  
   .home-page .lock-open {
-    height: 6px;
-    left: 501px;
+    height: 8px;
     position: absolute;
-    top: 13px;
-    width: 5px;
+    top: 11px;
+    left: 497px;
+    width: 8px;
   }
+  
   
   .home-page .text-wrapper-9 {
     color: #ffffff;

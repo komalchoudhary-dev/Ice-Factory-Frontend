@@ -228,7 +228,7 @@ const formattedDate = localToday.toISOString().split('T')[0];
           </div>
 
           {/* Graph Section */}
-          <p className="font-bold text-xl mb-3">Monthly Sales</p>
+          <p className="font-bold text-xl mb-3 h-min-screen">Monthly Sales</p>
           <div className="h-64 bg-gray border border-gray-300 rounded-lg shadow flex items-center justify-center">
             Graph Placeholder
           </div>

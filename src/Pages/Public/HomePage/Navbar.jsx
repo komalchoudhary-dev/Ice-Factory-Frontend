@@ -43,7 +43,7 @@ const styles = {
     justifyContent: "space-between",
     alignItems: "center",
     padding: "1rem 2rem",
-    backgroundColor: "#003b73",
+    /*backgroundColor: "#003b73",*/
     color: "#fff",
   },
   logo: {
