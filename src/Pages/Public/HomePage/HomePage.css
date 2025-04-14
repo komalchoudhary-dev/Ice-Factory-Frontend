@@ -528,7 +528,7 @@ body {
 .home-navbar .navbar-center {
   flex-grow: 1;
   display: flex;
-  justify-content: center;
+  justify-content: right;
 }
 
 .home-navbar .navbar-links {
@@ -578,6 +578,7 @@ body {
 .home-navbar .auth-buttons {
   display: flex;
   gap: 10px;
+  justify-content: right;
 }
 
 .home-navbar .auth-button {
