@@ -49,6 +49,7 @@ export const HomePage = () => {
         <div className="hero-content split-layout">
           <div className="hero-text">
             <h1 className="hero-title">CURRENT ICE RATES AND AVAILABILITY AT YOUR FINGERTIPS</h1>
+            
             <p className="hero-description">
               Stay updated with our competitive ice rates and real-time
               availability. Order effortlessly and ensure your business never runs
