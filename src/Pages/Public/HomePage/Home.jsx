@@ -5,10 +5,12 @@ import { UserContext } from '../../../UserContext.jsx';
 import fileDelivery from "/ImagePool/file-delivery.png";
 import lockOpen from "/ImagePool/lock-open.png";
 import unsplashXnzrf6Rrkm4 from "/ImagePool/unsplash-xnzrf6rrkm4.png";
+import winter from "/ImagePool/winter.png";
+import Navbar from '../../../Components/Navbar/Navbar.jsx';
 import './HomePage.css';
 import logoutIcon from "/ImagePool/lock-open.png"; 
 import './Home.css';
-
+import profileIcon from "../../../assets/profile.png"; // Adjust the path as needed
 
 export const HomePage = () => {
   const { userPhone, userDetails, logout } = useContext(UserContext);
@@ -22,16 +24,11 @@ export const HomePage = () => {
 
   return (
     <>
-const Home = () => {
-  const { userPhone } = useContext(UserContext);
-
-  return (
-
     <div className="homepage-container">
+      {/* Hero Section with full-screen background */}
       <div className="hero-section">
         <img className="hero-background" alt="Ice Factory Background" src={unsplashXnzrf6Rrkm4} />
         
-
         <nav className="navbar home-navbar">
           <div className="navbar-container">
             <div className="navbar-left">
@@ -49,11 +46,11 @@ const Home = () => {
             </div>
             
             <div className="navbar-center">
-              <div className="navbar-links">
-                <Link to="/" className="nav-link active">HOME</Link>
-                <Link to="/about" className="nav-link">ABOUT</Link>
-                <Link to="/orders" className="nav-link">ORDER</Link>
-                <Link to="/contact" className="nav-link">CONTACT</Link>
+              <div className={`navbar-links ${isMobileMenuOpen ? 'active' : ''}`}>
+                <Link to="/" className="nav-link active" onClick={() => setMobileMenuOpen(false)}>HOME</Link>
+                <Link to="/about" className="nav-link" onClick={() => setMobileMenuOpen(false)}>ABOUT</Link>
+                <Link to="/orders" className="nav-link" onClick={() => setMobileMenuOpen(false)}>ORDER</Link>
+                <Link to="/contact" className="nav-link" onClick={() => setMobileMenuOpen(false)}>CONTACT</Link>
               </div>
             </div>
             
@@ -61,17 +58,18 @@ const Home = () => {
               {userPhone ? (
                 <div className="auth-buttons">
                   <Link to="/profile" className="auth-button user-profile">
-                    MY ACCOUNT
+                    <img src={profileIcon} alt="Profile" className="profile-icon" />
+                    <span>MY ACCOUNT</span>
                   </Link>
                   <button onClick={handleLogout} className="auth-button logout">
                     <img src={logoutIcon} alt="Logout" className="logout-icon" />
-                    LOGOUT
+                    <span>LOGOUT</span>
                   </button>
                 </div>
               ) : (
                 <Link to="/login" className="auth-button login">
                   <img src={lockOpen} alt="Lock" className="login-icon" />
-                  LOGIN
+                  <span>LOGIN</span>
                 </Link>
               )}
             </div>
@@ -84,7 +82,6 @@ const Home = () => {
           </div>
         </nav>
         
-
         <div className="hero-content split-layout">
           <div className="hero-text">
             <h1 className="hero-title">CURRENT ICE RATES AND AVAILABILITY AT YOUR FINGERTIPS</h1>
@@ -102,6 +99,7 @@ const Home = () => {
           </div>
         </div>
         
+        {/* Features Section - Now inside the hero section */}
         <div className="features-section">
           <div className="feature-card">
             <img className="feature-icon" alt="File delivery" src={fileDelivery} />
@@ -129,7 +127,7 @@ const Home = () => {
         </div>
       </div>
     </div>
-  );
+  </>);
 };
 
-export default Home;
+export default HomePage;
