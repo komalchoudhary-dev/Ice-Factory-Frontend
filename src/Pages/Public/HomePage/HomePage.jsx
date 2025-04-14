@@ -11,7 +11,7 @@ import Contact from './Contact.jsx';
 
 export default function Frame_1() {
   return (
-   <><Home /><About /><Orders /><History /><Login /><Contact /></>
+   <><Home /><Orders /><History /><Login /><Contact /></>
      );
 }
 

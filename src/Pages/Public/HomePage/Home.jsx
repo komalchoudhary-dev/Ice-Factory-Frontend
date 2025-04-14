@@ -10,6 +10,7 @@ import Navbar from '../../../Components/Navbar/Navbar.jsx';
 import './HomePage.css';
 import logoutIcon from "/ImagePool/lock-open.png"; 
 import './Home.css';
+import profileIcon from "../../../assets/profile.png"; // Adjust the path as needed
 
 export const HomePage = () => {
   const { userPhone, userDetails, logout } = useContext(UserContext);
@@ -45,11 +46,11 @@ export const HomePage = () => {
             </div>
             
             <div className="navbar-center">
-              <div className="navbar-links">
-                <Link to="/" className="nav-link active">HOME</Link>
-                <Link to="/about" className="nav-link">ABOUT</Link>
-                <Link to="/orders" className="nav-link">ORDER</Link>
-                <Link to="/contact" className="nav-link">CONTACT</Link>
+              <div className={`navbar-links ${isMobileMenuOpen ? 'active' : ''}`}>
+                <Link to="/" className="nav-link active" onClick={() => setMobileMenuOpen(false)}>HOME</Link>
+                <Link to="/about" className="nav-link" onClick={() => setMobileMenuOpen(false)}>ABOUT</Link>
+                <Link to="/orders" className="nav-link" onClick={() => setMobileMenuOpen(false)}>ORDER</Link>
+                <Link to="/contact" className="nav-link" onClick={() => setMobileMenuOpen(false)}>CONTACT</Link>
               </div>
             </div>
             
@@ -57,17 +58,18 @@ export const HomePage = () => {
               {userPhone ? (
                 <div className="auth-buttons">
                   <Link to="/profile" className="auth-button user-profile">
-                    MY ACCOUNT
+                    <img src={profileIcon} alt="Profile" className="profile-icon" />
+                    <span>MY ACCOUNT</span>
                   </Link>
                   <button onClick={handleLogout} className="auth-button logout">
                     <img src={logoutIcon} alt="Logout" className="logout-icon" />
-                    LOGOUT
+                    <span>LOGOUT</span>
                   </button>
                 </div>
               ) : (
                 <Link to="/login" className="auth-button login">
                   <img src={lockOpen} alt="Lock" className="login-icon" />
-                  LOGIN
+                  <span>LOGIN</span>
                 </Link>
               )}
             </div>
