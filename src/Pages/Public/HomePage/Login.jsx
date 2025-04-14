@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 const Login = ({ onLogin }) => {
   const [username, setUsername] = useState("");
 
@@ -11,6 +10,7 @@ const Login = ({ onLogin }) => {
   };
 
   return (
+   
     <div style={{ padding: "2rem" }}>
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
@@ -26,6 +26,7 @@ const Login = ({ onLogin }) => {
         </button>
       </form>
     </div>
+    
   );
 };
 
