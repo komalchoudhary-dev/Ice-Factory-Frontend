@@ -1,10 +1,11 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import React, { Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
+
+import { UserContext, UserProvider } from './UserContext.jsx';
+import Navbar from './Components/Navbar/Navbar.jsx';
+import Footer from './Components/Footer/Footer.jsx';
 
 const Order = lazy(() => import('./Pages/Public/Orders/Order.jsx'));
 const OrderDetails = lazy(() => import('./Pages/Public/Orders/OrderDetails.jsx'));
@@ -14,6 +15,11 @@ const AdminDashboard = lazy(() => import('./Pages/Admin/pages/Dashboard.jsx'));
 const AdminOrederRequests = lazy(() => import('./Pages/Admin/pages/OrderRequest.jsx'));
 const AdminOrederToBeDelivered = lazy(() => import('./Pages/Admin/pages/OrdersToBeDelivered.jsx'));
 const AdminSalesReport = lazy(() => import('./Pages/Admin/pages/SalesReport.jsx'));
+const LoginSignup = lazy(() => import('./Pages/Public/Login/LoginSignup.jsx'));
+const Detail=lazy(() => import('./Pages/Admin/pages/detail.jsx'));
+const SignUp = lazy(() => import('./Pages/Public/Registration/Registration.jsx'));
+
+
 // Add missing components
 const LoadingBar = () => (
   <div className="loading-bar">
@@ -103,6 +109,11 @@ function AppRoutes() {
             <AdminOrederRequests/>
             </PageTransition>
           } />
+          <Route path="/admin-order-request-detail" element={
+            <PageTransition>
+            <Detail/>
+            </PageTransition>
+          } />
           <Route path="/admin-tobe-delivered" element={
             <PageTransition>
               <AdminOrederToBeDelivered />
@@ -113,6 +124,16 @@ function AppRoutes() {
               <AdminSalesReport />
             </PageTransition>
           } />
+          <Route path="/login" element={
+            <PageTransition>
+              <LoginSignup />
+            </PageTransition>
+          } />
+          <Route path="/signup" element={
+            <PageTransition>
+              <SignUp />
+            </PageTransition>
+          } />
         </Routes>
       </Suspense>
     </AnimatePresence>
@@ -121,10 +142,16 @@ function AppRoutes() {
 
 function App() {
   return (
-    <Router>
-      <AppRoutes />
-    </Router>
+    <UserProvider>
+      <Router>
+        <Navbar />
+        <main className="app-content">
+          <AppRoutes />
+        </main>
+        <Footer />
+      </Router>
+    </UserProvider>
   );
 }
 
-export default App
+export default App;

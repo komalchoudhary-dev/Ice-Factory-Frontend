@@ -1,11 +1,26 @@
-import { div } from "framer-motion/client";
 import React from "react";
 import Sidebar from "../components/Sidebar";
+import Navbar from "../components/Navbar";
+import Report from  "./report";
+//import Report from  "./check";
 function Prakhar() {
     return (
-        <div>
-            <Sidebar/>
-            <h2>Welcome to Sales Report</h2>
+        <div className="flex flex-col">
+            <Navbar/>
+            <div className ="flex min-h-screen  w-full"  >
+                <Sidebar/>
+                <div className="flex flex-col  w-full" >
+                    
+
+                    
+                    <Report/>
+
+
+
+
+                </div>
+            
+            </div>
         </div>
     
 )

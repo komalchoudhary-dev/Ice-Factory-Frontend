@@ -1,86 +1,37 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../../../UserContext.jsx';
 import './OrderHistory.css';
 
 const OrderHistory = () => {
   const navigate = useNavigate();
+  const { userPhone } = useContext(UserContext);
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [filter, setFilter] = useState('all'); // all, pending, delivered, cancelled
+  const [filter, setFilter] = useState('all'); // all, pending, confirmed, delivered, rejected, cancelled
+  const [activeTab, setActiveTab] = useState('upcoming'); // upcoming, past
 
   useEffect(() => {
     const fetchOrderHistory = async () => {
+      if (!userPhone) {
+        setError("Please log in to view your order history");
+        setLoading(false);
+        return;
+      }
+
       try {
         setLoading(true);
         
-        // In a real app, you would fetch data from your backend API
-        // Example: const response = await fetch('http://localhost:8080/api/public/orders/history');
+        const response = await fetch(`http://localhost:8080/api/public/orders/history/${userPhone}`);
         
-        // For now, let's simulate an API response with mock data
-        setTimeout(() => {
-          const mockOrders = [
-            {
-              id: 'ORD-2025-001',
-              date: '2025-04-07',
-              deliveryDate: '2025-04-08',
-              customerName: 'John Doe',
-              totalAmount: 2500.00,
-              status: 'delivered',
-              items: [
-                { name: 'Ice Block - Large', quantity: 20, price: 100.00 },
-                { name: 'Ice Block - Small', quantity: 10, price: 50.00 }
-              ],
-              paymentMethod: 'Cash on Delivery',
-              paymentStatus: 'paid'
-            },
-            {
-              id: 'ORD-2025-002',
-              date: '2025-04-08',
-              deliveryDate: '2025-04-09',
-              customerName: 'John Doe',
-              totalAmount: 1500.00,
-              status: 'pending',
-              items: [
-                { name: 'Ice Block - Large', quantity: 10, price: 100.00 },
-                { name: 'Ice Block - Small', quantity: 10, price: 50.00 }
-              ],
-              paymentMethod: 'Online Payment',
-              paymentStatus: 'paid'
-            },
-            {
-              id: 'ORD-2025-003',
-              date: '2025-04-09',
-              deliveryDate: '2025-04-11',
-              customerName: 'John Doe',
-              totalAmount: 2000.00,
-              status: 'processing',
-              items: [
-                { name: 'Ice Block - Large', quantity: 15, price: 100.00 },
-                { name: 'Ice Block - Small', quantity: 10, price: 50.00 }
-              ],
-              paymentMethod: 'UPI',
-              paymentStatus: 'pending'
-            },
-            {
-              id: 'ORD-2025-004',
-              date: '2025-04-05',
-              deliveryDate: '2025-04-07',
-              customerName: 'John Doe',
-              totalAmount: 500.00,
-              status: 'cancelled',
-              items: [
-                { name: 'Ice Block - Large', quantity: 5, price: 100.00 }
-              ],
-              paymentMethod: 'Cash on Delivery',
-              paymentStatus: 'refunded',
-              cancellationReason: 'Customer requested cancellation'
-            }
-          ];
-          
-          setOrders(mockOrders);
-          setLoading(false);
-        }, 1000);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch order history: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        setOrders(data);
+        setLoading(false);
         
       } catch (err) {
         setError("Failed to load order history");
@@ -90,74 +41,188 @@ const OrderHistory = () => {
     };
     
     fetchOrderHistory();
-  }, []);
+  }, [userPhone]);
 
   const handleViewDetails = (orderId) => {
-    // Navigate to order details page
     navigate(`/order-details/${orderId}`);
   };
 
   const handleCancelOrder = async (orderId) => {
-    // In a real app, you would make an API call to cancel the order
-    // For now, let's just update the local state
-    if (window.confirm('Are you sure you want to cancel this order?')) {
-      setOrders(orders.map(order => 
-        order.id === orderId ? { ...order, status: 'cancelled' } : order
-      ));
+    if (!window.confirm('Are you sure you want to cancel this order?')) {
+      return;
+    }
+
+    try {
+      setLoading(true);
+      
+      const response = await fetch(`http://localhost:8080/api/public/orders/cancel/${orderId}`, {
+        method: 'PUT'
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Failed to cancel order: ${response.status}`);
+      }
+      
+      // Refresh order list
+      const updatedOrdersResponse = await fetch(`http://localhost:8080/api/public/orders/history/${userPhone}`);
+      if (!updatedOrdersResponse.ok) {
+        throw new Error(`Failed to refresh orders: ${updatedOrdersResponse.status}`);
+      }
+      
+      const updatedOrders = await updatedOrdersResponse.json();
+      setOrders(updatedOrders);
+      
+    } catch (err) {
+      setError("Failed to cancel order. Please try again.");
+      console.error("Error cancelling order:", err);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const filterOrders = () => {
-    if (filter === 'all') return orders;
-    return orders.filter(order => order.status === filter);
+  const handleReorder = (orderId) => {
+    const order = orders.find(o => o.id === orderId);
+    if (order) {
+      navigate('/orders', { state: { quantity: order.quantity } });
+    }
+  };
+
+  // Filter orders by status
+  const filterOrdersByStatus = (ordersList) => {
+    if (filter === 'all') return ordersList;
+    return ordersList.filter(order => order.status.toLowerCase() === filter);
+  };
+
+  // Separate orders into upcoming and past based on delivery date
+  const getUpcomingOrders = () => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Set to beginning of today
+    
+    return orders.filter(order => {
+      const deliveryDate = new Date(order.deliveryDate);
+      return deliveryDate >= today;
+    });
+  };
+
+  const getPastOrders = () => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Set to beginning of today
+    
+    return orders.filter(order => {
+      const deliveryDate = new Date(order.deliveryDate);
+      return deliveryDate < today;
+    });
+  };
+
+  // Get current filtered orders based on tab and status filter
+  const getCurrentOrders = () => {
+    const ordersList = activeTab === 'upcoming' ? getUpcomingOrders() : getPastOrders();
+    return filterOrdersByStatus(ordersList);
   };
 
   const getStatusClass = (status) => {
-    switch(status) {
+    switch(status.toLowerCase()) {
       case 'delivered': return 'status-success';
       case 'pending': return 'status-warning';
-      case 'processing': return 'status-info';
+      case 'confirmed': return 'status-info';
+      case 'rejected': return 'status-danger';
       case 'cancelled': return 'status-danger';
       default: return '';
     }
   };
 
-  if (loading) return <div className="loading">Loading order history...</div>;
-  if (error) return <div className="error">{error}</div>;
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
+  if (loading) {
+    return (
+      <div className="order-history-container">
+        <div className="loading">
+          <div className="loading-spinner"></div>
+          <p>Loading your order history...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="order-history-container">
+        <div className="error-message">{error}</div>
+        <div className="center-actions">
+          <button className="btn secondary" onClick={() => navigate('/orders')}>
+            Go to Order Page
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const upcomingOrders = getUpcomingOrders();
+  const pastOrders = getPastOrders();
 
   return (
     <div className="order-history-container">
-      <h1>Your Order History</h1>
+      <div className="page-header">
+        <h1>Your Order History</h1>
+        <p className="page-description">
+          View and manage all your orders
+        </p>
+      </div>
+      
+      {/* Tab navigation */}
+      <div className="history-tabs">
+        <button 
+          className={`tab-btn ${activeTab === 'upcoming' ? 'active' : ''}`}
+          onClick={() => setActiveTab('upcoming')}
+        >
+          Upcoming Orders ({upcomingOrders.length})
+        </button>
+        <button 
+          className={`tab-btn ${activeTab === 'past' ? 'active' : ''}`}
+          onClick={() => setActiveTab('past')}
+        >
+          Past Orders ({pastOrders.length})
+        </button>
+      </div>
       
       <div className="filter-controls">
         <div className="filter-label">Filter by status:</div>
         <div className="filter-buttons">
           <button 
-            className={filter === 'all' ? 'active' : ''} 
+            className={`filter-btn ${filter === 'all' ? 'active' : ''}`} 
             onClick={() => setFilter('all')}
           >
             All Orders
           </button>
           <button 
-            className={filter === 'pending' ? 'active' : ''} 
+            className={`filter-btn ${filter === 'pending' ? 'active' : ''}`} 
             onClick={() => setFilter('pending')}
           >
             Pending
           </button>
           <button 
-            className={filter === 'processing' ? 'active' : ''} 
-            onClick={() => setFilter('processing')}
+            className={`filter-btn ${filter === 'confirmed' ? 'active' : ''}`} 
+            onClick={() => setFilter('confirmed')}
           >
-            Processing
+            Confirmed
           </button>
           <button 
-            className={filter === 'delivered' ? 'active' : ''} 
+            className={`filter-btn ${filter === 'delivered' ? 'active' : ''}`} 
             onClick={() => setFilter('delivered')}
           >
             Delivered
           </button>
           <button 
-            className={filter === 'cancelled' ? 'active' : ''} 
+            className={`filter-btn ${filter === 'rejected' ? 'active' : ''}`} 
+            onClick={() => setFilter('rejected')}
+          >
+            Rejected
+          </button>
+          <button 
+            className={`filter-btn ${filter === 'cancelled' ? 'active' : ''}`} 
             onClick={() => setFilter('cancelled')}
           >
             Cancelled
@@ -165,74 +230,104 @@ const OrderHistory = () => {
         </div>
       </div>
       
-      {filterOrders().length === 0 ? (
-        <div className="no-orders">
-          <p>No orders found.</p>
-        </div>
-      ) : (
-        <div className="orders-list">
-          {filterOrders().map(order => (
-            <div key={order.id} className="order-card">
-              <div className="order-header">
-                <div className="order-id-date">
-                  <h3>Order #{order.id}</h3>
-                  <p>Placed on: {new Date(order.date).toLocaleDateString()}</p>
-                </div>
-                <div className={`order-status ${getStatusClass(order.status)}`}>
-                  {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
-                </div>
-              </div>
-              
-              <div className="order-summary">
-                <div className="order-info">
-                  <p><strong>Delivery Date:</strong> {new Date(order.deliveryDate).toLocaleDateString()}</p>
-                  <p><strong>Total Amount:</strong> ₹{order.totalAmount.toFixed(2)}</p>
-                  <p><strong>Payment Method:</strong> {order.paymentMethod}</p>
-                  <p><strong>Payment Status:</strong> {order.paymentStatus.charAt(0).toUpperCase() + order.paymentStatus.slice(1)}</p>
+      {/* Current filtered orders list */}
+      <div className="tab-content">
+        <h2 className="section-title">
+          {activeTab === 'upcoming' ? 'Upcoming Orders' : 'Past Orders'}
+        </h2>
+        
+        {getCurrentOrders().length === 0 ? (
+          <div className="no-orders">
+            <div className="empty-state-icon">📋</div>
+            <h3>No orders found</h3>
+            <p>
+              {filter !== 'all' 
+                ? `No ${filter} orders found in your ${activeTab === 'upcoming' ? 'upcoming' : 'past'} orders.`
+                : `You don't have any ${activeTab === 'upcoming' ? 'upcoming' : 'past'} orders.`}
+            </p>
+            {filter !== 'all' && (
+              <button 
+                className="btn secondary" 
+                onClick={() => setFilter('all')}
+              >
+                Show All Orders
+              </button>
+            )}
+          </div>
+        ) : (
+          <div className="orders-list">
+            {getCurrentOrders().map(order => (
+              <div key={order.id} className={`order-card ${getStatusClass(order.status)}`}>
+                <div className="order-header">
+                  <div className="order-id-date">
+                    <h3>Order #{order.id}</h3>
+                    <p>Placed on: {formatDate(order.orderDate)}</p>
+                  </div>
+                  <div className={`order-status ${getStatusClass(order.status)}`}>
+                    <span className="status-badge">{order.status}</span>
+                  </div>
                 </div>
                 
-                <div className="order-items-summary">
-                  <h4>Items</h4>
-                  <ul>
-                    {order.items.map((item, index) => (
-                      <li key={index}>
-                        {item.quantity} x {item.name} (₹{item.price.toFixed(2)} each)
-                      </li>
-                    ))}
-                  </ul>
+                <div className="order-summary">
+                  <div className="order-info">
+                    <div className="info-group">
+                      <label>Delivery Date:</label>
+                      <p>{formatDate(order.deliveryDate)}</p>
+                    </div>
+                    <div className="info-group">
+                      <label>Quantity:</label>
+                      <p>{order.quantity} blocks</p>
+                    </div>
+                    <div className="info-group">
+                      <label>Total Amount:</label>
+                      <p className="amount">₹{order.totalAmount.toFixed(2)}</p>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              
-              <div className="order-actions">
-                <button 
-                  className="btn-view-details" 
-                  onClick={() => handleViewDetails(order.id)}
-                >
-                  View Details
-                </button>
                 
-                {(order.status === 'pending' || order.status === 'processing') && (
+                <div className="order-actions">
                   <button 
-                    className="btn-cancel" 
-                    onClick={() => handleCancelOrder(order.id)}
+                    className="btn view-details" 
+                    onClick={() => handleViewDetails(order.id)}
                   >
-                    Cancel Order
+                    View Details
                   </button>
-                )}
-                
-                {order.status === 'delivered' && (
-                  <button className="btn-reorder">
-                    Reorder
-                  </button>
-                )}
+                  
+                  {activeTab === 'upcoming' && order.status.toLowerCase() === 'pending' && (
+                    <button 
+                      className="btn cancel" 
+                      onClick={() => handleCancelOrder(order.id)}
+                    >
+                      Cancel
+                    </button>
+                  )}
+                  
+                  {activeTab === 'upcoming' && order.status.toLowerCase() === 'confirmed' && (
+                    <button 
+                      className="btn cancel" 
+                      onClick={() => handleCancelOrder(order.id)}
+                    >
+                      Cancel
+                    </button>
+                  )}
+                  
+                  {order.status.toLowerCase() === 'delivered' && (
+                    <button 
+                      className="btn reorder"
+                      onClick={() => handleReorder(order.id)}
+                    >
+                      Reorder
+                    </button>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      )}
+            ))}
+          </div>
+        )}
+      </div>
       
       <div className="order-history-actions">
-        <button className="btn-place-new-order" onClick={() => navigate('/orders')}>
+        <button className="btn primary" onClick={() => navigate('/orders')}>
           Place New Order
         </button>
       </div>
