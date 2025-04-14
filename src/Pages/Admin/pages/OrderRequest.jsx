@@ -308,7 +308,7 @@ function Prakhar() {
                 >
                   <p className="text-lg font-semibold">{convertDate(data.deliveryDate)[0]}</p>
                   <p className="text-base">{convertDate(data.deliveryDate)[1]}</p>
-                  <p className="text-xl font-bold">{data.Request}</p>
+                  <p className="text-lg ">Request:{data.Request}</p>
                 </div>
               ))}
             </div>
