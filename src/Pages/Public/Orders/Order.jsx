@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../../../UserContext.jsx';
 import './Order.css';
+import Navbar from '../../../Components/Navbar/Navbar.jsx';
 
 const Order = () => {
   const navigate = useNavigate();
+  const { userPhone } = useContext(UserContext); // Add UserContext
   const [dateCards, setDateCards] = useState([]);
   const [availabilityData, setAvailabilityData] = useState({});
   const [orderForecast, setOrderForecast] = useState({});
@@ -120,16 +123,29 @@ const Order = () => {
     fetchOrderForecast();
   }, []);
 
-  // Handle date selection
+  // Handle date selection with authentication check
   const handleDateSelect = (dateString) => {
-    // Navigate to order details page with the selected date
-    navigate('/order-details', { 
-      state: { 
-        selectedDate: dateString,
-        availability: availabilityData[dateString]?.availableBlocks || 0,
-        orderCount: orderForecast[dateString] || 0
-      } 
-    });
+    // Check if user is logged in
+    if (!userPhone) {
+      // User is not logged in, redirect to registration page
+      navigate('/login', { 
+        state: { 
+          redirectAfterRegister: '/order-details',
+          selectedDate: dateString,
+          availability: availabilityData[dateString]?.availableBlocks || 0,
+          orderCount: orderForecast[dateString] || 0
+        } 
+      });
+    } else {
+      // User is logged in, proceed to order details
+      navigate('/order-details', { 
+        state: { 
+          selectedDate: dateString,
+          availability: availabilityData[dateString]?.availableBlocks || 0,
+          orderCount: orderForecast[dateString] || 0
+        } 
+      });
+    }
   };
 
   // Calculate availability percentage based on order forecast
@@ -149,71 +165,81 @@ const Order = () => {
     return { status, percentage: availabilityPercentage };
   };
 
-  if (loading) return <div className="loading">Loading availability data...</div>;
+  if (loading) return (
+    <>
+      <Navbar />
+      <div className="order-container">
+        <div className="loading">Loading availability data...</div>
+      </div>
+    </>
+  );
 
   return (
-    <div className="order-container">
-      <div className="order-page-header">
-        <h1>Select Delivery Date</h1>
-        {/* <p className="instruction">Choose a date for your ice delivery to ensure availability. We offer a daily capacity of {MAX_DAILY_CAPACITY} ice blocks.</p> */}
-      </div>
-      
-      {error && <div className="error-message">{error}</div>}
-      
-      <div className="date-cards-container">
-        {dateCards.map((dateInfo) => {
-          const availability = getAvailabilityStatus(dateInfo.dateString);
-          const orderCount = orderForecast[dateInfo.dateString] || 0;
-          const availableBlocks = availabilityData[dateInfo.dateString]?.availableBlocks || 0;
-          
-          return (
-            <div 
-              key={dateInfo.dateString} 
-              className={`date-card availability-${availability.status}`}
-              onClick={() => handleDateSelect(dateInfo.dateString)}
-            >
-              <div className="date-card-inner">
-                <div className="date-info">
-                  <div className="date-circle">
-                    <div className="day-name">{dateInfo.dayName}</div>
-                    <div className="day-number">{dateInfo.dayNumber}</div>
+    <>
+      <Navbar />
+      <div className="order-container">
+        <div className="order-page-header">
+          <h1>Select Delivery Date</h1>
+          {/* <p className="instruction">Choose a date for your ice delivery to ensure availability. We offer a daily capacity of {MAX_DAILY_CAPACITY} ice blocks.</p> */}
+        </div>
+        
+        {error && <div className="error-message">{error}</div>}
+        
+        <div className="date-cards-container">
+          {dateCards.map((dateInfo) => {
+            const availability = getAvailabilityStatus(dateInfo.dateString);
+            const orderCount = orderForecast[dateInfo.dateString] || 0;
+            const availableBlocks = availabilityData[dateInfo.dateString]?.availableBlocks || 0;
+            
+            return (
+              <div 
+                key={dateInfo.dateString} 
+                className={`date-card availability-${availability.status}`}
+                onClick={() => handleDateSelect(dateInfo.dateString)}
+              >
+                <div className="date-card-inner">
+                  <div className="date-info">
+                    <div className="date-circle">
+                      <div className="day-name">{dateInfo.dayName}</div>
+                      <div className="day-number">{dateInfo.dayNumber}</div>
+                    </div>
+                    <div className="month-year">
+                      <span className="month">{dateInfo.month}</span>
+                      <span className="year">{dateInfo.dateObj.getFullYear()}</span>
+                    </div>
                   </div>
-                  <div className="month-year">
-                    <span className="month">{dateInfo.month}</span>
-                    <span className="year">{dateInfo.dateObj.getFullYear()}</span>
+                  
+                  <div className="availability-indicator">
+                    <div className="availability-label">
+                      Availability: 
+                      <span className={`status-${availability.status}`}>
+                        {availability.status === 'high' ? 'High' : 
+                         availability.status === 'medium' ? 'Medium' : 'Low'}
+                      </span>
+                    </div>
+                    <div className="availability-bar">
+                      <div 
+                        className={`availability-fill status-${availability.status}`} 
+                        style={{ width: `${availability.percentage}%` }}
+                      ></div>
+                    </div>
                   </div>
-                </div>
-                
-                <div className="availability-indicator">
-                  <div className="availability-label">
-                    Availability: 
-                    <span className={`status-${availability.status}`}>
-                      {availability.status === 'high' ? 'High' : 
-                       availability.status === 'medium' ? 'Medium' : 'Low'}
-                    </span>
+                  
+                  <div className="order-info">
+                    <p>Orders placed: <strong>{orderCount}</strong> blocks</p>
+                    <p>Available: <strong>{availableBlocks}</strong> blocks</p>
                   </div>
-                  <div className="availability-bar">
-                    <div 
-                      className={`availability-fill status-${availability.status}`} 
-                      style={{ width: `${availability.percentage}%` }}
-                    ></div>
-                  </div>
-                </div>
-                
-                <div className="order-info">
-                  <p>Orders placed: <strong>{orderCount}</strong> blocks</p>
-                  <p>Available: <strong>{availableBlocks}</strong> blocks</p>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
+        
+        <div className="capacity-info">
+          <p>Maximum daily capacity: {MAX_DAILY_CAPACITY} ice blocks</p>
+        </div>
       </div>
-      
-      <div className="capacity-info">
-        <p>Maximum daily capacity: {MAX_DAILY_CAPACITY} ice blocks</p>
-      </div>
-    </div>
+    </>
   );
 };
 

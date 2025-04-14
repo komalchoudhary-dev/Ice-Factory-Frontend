@@ -149,7 +149,7 @@ function App() {
   return (
     <UserProvider>
       <Router>
-        {/* <Navbar /> */}
+
         <main className="app-content">
           <AppRoutes />
         </main>
