@@ -10,7 +10,7 @@ function Prakhar() {
   // Get today's date in YYYY-MM-DD format
   const today = new Date();
   //const futureDate = new Date();
-today.setDate(today.getDate()+3);
+today.setDate(today.getDate());
 const localDate = new Date(today.getTime() - today.getTimezoneOffset() * 60000); // Adjust for timezone
 const formattedDate = localDate.toISOString().split("T")[0];
 console.log("Formatted date:", formattedDate);
@@ -51,7 +51,7 @@ console.log("Formatted date:", formattedDate);
     <div className="flex min-h-screen bg-gray-100">
       <Sidebar val={x} />
        
-      <div className="flex-1 p-6 bg-gray-200">
+      <div className="flex-1 p-6 ">
       <h1 className="text-3xl font-bold text-gray-800 mb-6 border border-black rounded-lg bg-gray-100 px-6 py-3 shadow-md">
   Orders to be Delivered : {ModifiedDate}
 </h1>

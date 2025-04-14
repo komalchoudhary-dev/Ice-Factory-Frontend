@@ -1,10 +1,10 @@
-import './App.css'
+//import './App.css'
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 
 import { UserContext, UserProvider } from './UserContext.jsx';
-import Navbar from './Components/Navbar/Navbar.jsx';
+//import Navbar from './Components/Navbar/Navbar.jsx';
 import Footer from './Components/Footer/Footer.jsx';
 
 const Order = lazy(() => import('./Pages/Public/Orders/Order.jsx'));
@@ -144,7 +144,7 @@ function App() {
   return (
     <UserProvider>
       <Router>
-       
+
         <main className="app-content">
           <AppRoutes />
         </main>
