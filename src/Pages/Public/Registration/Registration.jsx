@@ -4,8 +4,6 @@ import "./Registration.css";
 function Registration() {
   return (
     <div className="registration-container">
-      
-
       <div className="form-section right">
         <div className="form-fields">
           <h2>Contact Details</h2>
@@ -20,9 +18,18 @@ function Registration() {
           </div>
           <input type="text" placeholder="Country" />
           
-          <p className="terms-text">
-            I do accept the terms and conditions of your company.
-          </p>
+          <div className="terms-wrapper">
+            <div className="terms-checkbox-container">
+              <input 
+                type="checkbox" 
+                id="terms-checkbox" 
+                className="terms-checkbox"
+              />
+              <label htmlFor="terms-checkbox" className="terms-text">
+                I do accept the terms and conditions of your company.
+              </label>
+            </div>
+          </div>
         </div>
         <button className="register-button">Register</button>
       </div>
