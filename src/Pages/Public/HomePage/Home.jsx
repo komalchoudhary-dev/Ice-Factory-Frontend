@@ -5,11 +5,10 @@ import { UserContext } from '../../../UserContext.jsx';
 import fileDelivery from "/ImagePool/file-delivery.png";
 import lockOpen from "/ImagePool/lock-open.png";
 import unsplashXnzrf6Rrkm4 from "/ImagePool/unsplash-xnzrf6rrkm4.png";
-import winter from "/ImagePool/winter.png";
-import Navbar from '../../../Components/Navbar/Navbar.jsx';
 import './HomePage.css';
 import logoutIcon from "/ImagePool/lock-open.png"; 
 import './Home.css';
+
 
 export const HomePage = () => {
   const { userPhone, userDetails, logout } = useContext(UserContext);
@@ -23,11 +22,16 @@ export const HomePage = () => {
 
   return (
     <>
+const Home = () => {
+  const { userPhone } = useContext(UserContext);
+
+  return (
+
     <div className="homepage-container">
-      {/* Hero Section with full-screen background */}
       <div className="hero-section">
         <img className="hero-background" alt="Ice Factory Background" src={unsplashXnzrf6Rrkm4} />
         
+
         <nav className="navbar home-navbar">
           <div className="navbar-container">
             <div className="navbar-left">
@@ -80,6 +84,7 @@ export const HomePage = () => {
           </div>
         </nav>
         
+
         <div className="hero-content split-layout">
           <div className="hero-text">
             <h1 className="hero-title">CURRENT ICE RATES AND AVAILABILITY AT YOUR FINGERTIPS</h1>
@@ -97,7 +102,6 @@ export const HomePage = () => {
           </div>
         </div>
         
-        {/* Features Section - Now inside the hero section */}
         <div className="features-section">
           <div className="feature-card">
             <img className="feature-icon" alt="File delivery" src={fileDelivery} />
@@ -125,7 +129,7 @@ export const HomePage = () => {
         </div>
       </div>
     </div>
-  </>);
+  );
 };
 
-export default HomePage;
+export default Home;
