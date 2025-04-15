@@ -39,7 +39,9 @@ body {
   margin: 0;
   padding: 0;
 }
-
+.hero-title{
+  color: #d3d3d3;
+}
 /* Hero Section with Full-Screen Background */
 .hero-section {
   position: relative;
@@ -108,6 +110,9 @@ body {
   letter-spacing: 1px;
   transition: all 0.3s ease;
   position: relative;
+}
+.nav-link.contact{
+  margin-right: 1.5rem;
 }
 
 .nav-link:after {

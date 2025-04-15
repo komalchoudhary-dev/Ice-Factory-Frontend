@@ -1,0 +1,177 @@
+
+
+.about-page {
+    width: 100%;
+    background: #ffffff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    animation: fadeInPage 1.5s ease-out forwards;
+    position: relative;
+    overflow: hidden;
+}
+
+.about-header {
+    text-align: center;
+    margin-bottom: 40px;
+    animation: slideDownFade 1.5s ease-out forwards;
+    padding: 30px 20px;
+    background: linear-gradient(90deg, #1e3799, #2c5aa0);
+    color: #ffffff;
+}
+
+.about-header h1 {
+    color: #ffffff;
+    font-size: 36px;
+    margin-bottom: 15px;
+    padding: 10px 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    animation: pulse 2s infinite alternate;
+}
+
+.about-header p {
+    color: #e0f7fa;
+    font-size: 18px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.about-section {
+    margin-bottom: 40px;
+    padding: 25px;
+    background: #f9fbfd;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    animation: slideUpFade 1.2s ease-out forwards;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.about-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+}
+
+.about-section h2 {
+    color: #1e3799;
+    font-size: 24px;
+    margin-bottom: 12px;
+    position: relative;
+}
+
+.about-section p {
+    color: #34495e;
+    line-height: 1.6;
+    font-size: 16px;
+}
+
+.about-contact {
+    margin-top: 40px;
+    padding: 25px;
+    background: #f9fbfd;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    animation: slideUpFade 1.4s ease-out forwards;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.about-contact:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+}
+
+.about-contact h2 {
+    color: #1e3799;
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.about-contact p {
+    color: #2c3e50;
+    font-size: 16px;
+    margin: 4px 0;
+}
+
+/* Fun Fact Section */
+.about-fun-fact {
+    margin-top: 30px;
+    padding: 20px;
+    background: #fff3e6;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+.about-fun-fact h3 {
+    color: #e67e22;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.about-fun-fact .fun-fact-text {
+    color: #7f462c;
+    font-size: 16px;
+    font-style: italic;
+    opacity: 0;
+    animation: fadeInOut 3s ease infinite;
+}
+
+/* Testimonial Section */
+.about-testimonial {
+    margin-top: 30px;
+    padding: 20px;
+    background: #d9f3db;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+.about-testimonial h3 {
+    color: #2e7d32;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.about-testimonial .testimonial-text {
+    color: #1b5e20;
+    font-size: 16px;
+    font-style: italic;
+    opacity: 0;
+    animation: fadeInOut 3s ease infinite;
+}
+
+/* Animations */
+@keyframes fadeInPage {
+    0% { opacity: 0; transform: scale(0.98); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideDownFade {
+    0% { opacity: 0; transform: translateY(-20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUpFade {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.05); }
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+@media (max-width: 768px) {
+    .about-page { padding: 20px; margin: 30px auto; }
+    .about-header h1 { font-size: 28px; }
+    .about-section h2,
+    .about-contact h2,
+    .about-fun-fact h3,
+    .about-testimonial h3 { font-size: 20px; }
+    .about-section p,
+    .about-contact p,
+    .about-fun-fact p,
+    .about-testimonial p { font-size: 14px; }
+}
