@@ -21,7 +21,7 @@ const SignUp = lazy(() => import('./Pages/Public/Registration/Registration.jsx')
 const Customer=lazy(() => import('./Pages/Admin/pages/Customer.jsx'));
 const CustDetail=lazy(() => import('./Pages/Admin/pages/custDetail.jsx'));
 
-const Profile=lazy(() => import('./Pages/Public/UserProfile.jsx'));
+const Profile=lazy(() => import('./Pages/Public/UserProfile/UserProfile.jsx'));
 
 
 // Add missing components
