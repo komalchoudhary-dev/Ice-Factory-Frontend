@@ -188,12 +188,19 @@ import React from 'react';
 import {useState,useEffect} from 'react';
 import axios from 'axios';
 import { useLocation } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 function Detail() {
+    // let data=new Date(); 
     const location = useLocation();
     const data = location.state;
+    const navigate = useNavigate();
     console.log("Data from previous page: ", data);
     const date = new Date(data);
+    if (!data || data.from !== "admin-order-request") {
+      // Redirect if not accessed via the proper route
+     navigate("/admin-order-request")
+    }
 
 const options = {
   weekday: "long",  // 
@@ -202,7 +209,8 @@ const options = {
   year: "numeric"   // '2025'
 };
 
-const formattedDate = date.toLocaleDateString("en-GB", options);
+const info = data?data.deliveryDate:null
+const formattedDate = new Date(info).toLocaleDateString("en-GB", options);
    
 
    const [apiData, setApiData] = useState([]);
@@ -210,10 +218,10 @@ const formattedDate = date.toLocaleDateString("en-GB", options);
   // Fetch data from API
   function getData() {
     axios
-      .get(`http://localhost:8080/api/public/orders/detailed?deliveryDate=${data}`)
+      .get(`http://localhost:8080/api/public/orders/detailed?deliveryDate=${data.deliveryDate}`)
       .then((response) => {
         setApiData(response.data);
-        console.log("Aaj ka delivery"+{data}, response.data);
+        console.log("Aaj ka delivery ",data.deliveryDate, response.data);
       })
       .catch((error) => {
         console.error("Error fetching data", error);
