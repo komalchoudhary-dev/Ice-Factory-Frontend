@@ -2,7 +2,8 @@
 
 .about-page {
     width: 100%;
-    background: #ffffff;
+    font-family: 'Roboto';
+    background: #E1F7F5;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     animation: fadeInPage 1.5s ease-out forwards;
     position: relative;
@@ -11,15 +12,16 @@
 
 .about-header {
     text-align: center;
+    font-weight: 500;
     margin-bottom: 40px;
+    background-color: #E1F7F5;
     animation: slideDownFade 1.5s ease-out forwards;
     padding: 30px 20px;
-    background: linear-gradient(90deg, #1e3799, #2c5aa0);
     color: #ffffff;
 }
 
 .about-header h1 {
-    color: #ffffff;
+    color: #000000;
     font-size: 36px;
     margin-bottom: 15px;
     padding: 10px 0;
@@ -28,7 +30,7 @@
 }
 
 .about-header p {
-    color: #e0f7fa;
+    color: #000000;
     font-size: 18px;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
 }
