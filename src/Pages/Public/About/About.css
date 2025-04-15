@@ -2,7 +2,8 @@
 
 .about-page {
     width: 100%;
-    background: #ffffff;
+    font-family: 'Roboto';
+    background: #F6F5F5;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     animation: fadeInPage 1.5s ease-out forwards;
     position: relative;
@@ -11,15 +12,16 @@
 
 .about-header {
     text-align: center;
+    font-weight: 500;
     margin-bottom: 40px;
+    background-color: #F6F5F5;
     animation: slideDownFade 1.5s ease-out forwards;
     padding: 30px 20px;
-    background: linear-gradient(90deg, #1e3799, #2c5aa0);
     color: #ffffff;
 }
 
 .about-header h1 {
-    color: #ffffff;
+    color: #000000;
     font-size: 36px;
     margin-bottom: 15px;
     padding: 10px 0;
@@ -28,7 +30,7 @@
 }
 
 .about-header p {
-    color: #e0f7fa;
+    color: #000000;
     font-size: 18px;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
 }
@@ -36,7 +38,7 @@
 .about-section {
     margin-bottom: 40px;
     padding: 25px;
-    background: #f9fbfd;
+    background: #F6F5F5;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     animation: slideUpFade 1.2s ease-out forwards;
     opacity: 0;
@@ -65,7 +67,7 @@
 .about-contact {
     margin-top: 40px;
     padding: 25px;
-    background: #f9fbfd;
+    background: #F6F5F5;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     animation: slideUpFade 1.4s ease-out forwards;
     opacity: 0;
@@ -91,7 +93,7 @@
 }
 
 /* Fun Fact Section */
-.about-fun-fact {
+/*.about-fun-fact {
     margin-top: 30px;
     padding: 20px;
     background: #fff3e6;
@@ -114,7 +116,7 @@
 }
 
 /* Testimonial Section */
-.about-testimonial {
+/*.about-testimonial {
     margin-top: 30px;
     padding: 20px;
     background: #d9f3db;
@@ -134,8 +136,72 @@
     font-style: italic;
     opacity: 0;
     animation: fadeInOut 3s ease infinite;
-}
-
+}*/
+.about-extras {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-top: 40px;
+  }
+  
+  /* Shared Card Style */
+  .about-fun-fact,
+  .about-testimonial {
+    flex: 1 1 300px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    border-radius: 10px;
+  }
+  
+  /* Fun Facts Styling */
+  .about-fun-fact {
+    background: #fff3e6;
+  }
+  
+  .about-fun-fact h3 {
+    color: #e67e22;
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+  
+  .about-fun-fact .fun-fact-text {
+    color: #7f462c;
+    font-size: 16px;
+    font-style: italic;
+    opacity: 0;
+    animation: fadeInOut 3s ease-in-out infinite;
+  }
+  
+  /* Testimonials Styling */
+  .about-testimonial {
+    background: #d9f3db;
+  }
+  
+  .about-testimonial h3 {
+    color: #2e7d32;
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+  
+  .about-testimonial .testimonial-text {
+    color: #1b5e20;
+    font-size: 16px;
+    font-style: italic;
+    opacity: 0;
+    animation: fadeInOut 3s ease-in-out infinite;
+  }
+  
+  /* Fade animation */
+  @keyframes fadeInOut {
+    0% { opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+  
 /* Animations */
 @keyframes fadeInPage {
     0% { opacity: 0; transform: scale(0.98); }
