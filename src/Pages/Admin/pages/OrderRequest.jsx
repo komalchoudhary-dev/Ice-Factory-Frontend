@@ -303,7 +303,11 @@ function Prakhar() {
               {summary.map((data, index) => (
                 <div
                   key={index}
-                  onClick={() => navigate("/admin-order-request-detail",{ state:  data.deliveryDate})}
+                  onClick={() => navigate("/admin-order-request-detail",{   state: {
+                    deliveryDate: data.deliveryDate,
+                    from: "admin-order-request"
+                  }
+                })}
                   className="flex flex-col justify-center items-center w-40 h-24 bg-sky-500 text-white rounded-xl shadow-md hover:bg-sky-700 cursor-pointer transition duration-300"
                 >
                   <p className="text-lg font-semibold">{convertDate(data.deliveryDate)[0]}</p>

@@ -19,6 +19,7 @@ const LoginSignup = lazy(() => import('./Pages/Public/Login/LoginSignup.jsx'));
 const Detail=lazy(() => import('./Pages/Admin/pages/detail.jsx'));
 const SignUp = lazy(() => import('./Pages/Public/Registration/Registration.jsx'));
 const Customer=lazy(() => import('./Pages/Admin/pages/Customer.jsx'));
+const CustDetail=lazy(() => import('./Pages/Admin/pages/custDetail.jsx'));
 
 // Add missing components
 const LoadingBar = () => (
@@ -112,6 +113,11 @@ function AppRoutes() {
           <Route path="/admin-customer" element={
             <PageTransition>
             <Customer/>
+            </PageTransition>
+          } />
+          <Route path="/admin-customer-detail" element={
+            <PageTransition>
+            <CustDetail/>
             </PageTransition>
           } />
           <Route path="/admin-order-request-detail" element={

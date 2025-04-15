@@ -189,9 +189,9 @@ function Detail() {
                               <tr key={item.orderId} className="text-center border-t">
                                 <td className="py-2 px-4 border">{index + 1}</td> {/* Correct sequence */}
                                 <td className="py-2 px-4 border">{item.orderId}</td>
-                                <td className="py-2 px-4 border">{item.firstName} {item.lastName}</td>
+                                <td className="py-2 px-4 border"><p>{item.firstName} {item.lastName}</p></td>
                                 <td className="py-2 px-4 border">{item.quantity}</td>
-                                <td className="py-2 px-4 border">{item.street}, {item.city} - {item.pincode}</td>
+                                <td className="py-2 px-4 border">{item.street} {item.city} {item.pincode}</td>
                                 <td className="py-2 px-4 border">{item.phone}</td>
                                 <td className="py-2 px-4 border capitalize">{item.status}</td>
                                 <td className="py-2 px-4 border">{new Date(item.deliveryDate).toLocaleDateString()}</td>
@@ -239,7 +239,7 @@ function Detail() {
                          <td className="py-2 px-4 border">{item.orderId}</td>
                          <td className="py-2 px-4 border">{item.firstName} {item.lastName}</td>
                          <td className="py-2 px-4 border">{item.quantity}</td>
-                         <td className="py-2 px-4 border">{item.street}, {item.city} - {item.pincode}</td>
+                         <td className="py-2 px-4 border"><p>{item.street}  ,{item.city}  {item.pincode}</p></td>
                          <td className="py-2 px-4 border">{item.phone}</td>
                          <td className="py-2 px-4 border capitalize">{item.status}</td>
                          <td className="py-2 px-4 border">{new Date(item.deliveryDate).toLocaleDateString()}</td>
