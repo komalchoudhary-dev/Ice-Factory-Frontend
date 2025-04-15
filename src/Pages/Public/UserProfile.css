@@ -1,0 +1,113 @@
+#user-profile-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+#user-profile-page .user-profile {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  padding: 10px; /* Reduced padding to decrease height */
+  font-family: 'Roboto', sans-serif;
+}
+
+#user-profile-page .header {
+  background: #e7f8fe;
+  border-radius: 8px 8px 0 0;
+  padding: 20px 20px; /* Reduced padding for smaller header */
+  text-align: center;
+  min-height: 100px; /* Reduced height for better proportion */
+}
+
+#user-profile-page .content {
+  padding: 10px 0; /* Reduced padding to decrease overall height */
+}
+
+#user-profile-page .name-email {
+  text-align: center;
+  margin-bottom: 10px; /* Reduced margin */
+}
+
+#user-profile-page .name-email h2 {
+  margin: 0;
+  font-size: 25px;
+  color: #1a1a1a;
+}
+
+#user-profile-page .name-email p {
+  margin: 5px 0 0;
+  color: #666;
+  font-size: 14px;
+}
+
+#user-profile-page .details {
+  display: flex;
+  flex-direction: column;
+  gap: 5px; /* Reduced gap between items */
+}
+
+#user-profile-page .detail-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #333;
+}
+
+#user-profile-page .detail-item span:first-child {
+  color: #666;
+}
+
+#user-profile-page .form-input {
+  padding: 15px;
+  margin: 5px 0; /* Reduced margin */
+  border: none;
+  height: 40px;
+  background: #fff;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  width: 150px;
+  outline: none;
+  text-align: right;
+  transition: all 0.2s ease;
+}
+
+#user-profile-page .form-input:hover {
+  background-color: #f9f9f9;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+#user-profile-page .form-input:focus {
+  border: 1px solid #8ea5d8;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(142, 165, 216, 0.3);
+}
+
+#user-profile-page .terms-text {
+  font-size: 14px;
+  color: #333;
+  text-align: center;
+  margin: 10px 0; /* Reduced margin */
+}
+
+#user-profile-page .register-button {
+  background-color: #4a9cee;
+  color: #000;
+  padding: 8px 50px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  align-self: center;
+  margin-top: 10px; /* Reduced margin */
+  transition: all 0.2s ease;
+  border-radius: 20px;
+  width: 100%;
+}
+
+#user-profile-page .register-button:hover {
+  background-color: #4a9cee;
+  transform: translateY(-2px);
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);
+}
