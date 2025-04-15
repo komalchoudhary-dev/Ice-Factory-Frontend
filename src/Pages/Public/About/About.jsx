@@ -144,15 +144,19 @@ export default function About() {
 
 
 
-      <div className="about-fun-fact">
-        <h3>Fun Facts!</h3>
-        <p className="fun-fact-text fade-in">{funFacts[currentFact]}</p>
-      </div>
+<div className="about-extras">
+  {/* Fun Facts */}
+  <div className="about-fun-fact">
+    <h3>Fun Facts!</h3>
+    <p className="fun-fact-text fade-in">{funFacts[currentFact]}</p>
+  </div>
 
-      <div className="about-testimonial">
-        <h3>What Our Clients Say</h3>
-        <p className="testimonial-text fade-in">"{testimonials[currentTestimonial]}"</p>
-      </div>
-    </div>
+  {/* Testimonials */}
+  <div className="about-testimonial">
+    <h3>What Our Clients Say</h3>
+    <p className="testimonial-text fade-in">"{testimonials[currentTestimonial]}"</p>
+  </div>
+</div>
+</div>
   );
 }
