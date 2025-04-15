@@ -153,7 +153,7 @@ function App() {
         <main className="app-content">
           <AppRoutes />
         </main>
-        {/* <Footer /> */}
+        
       </Router>
     </UserProvider>
   );
