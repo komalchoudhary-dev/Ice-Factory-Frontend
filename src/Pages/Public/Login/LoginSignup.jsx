@@ -138,7 +138,7 @@ const LoginSignup = () => {
           <button
             type="button"
             className={action === "Login" ? "submit gray" : "submit"}
-            onClick={() => setAction("Sign Up")}
+            onClick={() => navigate('/signup')}
             disabled={isLoading}
           >
             Sign Up

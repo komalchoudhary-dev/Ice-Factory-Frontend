@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../../UserContext.jsx';
 import './Order.css';
 import Navbar from '../../../Components/Navbar/Navbar.jsx';
+import Footer from '../../../Components/Footer/Footer.jsx';
 
 const Order = () => {
   const navigate = useNavigate();
@@ -239,6 +240,7 @@ const Order = () => {
           <p>Maximum daily capacity: {MAX_DAILY_CAPACITY} ice blocks</p>
         </div>
       </div>
+      <Footer />
     </>
   );
 };
