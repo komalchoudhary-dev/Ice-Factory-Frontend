@@ -50,7 +50,7 @@ export const HomePage = () => {
                 <Link to="/" className="nav-link active" onClick={() => setMobileMenuOpen(false)}>HOME</Link>
                 <Link to="/about" className="nav-link" onClick={() => setMobileMenuOpen(false)}>ABOUT</Link>
                 <Link to="/orders" className="nav-link" onClick={() => setMobileMenuOpen(false)}>ORDER</Link>
-                <Link to="/contact" className="nav-link" onClick={() => setMobileMenuOpen(false)}>CONTACT</Link>
+                <Link to="/contact" className="nav-link contact"  onClick={() => setMobileMenuOpen(false)}>CONTACT</Link>
               </div>
             </div>
             

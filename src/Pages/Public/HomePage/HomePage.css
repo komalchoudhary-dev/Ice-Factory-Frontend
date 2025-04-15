@@ -109,6 +109,9 @@ body {
   transition: all 0.3s ease;
   position: relative;
 }
+.nav-link.contact{
+  margin-right: 1.5rem;
+}
 
 .nav-link:after {
   content: '';
