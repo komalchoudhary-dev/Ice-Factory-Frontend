@@ -1,11 +1,11 @@
-import './App.css'
+//import './App.css'
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 
 import { UserContext, UserProvider } from './UserContext.jsx';
-import Navbar from './Components/Navbar/Navbar.jsx';
-import Footer from './Components/Footer/Footer.jsx';
+//import Navbar from './Components/Navbar/Navbar.jsx';
+//import Footer from './Components/Footer/Footer.jsx';
 
 const Order = lazy(() => import('./Pages/Public/Orders/Order.jsx'));
 const OrderDetails = lazy(() => import('./Pages/Public/Orders/OrderDetails.jsx'));
@@ -18,7 +18,7 @@ const AdminSalesReport = lazy(() => import('./Pages/Admin/pages/SalesReport.jsx'
 const LoginSignup = lazy(() => import('./Pages/Public/Login/LoginSignup.jsx'));
 const Detail=lazy(() => import('./Pages/Admin/pages/detail.jsx'));
 const SignUp = lazy(() => import('./Pages/Public/Registration/Registration.jsx'));
-
+const Customer=lazy(() => import('./Pages/Admin/pages/Customer.jsx'));
 
 // Add missing components
 const LoadingBar = () => (
@@ -109,6 +109,11 @@ function AppRoutes() {
             <AdminOrederRequests/>
             </PageTransition>
           } />
+          <Route path="/admin-customer" element={
+            <PageTransition>
+            <Customer/>
+            </PageTransition>
+          } />
           <Route path="/admin-order-request-detail" element={
             <PageTransition>
             <Detail/>
@@ -144,11 +149,11 @@ function App() {
   return (
     <UserProvider>
       <Router>
-        <Navbar />
+
         <main className="app-content">
           <AppRoutes />
         </main>
-        <Footer />
+        
       </Router>
     </UserProvider>
   );

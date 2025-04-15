@@ -1,8 +1,13 @@
+/* Improved input styling with optimal width */
 .registration-container {
   display: flex;
   min-height: 100vh;
   text-align: center;
   font-family: 'Roboto';
+  /* max-width: 800px; */
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  background-color: #c2d4f7;
 }
 
 .form-section {
@@ -11,6 +16,12 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between; /* Push buttons to bottom */
+  background-color: #fff;
+  border-radius: 8px;
+  /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); */
+  padding: 2rem;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 /*.left {
@@ -30,6 +41,7 @@ h2 {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  gap: 0.75rem;
 }
 
 input {
@@ -45,50 +57,68 @@ input {
   display: block;
   margin-left: auto;
   margin-right: auto;
+   max-width: 800px;
 }
 
+.input-group {
+  position: relative;
+  width: 100%;
+  margin-bottom: 0.75rem;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  background-color: #f9f9f9;
+}
+
+.input-group input:focus {
+  border-color: var(--primary-blue);
+  background-color: #fff;
+  box-shadow: 0 0 0 2px rgba(26, 117, 255, 0.1);
+  outline: none;
+}
 
 .form-row {
   display: flex;
-  gap: 16px;
-  width: 50%;
+  gap: 1rem;
+  width: 100%;
   margin: 0 auto; /* This centers the .form-row horizontally */
   justify-content: center; /* Optional: ensures children are centered inside */
 }
 
+.form-row .input-group {
+  flex: 1;
+}
 
 .form-row input {
   flex: 1;
   height: 40px;
 }
 
-
 .register-button {
- /* background-color: #8ea5d8;
-  color: #000;
-  padding: 12px 20px;
+  background: linear-gradient(135deg, var(--primary-blue), var(--primary-dark-blue));
+  color: white;
   border: none;
+  border-radius: 4px;
+  padding: 0.85rem;
+  font-weight: 600;
+  font-size: 1rem;
   cursor: pointer;
-  font-weight: bold;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-  align-self: center; /* This centers it horizontally */
-  /*margin-bottom: 40px;*/
-  background-color: #8ea5d8;
-color: #000;
-padding: 8px 50px;
-border: none;
-cursor: pointer;
-font-weight: bold;
-box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-align-self: center;
-margin-top: 20px;
-transition: all 0.2s ease;
-border-radius: 20px;
+  transition: all 0.2s ease;
+  margin-top: 1rem;
+  width: 100%;
+  max-width: 250px;
+  align-self: center;
 }
+
 .register-button:hover {
-  background-color: #7d91c8; /* slightly darker blue */
   transform: translateY(-2px);
-  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .terms-text {
@@ -122,12 +152,16 @@ button {
   width: 50%;
   margin: 20px auto 0;
   text-align: left;
+  margin: 1rem 0;
 }
 
 .terms-checkbox-container {
   display: flex;
   align-items: center;
   gap: 10px;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
 }
 
 .terms-checkbox {
@@ -141,6 +175,7 @@ button {
   cursor: pointer;
   flex-shrink: 0;
   transform: translateY(-1px); /* Fine-tune vertical alignment */
+  margin-top: 0.25rem;
 }
 
 .terms-text {
@@ -150,6 +185,8 @@ button {
   cursor: pointer;
   line-height: 1.4;
   user-select: none;
+  font-size: 0.9rem;
+  color: #555;
 }
 
 /* Hover states */
@@ -159,4 +196,85 @@ button {
 
 .terms-checkbox-container:hover .terms-text {
   color: #000;
+}
+
+/* Add to Registration.css */
+
+.input-group {
+  position: relative;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.input-group input {
+  width: 100%;
+}
+
+.field-error {
+  color: #d32f2f;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+input.error {
+  border-color: #d32f2f;
+}
+
+.terms-checkbox.error + .terms-text {
+  color: #d32f2f;
+}
+
+.error-message {
+  background-color: #ffebee;
+  color: #d32f2f;
+  padding: 0.75rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+}
+
+.register-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Style for the form header */
+.form-section h2 {
+  margin-bottom: 1.5rem;
+  color: var(--primary-dark-blue);
+  text-align: center;
+  font-size: 1.75rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .form-section {
+    padding: 1.5rem;
+  }
+  
+  .form-row {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .register-button {
+    max-width: 100%;
+  }
+}
+
+/* Optional: Add visual indicator for required fields */
+.input-group::after {
+  content: "*";
+  position: absolute;
+  top: 1.75rem;
+  right: 0.75rem;
+  color: #d32f2f;
+  font-size: 1rem;
+  opacity: 0.7;
+}
+
+/* Remove required indicator from terms checkbox */
+.terms-wrapper::after {
+  display: none;
 }

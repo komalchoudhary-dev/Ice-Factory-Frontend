@@ -2,6 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../../UserContext.jsx';
 import './OrderHistory.css';
+import Navbar from '../../../Components/Navbar/Navbar.jsx';
+import Footer from '../../../Components/Footer/Footer.jsx';
 
 const OrderHistory = () => {
   const navigate = useNavigate();
@@ -163,8 +165,10 @@ const OrderHistory = () => {
   const upcomingOrders = getUpcomingOrders();
   const pastOrders = getPastOrders();
 
-  return (
+  return (<>
+  <Navbar />
     <div className="order-history-container">
+      
       <div className="page-header">
         <h1>Your Order History</h1>
         <p className="page-description">
@@ -331,7 +335,9 @@ const OrderHistory = () => {
           Place New Order
         </button>
       </div>
-    </div>
+    </div> 
+    <Footer />
+    </>
   );
 };
 
