@@ -86,6 +86,7 @@ import dashboardIcon from '../../../assets/dashboard.png';
 import requestIcon from '../../../assets/orderSidebar.png';
 import deliveryIcon from '../../../assets/truckSidebar.png';
 import salesIcon from '../../../assets/SalesReportSideBar.png';
+import profileIcon from "../../../assets/Consumer.png";
 
 const Sidebar = (props) => {
   console.log("props val ", props.val);
@@ -95,6 +96,7 @@ const Sidebar = (props) => {
     { path: "/admin-order-request", label: "Order Request", icon: requestIcon },
     { path: "/admin-tobe-delivered", label: "Order to be Delivered", icon: deliveryIcon },
     { path: "/sales-report", label: "Sales Report", icon: salesIcon },
+    { path: "/admin-Customer", label: "Consumer", icon: profileIcon}
   ];
 
   return (
