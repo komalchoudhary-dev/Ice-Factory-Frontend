@@ -1,7 +1,7 @@
 import React from "react";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
-import Report from  "./report";
+import Report from  "../components/report";
 //import Report from  "./check";
 function Prakhar() {
     return (
