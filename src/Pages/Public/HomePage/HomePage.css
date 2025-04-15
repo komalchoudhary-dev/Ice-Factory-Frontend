@@ -39,7 +39,9 @@ body {
   margin: 0;
   padding: 0;
 }
-
+.hero-title{
+  color: #d3d3d3;
+}
 /* Hero Section with Full-Screen Background */
 .hero-section {
   position: relative;
