@@ -7,13 +7,11 @@ import History from './History.jsx';
 import Navbar from '../../../Components/Navbar/Navbar.jsx';
 import Orders from './Orders.jsx';
 import Home from './Home.jsx';
-import Contact from '../ContactUs/ContactUs.jsx';
-import About from '../About/About.jsx';
-import Footer from '../../../Components/Footer/Footer.jsx';
+import Contact from './Contact.jsx';
 
 export default function Frame_1() {
   return (
-   <><Home /><About /><Footer /></>
+   <><Home /><Orders /><History /><Login /><Contact /></>
      );
 }
 
