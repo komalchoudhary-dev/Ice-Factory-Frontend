@@ -75,7 +75,7 @@ export default function About() {
   return (
     <div className="about-page">
       <div className="about-header">
-        <h1>About Muzaffarpur Ice Factory</h1>
+        <h1>WE'RE ALL ABOUT ICE</h1>
         <p>Your trusted source for quality ice in Muzaffarpur.</p>
       </div>
 
@@ -115,16 +115,15 @@ export default function About() {
   <p>Email: theamanyadav@gmail.com</p>
   <p>Phone: 7808485240</p>
   
-  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
+  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'left', justifyContent: 'left', height: '100vh' }}>
   {/* Location Information Box */}
   <div style={{
     backgroundColor: '#f8f8f8',
     padding: '20px',
-    borderRadius: '10px',
     boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
     marginBottom: '20px',
-    width: '80%',
-    textAlign: 'center',
+    width: '100%',
+    textAlign: 'left',
   }}>
     <h2>Muzaffarpur Ice Factory</h2>
     <p>Muzaffarpur, Bihar, India</p>
@@ -139,8 +138,7 @@ export default function About() {
     width="600"
     height="450"
     style={{
-      border: '0',
-      borderRadius: '15px', // Smooth corners for the map
+      border: '0' // Smooth corners for the map
     }}
     allowFullScreen=""
     aria-hidden="false"
