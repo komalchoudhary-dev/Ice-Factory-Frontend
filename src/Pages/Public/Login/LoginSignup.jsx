@@ -1,12 +1,12 @@
-import React,{ useState, useContext } from "react"; // Remove 'React' from this import
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-// Example: update in your components
-import { UserContext, UserProvider } from '../../../UserContext.jsx';
+import { UserContext } from '../../../UserContext.jsx';
 import "./LoginSignup.css";
 import user_icon from "../../../assets/person.png";
 import email_icon from "../../../assets/email.png";
 import password_icon from "../../../assets/password.png";
-import phone_icon from "../../../assets/phone.png"; 
+import phone_icon from "../../../assets/phone.png";
+import axios from "axios";
 
 const LoginSignup = () => {
   const [action, setAction] = useState("Login");
@@ -43,24 +43,47 @@ const LoginSignup = () => {
       try {
         setLoading(true);
         
-        // Call the backend API to verify login
-        const response = await fetch(`http://localhost:8080/api/public/verifyLogin?phone=${encodeURIComponent(formData.phone)}&password=${encodeURIComponent(formData.password)}`);
-        
-        if (!response.ok) {
-          throw new Error(`Server error: ${response.status}`);
+        // First, check if the credentials belong to an admin using GET method
+        try {
+          // Try admin verification first with GET method
+          const adminResponse = await axios.get(
+            `http://localhost:8080/api/admin/verifyLogin?phone=${encodeURIComponent(formData.phone)}&password=${encodeURIComponent(formData.password)}`
+          );
+          
+          // If admin verification succeeds (returns true)
+          if (adminResponse.data === true) {
+            console.log("Admin login successful");
+            
+            // Store admin info in localStorage
+            localStorage.setItem('adminPhone', formData.phone);
+            localStorage.setItem('isAdmin', 'true');
+            
+            // Redirect to admin dashboard
+            navigate('/admin-dashboard');
+            return; // Exit early since we've handled admin login
+          }
+        } catch (adminErr) {
+          // Admin check failed, continue to user login check
+          console.log("Not an admin, checking if regular user...");
         }
         
-        const result = await response.json();
+        // If we get here, admin check failed, so check if it's a regular user
+        const userResponse = await fetch(`http://localhost:8080/api/public/verifyLogin?phone=${encodeURIComponent(formData.phone)}&password=${encodeURIComponent(formData.password)}`);
+        
+        if (!userResponse.ok) {
+          throw new Error(`Server error: ${userResponse.status}`);
+        }
+        
+        const result = await userResponse.json();
         
         if (result === true) {
           // Login successful - call the login function from context
-          // This will trigger the fetching of user details
           await login(formData.phone);
           
           // Redirect to home page
           navigate('/');
         } else {
-          // Login failed
+          // Login failed - neither admin nor regular user
           setError("Invalid phone number or password");
         }
       } catch (err) {
@@ -71,7 +94,6 @@ const LoginSignup = () => {
       }
     } else {
       // Sign Up logic would go here
-      // For now just show a message
       alert("Sign up functionality will be implemented soon!");
     }
   };

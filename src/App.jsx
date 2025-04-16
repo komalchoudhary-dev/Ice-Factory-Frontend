@@ -21,6 +21,7 @@ const SignUp = lazy(() => import('./Pages/Public/Registration/Registration.jsx')
 const Customer=lazy(() => import('./Pages/Admin/pages/Customer.jsx'));
 const Profile=lazy(() => import('./Pages/Public/UserProfile/UserProfile.jsx'));
 const CustDetail=lazy(() => import('./Pages/Admin/pages/custDetail.jsx'));
+
 // Add missing components
 const LoadingBar = () => (
   <div className="loading-bar">
