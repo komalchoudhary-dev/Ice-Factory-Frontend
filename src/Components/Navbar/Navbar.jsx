@@ -25,6 +25,43 @@ const Navbar = () => {
     navigate('/');
     setMobileMenuOpen(false);
   };
+  
+  // New function to handle scrolling to sections
+  const scrollToSection = (sectionId) => {
+    // Close mobile menu if open
+    setMobileMenuOpen(false);
+    
+    // Check if we're on the homepage
+    if (location.pathname !== '/') {
+      // If not on homepage, navigate to homepage with a section parameter
+      navigate('/?section=' + sectionId);
+      return;
+    }
+    
+    // If we're already on the homepage, scroll to the section
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  // Check for section parameter on page load
+  useEffect(() => {
+    if (location.pathname === '/') {
+      const params = new URLSearchParams(location.search);
+      const section = params.get('section');
+      
+      if (section) {
+        // Small timeout to ensure the DOM is fully loaded
+        setTimeout(() => {
+          const element = document.getElementById(section);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 300);
+      }
+    }
+  }, [location]);
 
   // Handle scroll and check if navbar should be sticky
   useEffect(() => {
@@ -93,8 +130,22 @@ const Navbar = () => {
         <div className="navbar-center">
           <div className={`navbar-links ${isMobileMenuOpen ? 'active' : ''}`}>
             <Link to="/" className={location.pathname === '/' ? 'nav-link active' : 'nav-link'}>HOME</Link>
-            <Link to="/about" className={location.pathname === '/about' ? 'nav-link active' : 'nav-link'}>ABOUT</Link>
+            {/* Updated About link to use scroll function */}
+            <a 
+              href="#about-section" 
+              className={location.pathname === '/about' ? 'nav-link active' : 'nav-link'}
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToSection('about-section');
+              }}
+            >
+              ABOUT
+            </a>
             <Link to="/orders" className={location.pathname.includes('/order') ? 'nav-link active' : 'nav-link'}>ORDER</Link>
+            {/* Only show History link for logged-in users */}
+            {userPhone && (
+              <Link to="/history" className={location.pathname === '/history' ? 'nav-link active' : 'nav-link'}>HISTORY</Link>
+            )}
             <Link to="/contact" className={location.pathname === '/contact' ? 'nav-link active' : 'nav-link'}>CONTACT</Link>
           </div>
         </div>

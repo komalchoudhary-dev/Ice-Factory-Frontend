@@ -48,7 +48,7 @@ export const HomePage = () => {
             <div className="navbar-center">
               <div className={`navbar-links ${isMobileMenuOpen ? 'active' : ''}`}>
                 <Link to="/" className="nav-link active" onClick={() => setMobileMenuOpen(false)}>HOME</Link>
-                <Link to="/about" className="nav-link" onClick={() => setMobileMenuOpen(false)}>ABOUT</Link>
+                <Link to="/" className="nav-link" onClick={() => setMobileMenuOpen(false)}>ABOUT</Link>
                 <Link to="/orders" className="nav-link" onClick={() => setMobileMenuOpen(false)}>ORDER</Link>
                 <Link to="/contact" className="nav-link contact"  onClick={() => setMobileMenuOpen(false)}>CONTACT</Link>
               </div>
