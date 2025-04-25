@@ -8,8 +8,8 @@ import { UserContext, UserProvider } from './UserContext.jsx';
 //import Footer from './Components/Footer/Footer.jsx';
 
 const Order = lazy(() => import('./Pages/Public/Orders/Order.jsx'));
-const OrderDetails = lazy(() => import('./Pages/Public/Orders/OrderDetails.jsx'));
-const OrderHistory = lazy(() => import('./Pages/Public/Orders/OrderHistory.jsx'));
+const OrderDetails = lazy(() => import('./Pages/Public/OrderDetails/OrderDetails.jsx'));
+const OrderHistory = lazy(() => import('./Pages/Public/History/OrderHistory.jsx'));
 const HomePage = lazy(() => import('./Pages/Public/HomePage/HomePage.jsx'));
 const AdminDashboard = lazy(() => import('./Pages/Admin/pages/Dashboard.jsx'));
 const AdminOrederRequests = lazy(() => import('./Pages/Admin/pages/OrderRequest.jsx'));

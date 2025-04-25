@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { UserContext } from "../../../UserContext.jsx";
 import axios from "axios";
-import Navbar from "../../../Components/Navbar/Navbar.jsx";
-import Footer from "../../../Components/Footer/Footer.jsx";
+import Navbar from "../Components/Navbar/Navbar.jsx";
+import Footer from "../Components/Footer/Footer.jsx";
 import "./UserProfile.css";
 
 function UserProfile() {

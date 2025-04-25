@@ -2,8 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { UserContext } from '../../../UserContext.jsx';
 import './OrderDetails.css';
-import Navbar from '../../../Components/Navbar/Navbar.jsx';
-import Footer from '../../../Components/Footer/Footer.jsx';
+import Navbar from '../Components/Navbar/Navbar.jsx';
+import Footer from '../Components/Footer/Footer.jsx';
 
 const OrderDetails = () => {
   const navigate = useNavigate();

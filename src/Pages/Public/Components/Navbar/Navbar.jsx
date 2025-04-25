@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { UserContext } from '../../UserContext.jsx';
+import { UserContext } from '../../../../UserContext.jsx';
 import winter from "/ImagePool/winter.png";
 import lockOpen from "/ImagePool/lock-open.png";
 import logoutIcon from "/ImagePool/lock-open.png"; // Add this icon to your ImagePool folder

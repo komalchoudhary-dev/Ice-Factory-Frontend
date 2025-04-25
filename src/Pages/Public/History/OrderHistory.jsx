@@ -2,8 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../../UserContext.jsx';
 import './OrderHistory.css';
-import Navbar from '../../../Components/Navbar/Navbar.jsx';
-import Footer from '../../../Components/Footer/Footer.jsx';
+import Navbar from '../Components/Navbar/Navbar.jsx';
+import Footer from '../Components/Footer/Footer.jsx';
 
 const OrderHistory = () => {
   const navigate = useNavigate();
