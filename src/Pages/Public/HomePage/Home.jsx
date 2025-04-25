@@ -6,7 +6,7 @@ import fileDelivery from "/ImagePool/file-delivery.png";
 import lockOpen from "/ImagePool/lock-open.png";
 import unsplashXnzrf6Rrkm4 from "/ImagePool/unsplash-xnzrf6rrkm4.png";
 import winter from "/ImagePool/winter.png";
-import Navbar from '../../../Components/Navbar/Navbar.jsx';
+import Navbar from '../Components/Navbar/Navbar.jsx';
 import './HomePage.css';
 import logoutIcon from "/ImagePool/lock-open.png"; 
 import './Home.css';

@@ -3,8 +3,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { UserContext } from "../../../UserContext.jsx";
 import "./Registration.css";
 import axios from "axios";
-import Footer from '../../../Components/Footer/Footer.jsx';
-import Navbar from '../../../Components/Navbar/Navbar.jsx';
+import Footer from '../Components/Footer/Footer.jsx';
+import Navbar from '../Components/Navbar/Navbar.jsx';
 
 function Registration() {
   const navigate = useNavigate();
