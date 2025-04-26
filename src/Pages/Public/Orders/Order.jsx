@@ -7,15 +7,13 @@ import Footer from '../Components/Footer/Footer.jsx';
 
 const Order = () => {
   const navigate = useNavigate();
-  const { userPhone } = useContext(UserContext); // Add UserContext
+  const { userPhone } = useContext(UserContext);
   const [dateCards, setDateCards] = useState([]);
   const [availabilityData, setAvailabilityData] = useState({});
   const [orderForecast, setOrderForecast] = useState({});
+  const [capacityForecast, setCapacityForecast] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
-  // Max daily capacity for ice blocks
-  const MAX_DAILY_CAPACITY = 1200;
 
   // Generate dates for the next 15 days
   useEffect(() => {
@@ -42,38 +40,54 @@ const Order = () => {
     generateDateCards();
   }, []);
 
-  // Fetch order forecast data for the next 15 days from backend API
+  // Fetch both capacity and order forecast data
   useEffect(() => {
-    const fetchOrderForecast = async () => {
+    const fetchForecasts = async () => {
       try {
         setLoading(true);
         
-        // Make the actual API call
-        const response = await fetch('http://localhost:8080/api/public/orders/forecast/next-15-days');
+        // Fetch capacity forecast for the next 15 days
+        const capacityResponse = await fetch('http://localhost:8080/api/admin/capacity/forecast');
         
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
+        if (!capacityResponse.ok) {
+          throw new Error(`HTTP error fetching capacity! Status: ${capacityResponse.status}`);
         }
         
-        const forecastData = await response.json();
-        console.log("API Response:", forecastData); // Debug the response
+        const capacityData = await capacityResponse.json();
+        console.log("Capacity API Response:", capacityData);
+        setCapacityForecast(capacityData);
+        
+        // Fetch order forecast for the next 15 days
+        const orderResponse = await fetch('http://localhost:8080/api/public/orders/forecast/next-15-days');
+        
+        if (!orderResponse.ok) {
+          throw new Error(`HTTP error fetching orders! Status: ${orderResponse.status}`);
+        }
+        
+        const forecastData = await orderResponse.json();
+        console.log("Order API Response:", forecastData);
         setOrderForecast(forecastData);
         
-        // Generate availability data based on the forecast
+        // Generate availability data based on capacity and order forecasts
         const availabilityData = {};
         
-        // Check if forecastData is an object
-        if (forecastData && typeof forecastData === 'object') {
-          Object.keys(forecastData).forEach(dateString => {
-            // Make sure we're accessing the data correctly
+        // Check if both data objects are valid
+        if (capacityData && forecastData && typeof capacityData === 'object' && typeof forecastData === 'object') {
+          // Go through all dates in the capacity forecast
+          Object.keys(capacityData).forEach(dateString => {
+            // Get capacity for this date (use default 0 if not found)
+            const dailyCapacity = parseInt(capacityData[dateString]) || 0;
+            
+            // Get orders for this date (use default 0 if not found)
             const orderedBlocks = parseInt(forecastData[dateString]) || 0;
             
-            console.log(`Date: ${dateString}, Ordered: ${orderedBlocks}, Max: ${MAX_DAILY_CAPACITY}`);
+            console.log(`Date: ${dateString}, Capacity: ${dailyCapacity}, Ordered: ${orderedBlocks}`);
             
-            // Calculate available blocks based on max capacity and existing orders
-            const availableBlocks = Math.max(0, MAX_DAILY_CAPACITY - orderedBlocks);
+            // Calculate available blocks based on capacity and existing orders
+            const availableBlocks = Math.max(0, dailyCapacity - orderedBlocks);
             
             availabilityData[dateString] = {
+              dailyCapacity,
               availableBlocks,
               totalOrdersForDate: orderedBlocks
             };
@@ -81,20 +95,21 @@ const Order = () => {
           
           console.log("Availability data:", availabilityData);
         } else {
-          console.error("Forecast data is not in expected format:", forecastData);
+          console.error("Data is not in expected format:", { capacityData, forecastData });
           throw new Error("Invalid data format received from server");
         }
         
         setAvailabilityData(availabilityData);
         setLoading(false);
       } catch (err) {
-        console.error("Error fetching order forecast data:", err);
+        console.error("Error fetching forecast data:", err);
         
         // Fallback to mock data in case of an error
         console.log("Falling back to mock data");
         
         // Generate mock forecast data for the next 15 days
-        const mockForecastData = {};
+        const mockOrderData = {};
+        const mockCapacityData = {};
         const mockAvailabilityData = {};
         const today = new Date();
         
@@ -103,25 +118,31 @@ const Order = () => {
           date.setDate(today.getDate() + i);
           const dateString = date.toISOString().split('T')[0];
           
+          // Random capacity between 800 and 1500
+          const dailyCapacity = Math.floor(Math.random() * 700) + 800;
+          mockCapacityData[dateString] = dailyCapacity;
+          
           // Random number of orders between 0 and 600
           const orderedBlocks = Math.floor(Math.random() * 600);
-          mockForecastData[dateString] = orderedBlocks;
+          mockOrderData[dateString] = orderedBlocks;
           
           // Calculate available blocks
           mockAvailabilityData[dateString] = {
-            availableBlocks: Math.max(0, MAX_DAILY_CAPACITY - orderedBlocks),
+            dailyCapacity,
+            availableBlocks: Math.max(0, dailyCapacity - orderedBlocks),
             totalOrdersForDate: orderedBlocks
           };
         }
         
-        setOrderForecast(mockForecastData);
+        setOrderForecast(mockOrderData);
+        setCapacityForecast(mockCapacityData);
         setAvailabilityData(mockAvailabilityData);
         setLoading(false);
         setError("Using mock data: Couldn't connect to the server. Please try again later.");
       }
     };
     
-    fetchOrderForecast();
+    fetchForecasts();
   }, []);
 
   // Handle date selection with authentication check
@@ -134,7 +155,8 @@ const Order = () => {
           redirectAfterRegister: '/order-details',
           selectedDate: dateString,
           availability: availabilityData[dateString]?.availableBlocks || 0,
-          orderCount: orderForecast[dateString] || 0
+          orderCount: availabilityData[dateString]?.totalOrdersForDate || 0,
+          dailyCapacity: availabilityData[dateString]?.dailyCapacity || 0
         } 
       });
     } else {
@@ -143,21 +165,28 @@ const Order = () => {
         state: { 
           selectedDate: dateString,
           availability: availabilityData[dateString]?.availableBlocks || 0,
-          orderCount: orderForecast[dateString] || 0
+          orderCount: availabilityData[dateString]?.totalOrdersForDate || 0,
+          dailyCapacity: availabilityData[dateString]?.dailyCapacity || 0
         } 
       });
     }
   };
 
-  // Calculate availability percentage based on order forecast
+  // Calculate availability percentage based on dynamic capacity
   const getAvailabilityStatus = (dateString) => {
     if (!availabilityData[dateString]) {
       return { status: 'unknown', percentage: 0 };
     }
     
-    // Calculate availability based on available blocks vs max capacity
+    // Get the daily capacity for this date
+    const dailyCapacity = availabilityData[dateString].dailyCapacity;
+    if (!dailyCapacity || dailyCapacity <= 0) {
+      return { status: 'low', percentage: 0 };
+    }
+    
+    // Calculate availability based on available blocks vs daily capacity
     const availableBlocks = availabilityData[dateString].availableBlocks;
-    const availabilityPercentage = Math.min(100, (availableBlocks / MAX_DAILY_CAPACITY) * 100);
+    const availabilityPercentage = Math.min(100, (availableBlocks / dailyCapacity) * 100);
     
     let status = 'high';
     if (availabilityPercentage < 30) status = 'low';
@@ -181,7 +210,6 @@ const Order = () => {
       <div className="order-container">
         <div className="order-page-header">
           <h1>Select Delivery Date</h1>
-          {/* <p className="instruction">Choose a date for your ice delivery to ensure availability. We offer a daily capacity of {MAX_DAILY_CAPACITY} ice blocks.</p> */}
         </div>
         
         {error && <div className="error-message">{error}</div>}
@@ -189,8 +217,8 @@ const Order = () => {
         <div className="date-cards-container">
           {dateCards.map((dateInfo) => {
             const availability = getAvailabilityStatus(dateInfo.dateString);
-            const orderCount = orderForecast[dateInfo.dateString] || 0;
-            const availableBlocks = availabilityData[dateInfo.dateString]?.availableBlocks || 0;
+            const availData = availabilityData[dateInfo.dateString] || { dailyCapacity: 0, availableBlocks: 0, totalOrdersForDate: 0 };
+            const { dailyCapacity, availableBlocks, totalOrdersForDate } = availData;
             
             return (
               <div 
@@ -227,8 +255,10 @@ const Order = () => {
                   </div>
                   
                   <div className="order-info">
-                    <p>Orders placed: <strong>{orderCount}</strong> blocks</p>
-                    <p>Available: <strong>{availableBlocks}</strong> blocks</p>
+                  
+                    <p>Orders placed: <strong>{totalOrdersForDate}</strong> blocks</p>
+                    <p>Available: <strong>{availableBlocks}</strong> blocks</p> 
+                    <p>Capacity: <strong>{dailyCapacity}</strong> blocks</p>
                   </div>
                 </div>
               </div>
@@ -236,9 +266,7 @@ const Order = () => {
           })}
         </div>
         
-        <div className="capacity-info">
-          <p>Maximum daily capacity: {MAX_DAILY_CAPACITY} ice blocks</p>
-        </div>
+        
       </div>
       <Footer />
     </>
