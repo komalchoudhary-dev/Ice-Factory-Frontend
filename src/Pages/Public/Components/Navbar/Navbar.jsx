@@ -144,7 +144,7 @@ const Navbar = () => {
             <Link to="/orders" className={location.pathname.includes('/order') ? 'nav-link active' : 'nav-link'}>ORDER</Link>
             {/* Only show History link for logged-in users */}
             {userPhone && (
-              <Link to="/history" className={location.pathname === '/history' ? 'nav-link active' : 'nav-link'}>HISTORY</Link>
+              <Link to="/order-history" className={location.pathname === '/order-history' ? 'nav-link active' : 'nav-link'}>HISTORY</Link>
             )}
             <Link to="/contact" className={location.pathname === '/contact' ? 'nav-link active' : 'nav-link'}>CONTACT</Link>
           </div>
