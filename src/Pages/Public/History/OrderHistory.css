@@ -95,20 +95,26 @@ h1::after {
   margin: 1rem auto 0;
 }
 
-/* Filter controls */
+/* Filter controls - desktop styling */
 .filter-controls {
-  margin-bottom: 2rem;
-  background-color: var(--gray-50);
-  padding: 1.5rem;
+  background-color: var(--white);
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  border: 1px solid var(--gray-200);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
 }
 
 .filter-label {
   font-weight: 600;
-  color: #4a5568;
-  margin-bottom: 1rem;
+  color: var(--gray-800);
+  font-size: 0.95rem;
 }
 
 .filter-buttons {
@@ -118,26 +124,115 @@ h1::after {
 }
 
 .filter-btn {
-  background-color: var(--gray-100);
-  border: 1px solid var(--gray-200);
-  border-radius: var(--radius-lg);
-  padding: 0.625rem 1rem;
-  color: var(--gray-600);
+  background-color: var(--white);
+  border: 1px solid var(--gray-300);
+  border-radius: 20px;
+  padding: 0.6rem 1.2rem;
   font-size: 0.875rem;
   font-weight: 500;
+  color: var(--gray-700);
   cursor: pointer;
-  transition: var(--transition);
+  transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+  background-color: var(--gray-100);
 }
 
 .filter-btn.active {
   background-color: var(--primary-blue);
-  color: var(--white);
   border-color: var(--primary-blue);
+  color: var(--white);
 }
 
-.filter-btn:hover:not(.active) {
-  background-color: var(--gray-200);
+/* Mobile filter toggle button - hidden by default on desktop */
+.mobile-filter-toggle {
+  display: none;
+  background-color: var(--white);
+  border: 1px solid var(--gray-300);
+  border-radius: 20px;
+  padding: 0.5rem 0.85rem;
+  font-size: 0.825rem;
+  font-weight: 500;
   color: var(--gray-700);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  align-items: center;
+}
+
+.toggle-icon {
+  display: inline-block;
+  margin-left: 0.5rem;
+  font-size: 0.7rem;
+  transition: transform 0.3s ease;
+}
+
+.toggle-icon.open {
+  transform: rotate(180deg);
+}
+
+/* Responsive styles for mobile */
+@media (max-width: 768px) {
+  .filter-controls {
+    padding: 1rem;
+  }
+  
+  .mobile-filter-toggle {
+    display: flex;
+  }
+  
+  .filter-buttons {
+    display: none;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+  }
+  
+  .filter-buttons.show-mobile {
+    display: grid;
+    animation: fadeIn 0.3s ease;
+  }
+  
+  .filter-btn {
+    width: 100%;
+    text-align: center;
+    padding: 0.75rem 0.5rem;
+    font-size: 0.8125rem;
+    border-radius: 6px; /* slightly less rounded on mobile for more space */
+  }
+}
+
+@media (max-width: 480px) {
+  .filter-buttons {
+    grid-template-columns: 1fr;
+  }
+  
+  .filter-btn {
+    padding: 0.65rem 0.5rem;
+  }
+  
+  .filter-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  
+  .mobile-filter-toggle {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Orders list */

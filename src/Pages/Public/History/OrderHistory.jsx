@@ -13,6 +13,7 @@ const OrderHistory = () => {
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState('all'); // all, pending, confirmed, delivered, rejected, cancelled
   const [activeTab, setActiveTab] = useState('upcoming'); // upcoming, past
+  const [showMobileFilters, setShowMobileFilters] = useState(false);
 
   useEffect(() => {
     const fetchOrderHistory = async () => {
@@ -185,8 +186,18 @@ const OrderHistory = () => {
             </div>
             
             <div className="filter-controls">
-              <div className="filter-label">Filter by status:</div>
-              <div className="filter-buttons">
+              <div className="filter-header">
+                <div className="filter-label">Filter by status:</div>
+                <button 
+                  className="mobile-filter-toggle"
+                  onClick={() => setShowMobileFilters(prevState => !prevState)}
+                >
+                  {showMobileFilters ? 'Hide Filters' : 'Show Filters'} 
+                  <span className={`toggle-icon ${showMobileFilters ? 'open' : ''}`}>▼</span>
+                </button>
+              </div>
+              
+              <div className={`filter-buttons ${showMobileFilters ? 'show-mobile' : ''}`}>
                 <button 
                   className={`filter-btn ${filter === 'all' ? 'active' : ''}`} 
                   onClick={() => setFilter('all')}
