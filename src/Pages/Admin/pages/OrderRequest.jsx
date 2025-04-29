@@ -228,7 +228,7 @@ function Prakhar() {
   const navigate = useNavigate();
   const [apiData, setApiData] = useState([]);
 
-  // Fetch data from API
+  //Fetch data from API
   function getData() {
     axios
       .get("http://localhost:8080/api/public/orders/all")
