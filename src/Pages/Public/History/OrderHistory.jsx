@@ -197,7 +197,7 @@ const OrderHistory = () => {
                 </button>
               </div>
               
-              <div className={`filter-buttons ${showMobileFilters ? 'show-mobile' : ''}`}>
+              <div className={`filter-buttons ${showMobileFilters ? 'show-mobile' : 'hide-mobile'}`}>
                 <button 
                   className={`filter-btn ${filter === 'all' ? 'active' : ''}`} 
                   onClick={() => setFilter('all')}

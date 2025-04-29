@@ -182,15 +182,15 @@ h1::after {
   }
   
   .filter-buttons {
-    display: none;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.75rem;
     margin-top: 1rem;
-    transition: all 0.3s ease;
+  }
+  
+  .filter-buttons.hide-mobile {
+    display: none !important;
   }
   
   .filter-buttons.show-mobile {
-    display: grid;
+    display: grid !important;
     animation: fadeIn 0.3s ease;
   }
   
