@@ -1,22 +1,34 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { UserContext } from '../../../../UserContext.jsx';
 import winter from "/ImagePool/winter.png";
 import lockOpen from "/ImagePool/lock-open.png";
-import logoutIcon from "/ImagePool/lock-open.png"; // Add this icon to your ImagePool folder
+import userIcon from "../../../../assets/person.png"; // Add a user icon to your ImagePool folder
+import logoutIcon from "/ImagePool/lock-open.png"; // Update with a better logout icon
+import profileIcon from "../../../../assets/person.png"; // Add a profile icon
 import './Navbar.css';
 
 const Navbar = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { userPhone, userDetails, logout } = useContext(UserContext);
   const location = useLocation();
   const navigate = useNavigate();
+  const dropdownRef = useRef(null);
 
   // Handle mobile menu toggle
   const toggleMenu = () => {
     setMobileMenuOpen(!isMobileMenuOpen);
+    // Close dropdown if mobile menu is toggled
+    if (isDropdownOpen) setIsDropdownOpen(false);
+  };
+
+  // Handle user dropdown toggle
+  const toggleDropdown = (e) => {
+    e.stopPropagation();
+    setIsDropdownOpen(!isDropdownOpen);
   };
 
   // Handle logout
@@ -24,12 +36,35 @@ const Navbar = () => {
     logout();
     navigate('/');
     setMobileMenuOpen(false);
+    setIsDropdownOpen(false);
   };
+  
+  // Handle profile navigation
+  const handleProfileClick = () => {
+    navigate('/profile');
+    setMobileMenuOpen(false);
+    setIsDropdownOpen(false);
+  };
+  
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
   
   // New function to handle scrolling to sections
   const scrollToSection = (sectionId) => {
     // Close mobile menu if open
     setMobileMenuOpen(false);
+    setIsDropdownOpen(false);
     
     // Check if we're on the homepage
     if (location.pathname !== '/') {
@@ -129,7 +164,12 @@ const Navbar = () => {
         
         <div className="navbar-center">
           <div className={`navbar-links ${isMobileMenuOpen ? 'active' : ''}`}>
-            <Link to="/" className={location.pathname === '/' ? 'nav-link active' : 'nav-link'}>HOME</Link>
+            <Link to="/" 
+              className={location.pathname === '/' ? 'nav-link active' : 'nav-link'}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              HOME
+            </Link>
             {/* Updated About link to use scroll function */}
             <a 
               href="#about-section" 
@@ -141,25 +181,56 @@ const Navbar = () => {
             >
               ABOUT
             </a>
-            <Link to="/orders" className={location.pathname.includes('/order') ? 'nav-link active' : 'nav-link'}>ORDER</Link>
+            <Link to="/orders" 
+              className={location.pathname.includes('/order') && !location.pathname.includes('/order-history') ? 'nav-link active' : 'nav-link'}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              ORDER
+            </Link>
             {/* Only show History link for logged-in users */}
             {userPhone && (
-              <Link to="/order-history" className={location.pathname === '/order-history' ? 'nav-link active' : 'nav-link'}>HISTORY</Link>
+              <Link to="/order-history" 
+                className={location.pathname === '/order-history' ? 'nav-link active' : 'nav-link'}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                HISTORY
+              </Link>
             )}
-            <Link to="/contact" className={location.pathname === '/contact' ? 'nav-link active' : 'nav-link'}>CONTACT</Link>
+            <Link to="/contact" 
+              className={location.pathname === '/contact' ? 'nav-link active' : 'nav-link'}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              CONTACT
+            </Link>
           </div>
         </div>
         
         <div className="navbar-auth">
           {userPhone ? (
-            <div className="auth-buttons">
-              <Link to="/profile" className="auth-button user-profile">
-                MY ACCOUNT
-              </Link>
-              <button onClick={handleLogout} className="auth-button logout">
-                <img src={logoutIcon} alt="Logout" className="logout-icon" />
-                LOGOUT
+            <div className="user-dropdown-container" ref={dropdownRef}>
+              <button 
+                className="user-icon-button" 
+                onClick={toggleDropdown}
+                aria-label="User menu"
+              >
+                <img src={userIcon} alt="User" className="user-icon" />
+                <span className="user-icon-text">{firstName.charAt(0)}</span>
               </button>
+              <div className={`user-dropdown ${isDropdownOpen ? 'active' : ''}`}>
+                <div className="dropdown-user-info">
+                  <span className="dropdown-user-name">{firstName} {userDetails?.lastName}</span>
+                  <span className="dropdown-user-phone">{userPhone}</span>
+                </div>
+                <div className="dropdown-divider"></div>
+                <button className="dropdown-item" onClick={handleProfileClick}>
+                  <img src={profileIcon} alt="Profile" className="dropdown-icon" />
+                  <span>My Profile</span>
+                </button>
+                <button className="dropdown-item" onClick={handleLogout}>
+                  <img src={logoutIcon} alt="Logout" className="dropdown-icon" />
+                  <span>Logout</span>
+                </button>
+              </div>
             </div>
           ) : (
             <Link to="/login" className="auth-button login">
