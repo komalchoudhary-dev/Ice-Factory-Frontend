@@ -160,7 +160,7 @@ const Navbar = () => {
         <div className="navbar-left">
           <Link to="/">
             <img className="navbar-logo" alt="Winter Logo" src={winter} />
-            <div className="navbar-brand">Ice Factory</div>
+            <div className="navbar-brand">Muzaffarpur Ice</div>
           </Link>
           
           {/* Welcome message when user is logged in */}
