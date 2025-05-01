@@ -6,7 +6,7 @@ import Footer from "../Components/Footer/Footer.jsx";
 import "./UserProfile.css";
 
 function UserProfile() {
-  const { userPhone, userDetails, setUserDetails } = useContext(UserContext);
+  const { userPhone, userDetails,userAddress, setUserDetails } = useContext(UserContext);
   const [userData, setUserData] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -15,20 +15,35 @@ function UserProfile() {
   
   useEffect(() => {
     // Fetch user details from localStorage first
-    const storedUser = localStorage.getItem('user');
+    const storedUser = localStorage.getItem('userDetails');
+    const storedAddress = localStorage.getItem('userAddress');
     
     if (storedUser) {
       try {
         const parsedUser = JSON.parse(storedUser);
+        let addressData = { street: "", city: "", pincode: "" };
+        
+        // Parse address data if available
+        if (storedAddress) {
+          try {
+            const parsedAddress = JSON.parse(storedAddress);
+            // Check if it's an array and has at least one element
+            if (Array.isArray(parsedAddress) && parsedAddress.length > 0) {
+              addressData = parsedAddress[0]; // Use the first address
+            }
+          } catch (err) {
+            console.error("Error parsing address data:", err);
+          }
+        }
         
         // Set initial data from localStorage
         setUserData({
           firstName: parsedUser.firstName || "",
           lastName: parsedUser.lastName || "",
-          contact: parsedUser.phone || "",  // Use phone as contact
-          address: parsedUser.address?.street || "",
-          pinCode: parsedUser.address?.pincode || "",
-          place: parsedUser.address?.city || "",
+          contact: parsedUser.phone || "",
+          address: addressData.street || "",
+          pinCode: addressData.pincode || "",
+          place: addressData.city || "",
           country: "India"  // Default value
         });
         
@@ -41,13 +56,20 @@ function UserProfile() {
     } else {
       // If no data in localStorage, check if we have it in context
       if (userDetails) {
+        // Get address from context
+        let addressData = { street: "", city: "", pincode: "" };
+        
+        if (userAddress && Array.isArray(userAddress) && userAddress.length > 0) {
+          addressData = userAddress[0];
+        }
+        
         setUserData({
           firstName: userDetails.firstName || "",
           lastName: userDetails.lastName || "",
           contact: userDetails.phone || "",
-          address: userDetails.address?.street || "",
-          pinCode: userDetails.address?.pincode || "",
-          place: userDetails.address?.city || "",
+          address: addressData.street || "",
+          pinCode: addressData.pincode || "",
+          place: addressData.city || "",
           country: "India"
         });
         setLoading(false);
@@ -56,7 +78,7 @@ function UserProfile() {
         setLoading(false);
       }
     }
-  }, [userDetails]);
+  }, [userDetails, userAddress]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
