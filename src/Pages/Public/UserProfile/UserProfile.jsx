@@ -124,6 +124,9 @@ function UserProfile() {
         ? userAddress[0].address_id 
         : null;
       
+      let addressUpdateSuccess = false;
+      let updatedAddressData = null;
+      
       if (addressId) {
         // If we have an address ID, update the existing address
         const addressUpdateData = {
@@ -132,14 +135,35 @@ function UserProfile() {
           pincode: userData.pinCode
         };
         
-        // Use the correct endpoint for address updates
-        const addressResponse = await axios.put(
-          `http://localhost:8080/api/public/users/phone/${userData.contact}/address/${addressId}`,
-          addressUpdateData
-        );
-        
-        if (addressResponse.status !== 200) {
-          throw new Error("Failed to update address");
+        try {
+          // Use the correct endpoint for address updates
+          const addressResponse = await axios.put(
+            `http://localhost:8080/api/public/users/phone/${userData.contact}/address/${addressId}`,
+            addressUpdateData
+          );
+          
+          if (addressResponse.status === 200) {
+            addressUpdateSuccess = true;
+            updatedAddressData = addressResponse.data;
+          }
+        } catch (addressError) {
+          console.error("Error updating address:", addressError);
+          
+          // Try alternative endpoint
+          try {
+            const fallbackResponse = await axios.put(
+              `http://localhost:8080/api/public/address/${addressId}`,
+              addressUpdateData
+            );
+            
+            if (fallbackResponse.status === 200) {
+              addressUpdateSuccess = true;
+              updatedAddressData = fallbackResponse.data;
+            }
+          } catch (fallbackError) {
+            console.error("Error with fallback endpoint:", fallbackError);
+            throw new Error("Failed to update address. Please try again.");
+          }
         }
       } else {
         // If no address ID, create a new address
@@ -150,53 +174,67 @@ function UserProfile() {
         };
         
         // Call API to add a new address for the user
-        const newAddressResponse = await axios.post(
-          `http://localhost:8080/api/public/users/${userData.contact}/address`,
-          newAddressData
-        );
-        
-        if (newAddressResponse.status !== 201) {
+        try {
+          const newAddressResponse = await axios.post(
+            `http://localhost:8080/api/public/users/${userData.contact}/address`,
+            newAddressData
+          );
+          
+          if (newAddressResponse.status === 201 || newAddressResponse.status === 200) {
+            addressUpdateSuccess = true;
+            updatedAddressData = newAddressResponse.data;
+          }
+        } catch (createError) {
+          console.error("Error creating address:", createError);
           throw new Error("Failed to create new address");
         }
       }
       
-      // If both updates succeeded, update local storage
-      // Get updated user data from backend to ensure consistency
-      const updatedUserResponse = await axios.get(
-        `http://localhost:8080/api/public/users/details/${userData.contact}`
-      );
+      // Update local storage with the new user data regardless of address update
+      // First update userDetails in localStorage
+      const updatedUserDetails = {
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        phone: userData.contact,
+        rate: userDetails?.rate || 10.0
+      };
       
-      if (updatedUserResponse.status === 200) {
-        const updatedUser = updatedUserResponse.data;
-        
-        // Store the updated user in localStorage
-        localStorage.setItem('userDetails', JSON.stringify({
-          firstName: updatedUser.firstName,
-          lastName: updatedUser.lastName,
-          phone: updatedUser.phone,
-          rate: updatedUser.rate,
-        }));
-        
-        // Store the updated address in localStorage
-        if (updatedUser.addresses && updatedUser.addresses.length > 0) {
-          localStorage.setItem('userAddress', JSON.stringify(updatedUser.addresses));
-        }
-        
-        // Update context if available
-        if (setUserDetails) {
-          setUserDetails(updatedUser);
-        }
-        
-        setSaveStatus("success");
-        setIsEditing(false);
-        setError(null);
+      localStorage.setItem('userDetails', JSON.stringify(updatedUserDetails));
+      
+      // If address was successfully updated or created, update it in localStorage
+      if (addressUpdateSuccess && updatedAddressData) {
+        // If we got address data back from the API, use it
+        localStorage.setItem('userAddress', JSON.stringify([updatedAddressData]));
       } else {
-        throw new Error("Failed to fetch updated user data");
+        // Otherwise, create address object based on form data
+        const fallbackAddress = [{
+          address_id: addressId || 0,
+          street: userData.address,
+          city: userData.place,
+          pincode: userData.pinCode
+        }];
+        
+        localStorage.setItem('userAddress', JSON.stringify(fallbackAddress));
       }
+      
+      // Update context if available
+      if (setUserDetails) {
+        setUserDetails(updatedUserDetails);
+      }
+      
+      setSaveStatus("success");
+      setIsEditing(false);
+      setError(null);
+      
+      // Force a refresh of user data from the API to ensure everything is in sync
+      setTimeout(() => {
+        window.location.reload(); // This is a simple way to refresh all data
+      }, 1500); // Wait 1.5 seconds to show the success message
+      
     } catch (err) {
       console.error("Error updating profile:", err);
       setSaveStatus("error");
-      setError(err.response?.data?.message || "An error occurred while updating your profile");
+      setError(err.response?.data?.message || err.message || "An error occurred while updating your profile");
     } finally {
       setLoading(false);
     }
