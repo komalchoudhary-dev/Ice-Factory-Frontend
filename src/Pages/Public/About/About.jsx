@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./about.css";
-
+import muzaf from "../../../assets/Muzaffarpur.jpg";
 export default function About() {
   const funFacts = [
     "Our factory uses energy-efficient cooling systems that reduce energy consumption by 20% compared to traditional methods.",
@@ -105,14 +105,13 @@ export default function About() {
   </div>
 
   <div className="map-container">
-    <iframe
-      title="Muzaffarpur Ice Factory Location"
-      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d28787.743562372175!2d85.36140955000001!3d26.1224707!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39ed10e6e52178c3%3A0x40fa2c496f8a0d1c!2sMuzaffarpur%2C%20Bihar!5e0!3m2!1sen!2sin!4v1685000000000!5m2!1sen!2sin"
-      allowFullScreen=""
-      loading="lazy"
-      referrerPolicy="no-referrer-when-downgrade"
-    ></iframe>
-  </div>
+  <img
+    src={muzaf}
+    alt="Muzaffarpur Ice Factory Location"
+    className="map-image"
+  />
+</div>
+
 </div>
 
      
@@ -137,21 +136,17 @@ export default function About() {
         </p>
       </div>
 
-      <div className="about-contact" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', gap: '2rem', flexWrap: 'wrap', height: '550px', }}>
-  {/* Contact Info */}
-  <div style={{ flex: '1 1 300px'}}>
+      <div className="about-contact">
+  <div className="contact-info">
     <h2>Contact Us</h2>
-    <p>Muzaffarpur, Bihar, India</p>
-    <p>For inquiries, reach out to us at:</p>
-    <p>Email: theamanyadav@gmail.com</p>
-    <p>Phone: 7808485240</p>
-
-    
+    <p>Muzaffarpur Ice Factory</p>
+    <p>Station Road, Muzaffarpur, Bihar</p>
+    <p>Phone: +91-1234567890</p>
+    <p>Email: contact@muzaffarpurice.com</p>
   </div>
 
-  {/* Embedded Google Map */}
-  <div style={{ flex: '1 1 600px', maxWidth: '650px'}}>
-  <a
+  <div className="map-wrapper">
+    <a
       href="https://www.google.com/maps/place/Muzaffarpur+Ice+Factory/@26.0458645,85.3442833,788m/data=!3m1!1e3!4m6!3m5!1s0x39ed1566059cc59f:0xb5b9b6ce25ab2322!8m2!3d26.0458652!4d85.3464713!16s%2Fg%2F11x6l52sjs?entry=ttu&g_ep=EgoyMDI1MDQwOS4wIKXMDSoASAFQAw%3D%3D"
       target="_blank"
       style={{ color: '#007bff', textDecoration: 'none' }}
@@ -169,6 +164,8 @@ export default function About() {
     ></iframe>
   </div>
 </div>
+
+
 
 
 
