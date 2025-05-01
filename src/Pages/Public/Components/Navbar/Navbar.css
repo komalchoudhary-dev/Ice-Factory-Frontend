@@ -80,7 +80,7 @@
 }
 
 .navbar-center {
-  flex: 2;
+  flex: 1;
   display: flex;
   justify-content: right;
 }
@@ -191,8 +191,8 @@
 /* Authentication buttons */
 .navbar-auth {
   display: flex;
-  align-items: right;
-  flex: 1;
+  align-items: center;
+  flex: 0 0 auto;
   justify-content: flex-end;
 }
 
@@ -279,6 +279,184 @@
   border-radius: 5px;
 }
 
+/* Keep existing CSS variables and base styles */
+/* Add these new styles for user dropdown */
+
+/* User dropdown styling */
+.user-dropdown-container {
+  position: relative;
+  padding: 0 0 0 1rem;
+}
+
+.user-icon-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.user-icon-button:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.user-icon {
+  width: 22px;
+  height: 22px;
+  object-fit: cover;
+  opacity: 0;
+  position: absolute;
+}
+
+.user-icon-text {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--white);
+}
+
+.user-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 240px;
+  background-color: var(--white);
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  z-index: 1000;
+}
+
+.user-dropdown.active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.dropdown-user-info {
+  padding: 16px;
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-dark-blue) 100%);
+  color: var(--white);
+  position: relative;
+}
+
+.dropdown-user-name {
+  display: block;
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 4px;
+}
+
+.dropdown-user-phone {
+  display: block;
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.dropdown-divider {
+  height: 1px;
+  background-color: var(--gray-200);
+  margin: 0;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--gray-800);
+  font-weight: 500;
+}
+
+.dropdown-item:hover {
+  background-color: var(--gray-100);
+}
+
+.dropdown-icon {
+  width: 18px;
+  height: 18px;
+  margin-right: 12px;
+  opacity: 0.7;
+}
+
+/* Add a subtle arrow to the dropdown */
+.user-dropdown::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  right: 16px;
+  width: 16px;
+  height: 16px;
+  background-color: var(--primary-blue);
+  transform: rotate(45deg);
+  z-index: -1;
+}
+
+/* Enhanced responsive styles */
+@media (max-width: 768px) {
+}
+
+@media (max-width: 768px) {
+  .user-dropdown {
+    position: fixed;
+    top: 65px;
+    right: 16px;
+    width: calc(100% - 32px);
+    max-width: 300px;
+  }
+  
+  .user-dropdown::before {
+    right: 18px;
+  }
+}
+
+@media (max-width: 576px) {
+  .user-icon-button {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .user-icon-text {
+    font-size: 1rem;
+  }
+  
+  .dropdown-user-name {
+    font-size: 1rem;
+  }
+  
+  .dropdown-user-phone {
+    font-size: 0.8rem;
+  }
+  
+  .dropdown-item {
+    padding: 10px 16px;
+    font-size: 0.9rem;
+  }
+  
+  .user-dropdown {
+    width: calc(100% - 32px);
+    max-width: 280px;
+  }
+}
+
 /* Responsive design */
 @media (max-width: 1100px) {
   .navbar-links {
@@ -294,6 +472,10 @@
   .auth-button {
     padding: 0.5rem 1rem;
     font-size: 0.8rem;
+  }
+  .navbar-center {
+    flex: 1;
+    justify-content: center;
   }
 }
 
