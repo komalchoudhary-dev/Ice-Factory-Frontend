@@ -54,7 +54,7 @@ body {
   padding: 0;
   overflow: hidden;
   opacity: 0.92;
-  filter: brightness(1.1)
+  filter: brightness(1.3)
 }
 
 .hero-background {
@@ -212,7 +212,7 @@ body {
 
 .hero-content.split-layout .cta-button {
   font-size: 1.5rem;
-  padding: 1.25rem 4rem;
+  padding: 1.25rem 2rem;
   white-space: nowrap;
 }
 
@@ -267,16 +267,19 @@ body {
   width: 100%;
   margin-left: auto;
   margin-right: auto;
+  filter: brightness(1.8);
   z-index: 1;
 }
 
 .feature-card {
   flex: 1;
+  min-width: 270px;
+  max-width: 30%;
   padding: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start; /* Ensure content is aligned at the top */
   border-radius: 8px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
   text-align: center;
@@ -284,7 +287,6 @@ body {
   color: var(--gray-800);
   background-color: rgba(255, 255, 255, 0);
 }
-
 .feature-card:hover {
   transform: translateY(-10px);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
@@ -298,12 +300,13 @@ body {
   margin: 0 auto 1.5rem;
   display: block;
   object-fit: contain;
+  margin-bottom: 1rem; /* Add space between icon and title */
 }
 
 .feature-title {
   font-size: 1.5rem;
   margin-bottom: 1rem;
-  color: var(--gray-800);
+  color: rgba(0, 0, 0, 0.7);
   text-align: center;
   width: 100%;
 }
@@ -311,9 +314,10 @@ body {
 .feature-description {
   font-size: 1rem;
   line-height: 1.6;
-  color: var(--gray-600);
+  color: rgba(0, 0, 0, 0.65);
   text-align: center;
   width: 100%;
+  margin-top: 1rem; /* Add space between description and title */
 }
 
 /* Media Queries for Responsiveness */
@@ -511,7 +515,7 @@ body {
 
 .home-navbar .navbar-brand {
   font-family: 'DM Serif Text', serif;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: 500;
   color: var(--white);
   white-space: nowrap;

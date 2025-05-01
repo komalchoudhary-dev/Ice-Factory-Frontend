@@ -79,6 +79,7 @@ export default function About() {
         <p>Your trusted source for quality ice in Muzaffarpur.</p>
       </div>
 
+      
       <div className="about-section">
         <h2>Mission & Vision</h2>
         <p>
@@ -88,6 +89,33 @@ export default function About() {
           committed to excellence and customer satisfaction.
         </p>
       </div>
+      <div className="services-map-section">
+  <div className="text-content">
+    <h2>Visit Us or Request a Service</h2>
+    <p>
+      Our Muzaffarpur Ice Factory offers bulk and retail ice delivery, cold storage options,
+      and event-based ice logistics. Reach out or drop by to learn more about our offerings.
+    </p>
+    <ul>
+      <li>Packaged and Crushed Ice Supply</li>
+      <li>Event Ice Delivery Services</li>
+      <li>Emergency & On-Demand Ice Logistics</li>
+      <li>Cold Storage Facilities</li>
+    </ul>
+  </div>
+
+  <div className="map-container">
+    <iframe
+      title="Muzaffarpur Ice Factory Location"
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d28787.743562372175!2d85.36140955000001!3d26.1224707!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39ed10e6e52178c3%3A0x40fa2c496f8a0d1c!2sMuzaffarpur%2C%20Bihar!5e0!3m2!1sen!2sin!4v1685000000000!5m2!1sen!2sin"
+      allowFullScreen=""
+      loading="lazy"
+      referrerPolicy="no-referrer-when-downgrade"
+    ></iframe>
+  </div>
+</div>
+
+     
 
       <div className="about-section">
         <h2>History of Muzaffarpur Ice Factory</h2>
@@ -122,7 +150,7 @@ export default function About() {
   </div>
 
   {/* Embedded Google Map */}
-  <div style={{ flex: '1 1 600px', maxWidth: '750px' }}>
+  <div style={{ flex: '1 1 600px', maxWidth: '650px'}}>
   <a
       href="https://www.google.com/maps/place/Muzaffarpur+Ice+Factory/@26.0458645,85.3442833,788m/data=!3m1!1e3!4m6!3m5!1s0x39ed1566059cc59f:0xb5b9b6ce25ab2322!8m2!3d26.0458652!4d85.3464713!16s%2Fg%2F11x6l52sjs?entry=ttu&g_ep=EgoyMDI1MDQwOS4wIKXMDSoASAFQAw%3D%3D"
       target="_blank"
