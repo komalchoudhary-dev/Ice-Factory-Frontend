@@ -316,22 +316,28 @@
   }
   
   .services-map-section .map-container {
-    width: 100%;
-    height: 200px;
+    width: 100%; /* Ensure it takes the full width of its container */
+    height: 200px; /* Default height */
+    position: relative; /* Needed for responsive iframe */
+    overflow: hidden; /* Hide overflow if any */
   }
   
   @media (min-width: 1024px) {
     .services-map-section .map-container {
-      width: 40%;
+      width: 40%; /* Adjust width on larger screens */
       height: 220px;
     }
   }
   
   .services-map-section iframe {
-    width: 100%;
-    height: 100%;
+    width: 100%; /* Ensure the iframe takes the full width of its container */
+    height: 100%; /* Make sure the height is 100% of the container */
     border: 0;
+    position: absolute; /* Allow the iframe to fill the container */
+    top: 0;
+    left: 0;
   }
+  
   .about-contact {
     display: flex;
     flex-direction: column;
