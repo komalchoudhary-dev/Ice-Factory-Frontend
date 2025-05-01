@@ -256,9 +256,9 @@ const Order = () => {
                   
                   <div className="order-info">
                   
-                    <p>Orders placed: <strong>{totalOrdersForDate}</strong> blocks</p>
-                    <p>Available: <strong>{availableBlocks}</strong> blocks</p> 
-                    <p>Capacity: <strong>{dailyCapacity}</strong> blocks</p>
+                    <p>Orders placed:  <strong>{totalOrdersForDate}</strong> blocks</p>
+                    <p>Available:  <strong>{availableBlocks}</strong> blocks</p> 
+                    <p>Capacity:  <strong>{dailyCapacity}</strong> blocks</p>
                   </div>
                 </div>
               </div>
