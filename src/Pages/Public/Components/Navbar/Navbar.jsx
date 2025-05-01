@@ -20,7 +20,16 @@ const Navbar = () => {
 
   // Handle mobile menu toggle
   const toggleMenu = () => {
-    setMobileMenuOpen(!isMobileMenuOpen);
+    const newMenuState = !isMobileMenuOpen;
+    setMobileMenuOpen(newMenuState);
+    
+    // Toggle body class to prevent scrolling when menu is open
+    if (newMenuState) {
+      document.body.classList.add('menu-open');
+    } else {
+      document.body.classList.remove('menu-open');
+    }
+    
     // Close dropdown if mobile menu is toggled
     if (isDropdownOpen) setIsDropdownOpen(false);
   };
