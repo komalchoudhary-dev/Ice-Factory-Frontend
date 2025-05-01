@@ -103,54 +103,95 @@ function UserProfile() {
     setSaveStatus("saving");
     
     try {
-      // Create nested structure for API request
-      const updateData = {
-        user: {
-          phone: userData.contact,
-          firstName: userData.firstName,
-          lastName: userData.lastName,
-          // Keep the existing rate if available or use default
-          rate: userDetails?.rate || 10.0
-        },
-        address: {
+      // First, update the user details
+      const userUpdateData = {
+        phone: userData.contact,
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        // Keep the existing rate if available or use default
+        rate: userDetails?.rate || 10.0
+      };
+      
+      // Make API call to update user profile data
+      const userResponse = await axios.put(
+        `http://localhost:8080/api/public/users/${userData.contact}`,
+        userUpdateData
+      );
+      
+      // Then, update the user's address
+      // First, determine the address ID
+      const addressId = userAddress && Array.isArray(userAddress) && userAddress.length > 0 
+        ? userAddress[0].address_id 
+        : null;
+      
+      if (addressId) {
+        // If we have an address ID, update the existing address
+        const addressUpdateData = {
           street: userData.address,
           city: userData.place,
           pincode: userData.pinCode
-        }
-      };
-      
-      // Make API call to update user data
-      const response = await axios.put(
-        `http://localhost:8080/api/public/users/update/${userData.contact}`,
-        updateData
-      );
-      
-      if (response.status === 200) {
-        // Update local storage with new data
-        const updatedUserData = {
-          ...userDetails,
-          firstName: userData.firstName,
-          lastName: userData.lastName,
-          phone: userData.contact,
-          address: {
-            street: userData.address,
-            city: userData.place,
-            pincode: userData.pinCode
-          }
         };
         
-        localStorage.setItem('user', JSON.stringify(updatedUserData));
+        // Use the correct endpoint for address updates
+        const addressResponse = await axios.put(
+          `http://localhost:8080/api/public/users/phone/${userData.contact}/address/${addressId}`,
+          addressUpdateData
+        );
+        
+        if (addressResponse.status !== 200) {
+          throw new Error("Failed to update address");
+        }
+      } else {
+        // If no address ID, create a new address
+        const newAddressData = {
+          street: userData.address,
+          city: userData.place,
+          pincode: userData.pinCode
+        };
+        
+        // Call API to add a new address for the user
+        const newAddressResponse = await axios.post(
+          `http://localhost:8080/api/public/users/${userData.contact}/address`,
+          newAddressData
+        );
+        
+        if (newAddressResponse.status !== 201) {
+          throw new Error("Failed to create new address");
+        }
+      }
+      
+      // If both updates succeeded, update local storage
+      // Get updated user data from backend to ensure consistency
+      const updatedUserResponse = await axios.get(
+        `http://localhost:8080/api/public/users/details/${userData.contact}`
+      );
+      
+      if (updatedUserResponse.status === 200) {
+        const updatedUser = updatedUserResponse.data;
+        
+        // Store the updated user in localStorage
+        localStorage.setItem('userDetails', JSON.stringify({
+          firstName: updatedUser.firstName,
+          lastName: updatedUser.lastName,
+          phone: updatedUser.phone,
+          rate: updatedUser.rate,
+        }));
+        
+        // Store the updated address in localStorage
+        if (updatedUser.addresses && updatedUser.addresses.length > 0) {
+          localStorage.setItem('userAddress', JSON.stringify(updatedUser.addresses));
+        }
         
         // Update context if available
         if (setUserDetails) {
-          setUserDetails(updatedUserData);
+          setUserDetails(updatedUser);
         }
         
         setSaveStatus("success");
         setIsEditing(false);
+        setError(null);
       } else {
-        setSaveStatus("error");
-        setError("Failed to update profile");
+        throw new Error("Failed to fetch updated user data");
       }
     } catch (err) {
       console.error("Error updating profile:", err);
