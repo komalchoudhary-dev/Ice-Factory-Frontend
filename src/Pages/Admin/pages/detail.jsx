@@ -662,10 +662,10 @@ function Detail() {
       <Navbar />
       <div className="flex">
         <Sidebar />
-        <div className="flex flex-col w-full p-2">
+        <div className="flex flex-col w-full ">
           <div className='bg-white-200 w-full'>
             <p className='text-2xl font-bold px-4'>Delivery Date - {formattedDate}</p>
-            <div className="grid grid-cols-4 gap-8 p-4">
+            <div className="grid grid-cols-4 gap-8 px-6">
               <div className="w-64 h-16 bg-blue-500 border border-black rounded-md text-white text-center">
                 <p className="font-bold text-sm">Accepted</p>
                 {apiData.filter(item => item.status === "confirmed").length}
@@ -686,8 +686,8 @@ function Detail() {
           </div>
 
           {/* Accepted Orders Table */}
-          <h1 className="text-2xl font-bold mt-4">Order Accepted</h1>
-          <div className="overflow-x-auto rounded shadow">
+          <h1 className=" px-6 text-2xl font-bold mt-4">Order Accepted</h1>
+          <div className="  px-6 overflow-x-auto rounded shadow">
             <table className="min-w-full bg-white border border-gray-300">
               <thead className="bg-sky-200 text-black">
                 <tr>
@@ -722,8 +722,8 @@ function Detail() {
             </table>
           </div>
           {/* Accepted Rejected Table */}
-          <h1 className="text-2xl font-bold mt-6">Order Rejected</h1>
-          <div className="overflow-x-auto rounded shadow">
+          <h1 className=" px-6 text-2xl font-bold mt-6">Order Rejected</h1>
+          <div className=" px-6 overflow-x-auto rounded shadow">
             <table className="min-w-full bg-white border border-gray-300">
               <thead className="bg-sky-200 text-black">
                 <tr>
@@ -760,8 +760,8 @@ function Detail() {
           </div>
 
           {/* Pending Orders Table */}
-          <h1 className="text-2xl font-bold mt-6">Order Pending</h1>
-          <div className="overflow-x-auto rounded shadow">
+          <h1 className="px-6 text-2xl font-bold mt-6">Order Pending</h1>
+          <div className=" px-6 overflow-x-auto rounded shadow">
             <table className="min-w-full bg-white border border-gray-300">
               <thead className="bg-sky-200 text-black">
                 <tr>
