@@ -1,7 +1,8 @@
 import React from "react";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
-import Report from  "../components/report";
+//import Report from  "../components/report";
+import Report  from  "../components/pastOrder";
 
 function Prakhar() {
     return (
