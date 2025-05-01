@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./about.css";
-
+import muzaf from "../../../assets/Muzaffarpur.jpg";
 export default function About() {
   const funFacts = [
     "Our factory uses energy-efficient cooling systems that reduce energy consumption by 20% compared to traditional methods.",
@@ -79,6 +79,7 @@ export default function About() {
         <p>Your trusted source for quality ice in Muzaffarpur.</p>
       </div>
 
+      
       <div className="about-section">
         <h2>Mission & Vision</h2>
         <p>
@@ -88,6 +89,32 @@ export default function About() {
           committed to excellence and customer satisfaction.
         </p>
       </div>
+      <div className="services-map-section">
+  <div className="text-content">
+    <h2>Visit Us or Request a Service</h2>
+    <p>
+      Our Muzaffarpur Ice Factory offers bulk and retail ice delivery, cold storage options,
+      and event-based ice logistics. Reach out or drop by to learn more about our offerings.
+    </p>
+    <ul>
+      <li>Packaged and Crushed Ice Supply</li>
+      <li>Event Ice Delivery Services</li>
+      <li>Emergency & On-Demand Ice Logistics</li>
+      <li>Cold Storage Facilities</li>
+    </ul>
+  </div>
+
+  <div className="map-container">
+  <img
+    src={muzaf}
+    alt="Muzaffarpur Ice Factory Location"
+    className="map-image"
+  />
+</div>
+
+</div>
+
+     
 
       <div className="about-section">
         <h2>History of Muzaffarpur Ice Factory</h2>
@@ -109,21 +136,17 @@ export default function About() {
         </p>
       </div>
 
-      <div className="about-contact" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', gap: '2rem', flexWrap: 'wrap', height: '550px', }}>
-  {/* Contact Info */}
-  <div style={{ flex: '1 1 300px'}}>
+      <div className="about-contact">
+  <div className="contact-info">
     <h2>Contact Us</h2>
-    <p>Muzaffarpur, Bihar, India</p>
-    <p>For inquiries, reach out to us at:</p>
-    <p>Email: theamanyadav@gmail.com</p>
-    <p>Phone: 7808485240</p>
-
-    
+    <p>Muzaffarpur Ice Factory</p>
+    <p>Station Road, Muzaffarpur, Bihar</p>
+    <p>Phone: +91-1234567890</p>
+    <p>Email: contact@muzaffarpurice.com</p>
   </div>
 
-  {/* Embedded Google Map */}
-  <div style={{ flex: '1 1 600px', maxWidth: '750px' }}>
-  <a
+  <div className="map-wrapper">
+    <a
       href="https://www.google.com/maps/place/Muzaffarpur+Ice+Factory/@26.0458645,85.3442833,788m/data=!3m1!1e3!4m6!3m5!1s0x39ed1566059cc59f:0xb5b9b6ce25ab2322!8m2!3d26.0458652!4d85.3464713!16s%2Fg%2F11x6l52sjs?entry=ttu&g_ep=EgoyMDI1MDQwOS4wIKXMDSoASAFQAw%3D%3D"
       target="_blank"
       style={{ color: '#007bff', textDecoration: 'none' }}
@@ -141,6 +164,8 @@ export default function About() {
     ></iframe>
   </div>
 </div>
+
+
 
 
 

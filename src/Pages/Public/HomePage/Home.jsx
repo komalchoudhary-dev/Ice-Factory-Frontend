@@ -34,7 +34,7 @@ export const HomePage = () => {
             <div className="navbar-left">
               <Link to="/">
                 <img className="navbar-logo" alt="Winter Logo" src={winter} />
-                <div className="navbar-brand">Ice Factory</div>
+                <div className="navbar-brand">Muzaffarpur Ice</div>
               </Link>
               
               {/* Welcome message when user is logged in */}
@@ -100,7 +100,8 @@ export const HomePage = () => {
         </div>
         
         {/* Features Section - Now inside the hero section */}
-        <div className="features-section">
+        <div className="feature-section flex flex-col items-center justify-center gap-6 md:flex-row md:justify-between md:items-start">
+  {/* Cards */}
           <div className="feature-card">
             <img className="feature-icon" alt="File delivery" src={fileDelivery} />
             <h3 className="feature-title">Faster Delivery</h3>
