@@ -1,222 +1,236 @@
-
-
+/* General Page Styles */
 .about-page {
     width: 100%;
-    font-family: 'Roboto';
-    background: #F6F5F5;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    animation: fadeInPage 1.5s ease-out forwards;
+    font-family: 'Roboto', sans-serif;
+    background: #f6f5f5;
+    animation: fadeInPage 1.2s ease-out forwards;
+    padding: 5px 0px;
     position: relative;
-    overflow: hidden;
+    color: #34495e;
 }
 
+/* Header Section */
 .about-header {
     text-align: center;
-    font-weight: 500;
-    margin-bottom: 40px;
-    background-color: #F6F5F5;
-    animation: slideDownFade 1.5s ease-out forwards;
-    padding: 30px 20px;
-    color: #ffffff;
+    margin-bottom: 10px;
+    padding: 40px 20px;
+    background: linear-gradient(120deg, #4facfe 0%, #00f2fe 100%);
+    border-radius: 0px;
+    color: white;
+    animation: slideDownFade 1s ease-out forwards;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
 .about-header h1 {
-    color: #000000;
-    font-size: 36px;
-    margin-bottom: 15px;
-    padding: 10px 0;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    font-size: 45px;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
     animation: pulse 2s infinite alternate;
+    font-weight: 700;
 }
 
 .about-header p {
-    color: #000000;
-    font-size: 18px;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+    font-size: 20px;
+    opacity: 0.95;
+    max-width: 800px;
+    margin: 0 auto;
+    font-weight: 500;
 }
 
-.about-section {
-    margin-bottom: 40px;
-    padding: 25px;
-    background: #F6F5F5;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    animation: slideUpFade 1.2s ease-out forwards;
-    opacity: 0;
-    transform: translateY(20px);
+/* Shared Card Style */
+.about-section,
+.about-contact,
+.services-map-section {
+    background: white;
+    border-radius: 0px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.07);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: slideUpFade 1.2s ease-out forwards;
+    transform: translateY(20px);
+    opacity: 0;
 }
-
-.about-section:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
-}
-
-.about-section h2 {
+.founder-title {
+    font-size: 17px;
+    font-weight: 550;
     color: #1e3799;
+    margin-top: 37px;
+    margin-bottom: 15px;
+}
+
+
+.about-section:hover,
+.about-contact:hover,
+.services-map-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12);
+}
+
+.about-section h2,
+.about-contact h2,
+.services-map-section h2 {
+    font-size: 28px;
+    color: #1e3799;
+    margin-bottom: 16px;
+    font-weight: 600;
+}
+
+.about-section p,
+.about-contact p,
+.services-map-section p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: #34495e;
+    font-weight: 400;
+}
+
+/* Fun Facts & Testimonials Section */
+.about-extras {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: space-between;
+    margin-top: 40px;
+}
+
+.about-fun-fact,
+.about-testimonial {
+    flex: 1 1 300px;
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.07);
+    animation: slideUpFade 1.2s ease-out forwards;
+}
+
+.about-fun-fact {
+    background: #fff3e6;
+}
+
+.about-testimonial {
+    background: #d9f3db;
+}
+
+.about-fun-fact h3,
+.about-testimonial h3 {
     font-size: 24px;
-    margin-bottom: 12px;
+    margin-bottom: 15px;
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+/* Fun Fact Icon */
+.about-fun-fact i,
+.about-testimonial i {
+    font-size: 40px;
+    margin-bottom: 15px;
+    color: #e67e22;
+}
+
+.fun-fact-text,
+.testimonial-text {
+    font-size: 16px;
+    font-style: italic;
+    animation: fadeInOut 3s ease-in-out infinite;
+    color: inherit;
+}
+
+/* Fun Fact Icons */
+.about-fun-fact i {
+    color: #e67e22;
+}
+
+.about-testimonial i {
+    color: #2e7d32;
+}
+
+/* Map + Services Layout */
+.services-map-section {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.services-map-section .text-content {
+    width: 100%;
+}
+
+.services-map-section .text-content ul {
+    padding-left: 1.5rem;
+    color: #34495e;
+    font-size: 16px;
+}
+
+.services-map-section ul li {
+    margin-bottom: 0.5rem;
+}
+
+.services-map-section .map-container {
+    width: 100%;
+    height: 250px;
+    border-radius: 12px;
+    overflow: hidden;
     position: relative;
 }
 
-.about-section p {
-    color: #34495e;
-    line-height: 1.6;
-    font-size: 16px;
+.services-map-section iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
+/* Contact + Map */
 .about-contact {
-    margin-top: 40px;
-    padding: 25px;
-    background: #F6F5F5;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    animation: slideUpFade 1.4s ease-out forwards;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.about-contact:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
-}
-
-.about-contact h2 {
-    color: #1e3799;
-    font-size: 22px;
-    margin-bottom: 10px;
-}
-
-.about-contact p {
-    color: #2c3e50;
-    font-size: 16px;
-    margin: 4px 0;
-}
-
-/* Fun Fact Section */
-/*.about-fun-fact {
-    margin-top: 30px;
-    padding: 20px;
-    background: #fff3e6;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    text-align: center;
-}
-
-.about-fun-fact h3 {
-    color: #e67e22;
-    font-size: 20px;
-    margin-bottom: 10px;
-}
-
-.about-fun-fact .fun-fact-text {
-    color: #7f462c;
-    font-size: 16px;
-    font-style: italic;
-    opacity: 0;
-    animation: fadeInOut 3s ease infinite;
-}
-
-/* Testimonial Section */
-/*.about-testimonial {
-    margin-top: 30px;
-    padding: 20px;
-    background: #d9f3db;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    text-align: center;
-}
-
-.about-testimonial h3 {
-    color: #2e7d32;
-    font-size: 20px;
-    margin-bottom: 10px;
-}
-
-.about-testimonial .testimonial-text {
-    color: #1b5e20;
-    font-size: 16px;
-    font-style: italic;
-    opacity: 0;
-    animation: fadeInOut 3s ease infinite;
-}*/
-.about-extras {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 2rem;
-    margin-top: 40px;
-  }
-  
-  /* Shared Card Style */
-  .about-fun-fact,
-  .about-testimonial {
-    flex: 1 1 300px;
-    padding: 20px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    text-align: center;
-    border-radius: 10px;
-  }
-  
-  /* Fun Facts Styling */
-  .about-fun-fact {
-    background: #fff3e6;
-  }
-  
-  .about-fun-fact h3 {
-    color: #e67e22;
-    font-size: 22px;
-    margin-bottom: 10px;
-  }
-  
-  .about-fun-fact .fun-fact-text {
-    color: #7f462c;
-    font-size: 16px;
-    font-style: italic;
-    opacity: 0;
-    animation: fadeInOut 3s ease-in-out infinite;
-  }
-  
-  /* Testimonials Styling */
-  .about-testimonial {
-    background: #d9f3db;
-  }
-  
-  .about-testimonial h3 {
-    color: #2e7d32;
-    font-size: 22px;
-    margin-bottom: 10px;
-  }
-  
-  .about-testimonial .testimonial-text {
-    color: #1b5e20;
-    font-size: 16px;
-    font-style: italic;
-    opacity: 0;
-    animation: fadeInOut 3s ease-in-out infinite;
-  }
-  @media (max-width: 768px) {
-    .about-extras {
-      flex-direction: column; /* Stack the cards vertically */
-      gap: 1rem; /* Reduced space between stacked items */
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.about-contact .map-wrapper iframe {
+    width: 100%;
+    height: 260px;
+    border-radius: 12px;
+}
+
+/* Responsive Adjustments */
+@media (min-width: 768px) {
+    .about-contact {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
     }
-  
-    .about-fun-fact,
-    .about-testimonial {
-      flex: 1 1 100%; /* Ensure each card takes up the full width of the container */
+    .about-contact .contact-info {
+        width: 55%;
     }
-  }
-  
-  
-  /* Fade animation */
-  @keyframes fadeInOut {
-    0% { opacity: 0; }
-    20% { opacity: 1; }
-    80% { opacity: 1; }
-    100% { opacity: 0; }
-  }
-  
+    .about-contact .map-wrapper {
+        width: 40%;
+    }
+}
+
+@media (min-width: 1024px) {
+    .services-map-section {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .services-map-section .text-content {
+        width: 55%;
+    }
+
+    .services-map-section .map-container {
+        width: 40%;
+        height: 240px;
+    }
+}
+
 /* Animations */
 @keyframes fadeInPage {
-    0% { opacity: 0; transform: scale(0.98); }
+    0% { opacity: 0; transform: scale(0.97); }
     100% { opacity: 1; transform: scale(1); }
 }
 
@@ -236,134 +250,7 @@
 
 @keyframes fadeInOut {
     0% { opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
+    15% { opacity: 1; }
+    85% { opacity: 1; }
     100% { opacity: 0; }
 }
-
-@media (max-width: 768px) {
-    .about-page { padding: 20px; margin: 30px auto; }
-    .about-header h1 { font-size: 28px; }
-    .about-section h2,
-    .about-contact h2,
-    .about-fun-fact h3,
-    .about-testimonial h3 { font-size: 20px; }
-    .about-section p,
-    .about-contact p,
-    .about-fun-fact p,
-    .about-testimonial p { font-size: 14px; }
-}
-.services-map-section {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    padding: 25px;
-    background: #F6F5F5;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    animation: slideUpFade 1.2s ease-out forwards;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    margin-bottom: 40px;
-  }
-  
-  .services-map-section:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
-  }
-  
-  @media (min-width: 1024px) {
-    .services-map-section {
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-    }
-  }
-  
-  .services-map-section .text-content {
-    width: 100%;
-  }
-  
-  @media (min-width: 1024px) {
-    .services-map-section .text-content {
-      width: 50%;
-    }
-  }
-  
-  .services-map-section .text-content h2 {
-    color: #1e3799;
-    font-size: 24px;
-    margin-bottom: 12px;
-    position: relative;
-  }
-  
-  .services-map-section .text-content p {
-    color: #34495e;
-    line-height: 1.6;
-    font-size: 16px;
-    margin-bottom: 1rem;
-  }
-  
-  .services-map-section .text-content ul {
-    list-style-type: disc;
-    padding-left: 1.5rem;
-    color: #34495e;
-    font-size: 16px;
-  }
-  
-  .services-map-section .text-content ul li {
-    margin-bottom: 0.5rem;
-  }
-  
-  .services-map-section .map-container {
-    width: 100%; /* Ensure it takes the full width of its container */
-    height: 200px; /* Default height */
-    position: relative; /* Needed for responsive iframe */
-    overflow: hidden; /* Hide overflow if any */
-  }
-  
-  @media (min-width: 1024px) {
-    .services-map-section .map-container {
-      width: 40%; /* Adjust width on larger screens */
-      height: 220px;
-    }
-  }
-  
-  .services-map-section iframe {
-    width: 100%; /* Ensure the iframe takes the full width of its container */
-    height: 100%; /* Make sure the height is 100% of the container */
-    border: 0;
-    position: absolute; /* Allow the iframe to fill the container */
-    top: 0;
-    left: 0;
-  }
-  
-  .about-contact {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-  
-  @media (min-width: 768px) {
-    .about-contact {
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: flex-start;
-    }
-  
-    .about-contact .contact-info {
-      width: 55%;
-    }
-  
-    .about-contact .map-wrapper {
-      width: 40%;
-    }
-  
-    .about-contact .map-wrapper iframe {
-      width: 100%;
-      height: 300px;
-    }
-  }
-  
-  
-  

@@ -81,14 +81,33 @@ export default function About() {
 
       
       <div className="about-section">
-        <h2>Mission & Vision</h2>
-        <p>
-          Our mission is to provide high-quality ice products while maintaining
-          environmental sustainability and contributing to the local economy.
-          We envision becoming the leading ice manufacturer in the region,
-          committed to excellence and customer satisfaction.
-        </p>
-      </div>
+  <h2>Mission & Vision</h2>
+  <p>
+    At Muzaffarpur Ice Factory, our mission is to deliver top-quality ice while promoting
+    sustainability and uplifting the local economy. We envision becoming the most trusted
+    ice manufacturer in the region, defined by innovation, hygiene, and customer satisfaction.
+  </p>
+  <h3 className="founder-title">A Message from the Founder</h3>
+
+  <p>
+    When I laid the foundation of Muzaffarpur Ice Factory in 2022, it was more than just a business
+    venture — it was a tribute to my hometown. Though my academic journey took me to Calcutta University,
+    my heart always remained in Muzaffarpur. This factory is a symbol of giving back to the community
+    that shaped me.
+  </p>
+  <p>
+    Ice may seem simple, but it preserves, protects, and empowers. Our promise is that every block
+    of ice we produce carries the spirit of Muzaffarpur: purity, resilience, and trust. Through challenges
+    and growth, we’ve stayed rooted in our values of integrity and service, and we continue to embrace
+    eco-friendly practices for a sustainable future.
+  </p>
+  <p>
+    Thank you to everyone who’s supported this journey. We’re just getting started — and with your
+    continued trust, we’ll keep building a colder, cleaner, and stronger future for our region.
+  </p>
+  <p><strong>— Aman Prasad Yadav, Founder<br />Muzaffarpur Ice Factory</strong></p>
+</div>
+
       <div className="services-map-section">
   <div className="text-content">
     <h2>Visit Us or Request a Service</h2>
@@ -136,7 +155,8 @@ export default function About() {
         </p>
       </div>
 
-      <div className="about-contact">
+
+     <div className="about-contact">
   <div className="contact-info">
     <h2>Contact Us</h2>
     <p>Muzaffarpur Ice Factory</p>
