@@ -6,11 +6,11 @@ import fileDelivery from "/ImagePool/file-delivery.png";
 import lockOpen from "/ImagePool/lock-open.png";
 import unsplashXnzrf6Rrkm4 from "/ImagePool/unsplash-xnzrf6rrkm4.png";
 import winter from "/ImagePool/winter.png";
-import Navbar from '../Components/Navbar/Navbar.jsx';
 import './HomePage.css';
 import logoutIcon from "/ImagePool/lock-open.png"; 
 import './Home.css';
 import profileIcon from "../../../assets/profile.png"; // Adjust the path as needed
+import Navbar from "./Navbar.jsx"
 
 export const HomePage = () => {
   const { userPhone, userDetails, logout } = useContext(UserContext);
@@ -28,8 +28,8 @@ export const HomePage = () => {
       {/* Hero Section with full-screen background */}
       <div className="hero-section">
         <img className="hero-background" alt="Ice Factory Background" src={unsplashXnzrf6Rrkm4} />
-        
-        <nav className="navbar home-navbar">
+        <Navbar />
+        {/* <nav className="navbar home-navbar">
           <div className="navbar-container">
             <div className="navbar-left">
               <Link to="/">
@@ -37,7 +37,7 @@ export const HomePage = () => {
                 <div className="navbar-brand">Muzaffarpur Ice</div>
               </Link>
               
-              {/* Welcome message when user is logged in */}
+            
               {userPhone && userDetails?.firstName && (
                 <div className="welcome-message">
                   Welcome, {userDetails.firstName}!
@@ -80,7 +80,7 @@ export const HomePage = () => {
               <span className="bar"></span>
             </div>
           </div>
-        </nav>
+        </nav> */}
         
         <div className="hero-content split-layout">
           <div className="hero-text">

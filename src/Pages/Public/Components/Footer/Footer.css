@@ -22,7 +22,7 @@
 .footer-section {
   flex: 1;
   min-width: 250px;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   padding-right: 2rem;
 }
 
@@ -171,8 +171,8 @@
 /* Footer bottom */
 .footer-bottom {
   text-align: center;
-  padding-top: 2rem;
-  margin-top: 2rem;
+  padding-top: 1rem;
+  margin-top: 0rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   font-size: 0.9rem;
   color: rgba(255, 255, 255, 0.7);
