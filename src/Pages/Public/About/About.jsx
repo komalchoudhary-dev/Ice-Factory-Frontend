@@ -124,13 +124,12 @@ export default function About() {
   </div>
 
   <div className="map-container">
-  <img
-    src={muzaf}
-    alt="Muzaffarpur Ice Factory Location"
-    className="map-image"
-  />
-</div>
-
+    <img
+      src={muzaf}
+      alt="Muzaffarpur Ice Factory Location"
+      className="map-image"
+    />
+  </div>
 </div>
 
      
