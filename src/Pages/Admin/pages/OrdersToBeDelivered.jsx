@@ -140,13 +140,21 @@ function Detail() {
     getData();
   }, []);
 
-  const handleClick = () => {
-    console.log("Delivered!");
-  };
+ 
   const cnt =1;
   const ptr=1;
   
-
+  const handleClick = async (orderId) => {
+      const confirmed = window.confirm("Are you sure you want to confirm  this delivery?");
+      if (!confirmed) return;
+  
+      try {
+        await axios.put(`http://localhost:8080/api/public/orders/status/${orderId}/delivered`);
+        getData();
+      } catch (error) {
+        console.error("Error accepting order:", error);
+      }
+    };
  
 
 
