@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { UserContext } from '../../../UserContext.jsx';
-import winter from "/ImagePool/winter.png";
+import logo from "../../../assets/mfpLogo.png";
 import lockOpen from "/ImagePool/lock-open.png";
 import userIcon from "../../../assets/person.png";
 import logoutIcon from "/ImagePool/lock-open.png";
@@ -90,8 +90,8 @@ const Navbar = () => {
       <div className="navbar-container">
         <div className="navbar-left">
           <Link to="/">
-            <img className="navbar-logo" alt="Winter Logo" src={winter} />
-            <div className="navbar-brand">Ice Factory</div>
+            <img className="navbar-logo" alt="Winter Logo" src={logo} />
+            <div className="navbar-brand">Muzaffarpur Ice</div>
           </Link>
           
           {/* Welcome message when user is logged in - hidden on mobile */}

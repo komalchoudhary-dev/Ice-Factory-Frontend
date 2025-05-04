@@ -74,8 +74,14 @@
 }
 
 .navbar-logo {
-  height: 2.5rem;
-  margin-right: 0.75rem;
+  /*height: 2.5rem;
+  margin-right: 0.75rem;*/
+  width: 40px;       /* or any desired size */
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;  /* Ensures it fills the circle without distortion */
+  border: 0px solid #fff; /* Optional: adds a border around the circle */
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
 }
 
 .navbar-brand {
