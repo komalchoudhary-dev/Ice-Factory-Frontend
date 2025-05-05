@@ -123,7 +123,7 @@ export const HomePage = () => {
             <img className="feature-icon" alt="File delivery" src={fileDelivery} />
             <h3 className="feature-title">Quality Guarantee</h3>
             <p className="feature-description">
-              We ensure the highest quality ice products for all your cooling needs
+              We ensure the highest quality ice products for all your cooling needs  <br />
             </p>
           </div>
         </div>
