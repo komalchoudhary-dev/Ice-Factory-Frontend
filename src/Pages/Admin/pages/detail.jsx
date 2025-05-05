@@ -954,7 +954,7 @@ function Detail() {
         amt += apiData[i].quantity;
       }
     }
-    return 1400 - amt;
+    return 1200 - amt;
   };
 
   return (
@@ -1189,3 +1189,8 @@ function Detail() {
 }
 
 export default Detail;
+
+
+
+
+
