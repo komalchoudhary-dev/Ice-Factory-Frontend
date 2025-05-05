@@ -51,15 +51,6 @@ const Footer = () => {
           </ul>
         </div>
         
-        <div className="footer-section links">
-          <h4>Customer Support</h4>
-          <ul>
-            <li><Link to="/order-history">Order History</Link></li>
-            <li><Link to="/faq">FAQ</Link></li>
-            <li><Link to="/terms">Terms of Service</Link></li>
-            <li><Link to="/privacy">Privacy Policy</Link></li>
-          </ul>
-        </div>
         
         <div className="footer-section contact-info">
           <h4>Contact Us</h4>
