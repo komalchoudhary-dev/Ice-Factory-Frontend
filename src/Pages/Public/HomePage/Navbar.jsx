@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { UserContext } from '../../../UserContext.jsx';
-import winter from "/ImagePool/winter.png";
+import logo from "../../../assets/mfpLogo.png";
 import lockOpen from "/ImagePool/lock-open.png";
 import userIcon from "../../../assets/person.png";
 import logoutIcon from "/ImagePool/lock-open.png";
@@ -81,6 +81,32 @@ const Navbar = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  const scrollToAbout = (e) => {
+  e.preventDefault();
+  setMobileMenuOpen(false);
+  
+  const aboutSection = document.getElementById('about-section');
+  if (aboutSection) {
+    aboutSection.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+  }
+};
+const scrollToContact = (e) => {
+  e.preventDefault();
+  setMobileMenuOpen(false);
+  
+  const contactSection = document.getElementById('contact-section');
+  if (contactSection) {
+    contactSection.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+  }
+};
+
   
   // Get first name if user is logged in
   const firstName = userDetails?.firstName || '';
@@ -90,8 +116,8 @@ const Navbar = () => {
       <div className="navbar-container">
         <div className="navbar-left">
           <Link to="/">
-            <img className="navbar-logo" alt="Winter Logo" src={winter} />
-            <div className="navbar-brand">Ice Factory</div>
+            <img className="navbar-logo" alt="Winter Logo" src={logo} />
+            <div className="navbar-brand">Muzaffarpur Ice</div>
           </Link>
           
           {/* Welcome message when user is logged in - hidden on mobile */}
@@ -110,33 +136,35 @@ const Navbar = () => {
             >
               HOME
             </Link>
-            <Link to="/about" 
+            <a 
+              href="#about-section" 
               className={location.pathname === '/about' ? 'nav-link active' : 'nav-link'}
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={scrollToAbout}
             >
               ABOUT
-            </Link>
-            <Link to="/orders" 
-              className={location.pathname.includes('/order') && !location.pathname.includes('/order-history') ? 'nav-link active' : 'nav-link'}
+            </a>
+                  <Link to="/orders" 
+            className={location.pathname.includes('/order') && !location.pathname.includes('/order-history') ? 'nav-link active' : 'nav-link'}
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            ORDER
+          </Link>
+          {/* Only show History link for logged-in users */}
+          {userPhone && (
+            <Link to="/order-history" 
+              className={location.pathname === '/order-history' ? 'nav-link active' : 'nav-link'}
               onClick={() => setMobileMenuOpen(false)}
             >
-              ORDER
+              HISTORY
             </Link>
-            {/* Only show History link for logged-in users */}
-            {userPhone && (
-              <Link to="/order-history" 
-                className={location.pathname === '/order-history' ? 'nav-link active' : 'nav-link'}
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                HISTORY
-              </Link>
             )}
-            <Link to="/contact" 
+            <a 
+              href="#contact-section" 
               className={location.pathname === '/contact' ? 'nav-link active' : 'nav-link'}
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={scrollToContact}
             >
               CONTACT
-            </Link>
+            </a>
           </div>
         </div>
         

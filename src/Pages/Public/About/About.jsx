@@ -108,7 +108,7 @@ export default function About() {
   <p><strong>— Aman Prasad Yadav, Founder<br />Muzaffarpur Ice Factory</strong></p>
 </div>
 
-      <div className="services-map-section">
+      <div className="aboutt-section">
   <div className="text-content">
     <h2>Visit Us or Request a Service</h2>
     <p>
@@ -124,13 +124,12 @@ export default function About() {
   </div>
 
   <div className="map-container">
-  <img
-    src={muzaf}
-    alt="Muzaffarpur Ice Factory Location"
-    className="map-image"
-  />
-</div>
-
+    <img
+      src={muzaf}
+      alt="Muzaffarpur Ice Factory Location"
+      className="map-image"
+    />
+  </div>
 </div>
 
      
@@ -145,7 +144,7 @@ export default function About() {
         </p>
       </div>
 
-      <div className="about-section">
+      <div className="aboutf-section">
         <h2>Factory Infrastructure</h2>
         <p>
           Our factory is equipped with modern machinery and cooling systems,

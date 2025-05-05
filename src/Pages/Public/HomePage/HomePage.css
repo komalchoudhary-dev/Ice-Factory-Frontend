@@ -180,7 +180,7 @@ body {
   align-items: center;
   max-width: 1200px;
   width: 100%;
-  padding: 6rem 4rem 3rem;
+  padding: 6rem 3rem 6rem;
   margin: 0 auto;
   text-align: left;
   flex: 1;
@@ -192,10 +192,7 @@ body {
 }
 
 .hero-action {
-  flex: 0 1 40%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  flex: 0 0 auto;
 }
 
 .hero-content.split-layout .hero-title {
@@ -219,7 +216,7 @@ body {
 .hero-title {
   font-size: 3rem;
   font-weight: 700;
-  margin-top: 4rem;
+  margin-top: 10rem;
   margin-bottom: 3rem;
   margin-right: 3rem;
   line-height: 1.2;
@@ -227,14 +224,15 @@ body {
 }
 
 .hero-description {
-  font-size: 1.2rem;
+  flex: 1;
+  margin: 0;
+  font-size: 1.1rem;
   line-height: 1.6;
-  margin-top: 2.5rem;
-  margin-bottom: 2.5rem;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .cta-button {
+  white-space: nowrap;
   display: inline-block;
   padding: 1rem 2.5rem;
   background-color: #FFFFFF;
@@ -320,7 +318,88 @@ body {
   margin-top: 1rem; /* Add space between description and title */
 }
 
+/* Content Row Styles */
+.content-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 2.5rem;
+  margin-top: 2rem;
+  width: 100%;
+}
+
+/* Features Section Styles */
+.feature-section {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+  width: 100%;
+  max-width: 1070px;
+  margin: 3rem auto;
+  padding: 0 4rem;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.feature-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 2.5rem 2rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  height: 100%;
+  backdrop-filter: blur(8px);
+  margin: 0; /* Reset any margins */
+}
+
+/* Responsive styles for features */
+@media (max-width: 992px) {
+  .feature-section {
+    padding: 0 3rem;
+    gap: 2rem;
+  }
+
+  .feature-card {
+    padding: 2rem 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .feature-section {
+    grid-template-columns: repeat(2, minmax(250px, 1fr));
+    padding: 0 2rem;
+    gap: 1.5rem;
+    justify-items: center;
+  }
+
+  .feature-card {
+    width: 100%;
+    max-width: 350px;
+  }
+}
+
+@media (max-width: 576px) {
+  .feature-section {
+    grid-template-columns: minmax(250px, 350px);
+    padding: 0 1.5rem;
+    gap: 1.25rem;
+  }
+
+  .feature-card {
+    width: 100%;
+  }
+}
+
 /* Media Queries for Responsiveness */
+@media (max-width: 1200px) {
+  .feature-section {
+    padding: 0 3rem;
+    gap: 2rem;
+  }
+}
+
 @media (max-width: 992px) {
   .hero-content.split-layout {
     padding: 5rem 2rem 2rem;
@@ -342,6 +421,23 @@ body {
   
   .feature-card {
     min-width: calc(50% - 1rem);
+  }
+
+  .content-row {
+    gap: 2rem;
+  }
+
+  .hero-description {
+    font-size: 1rem;
+  }
+
+  .feature-section {
+    padding: 0 2rem;
+    gap: 1.5rem;
+  }
+  
+  .feature-card {
+    padding: 2rem 1.5rem;
   }
 }
 
@@ -377,6 +473,9 @@ body {
   
   .hero-action {
     flex: 1 0 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
   }
   
   .hero-content.split-layout .hero-title,
@@ -403,7 +502,21 @@ body {
   }
   
   .hero-description {
-    font-size: 1.1rem;
+    font-size: 0.95rem;
+    text-align: center;
+  }
+
+  .content-row {
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+    text-align: center;
+  }
+
+  .feature-section {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 0 2rem;
+    gap: 1.5rem;
   }
 }
 
@@ -455,12 +568,28 @@ body {
   }
   
   .hero-description {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
   
   .cta-button {
     padding: 0.875rem 2rem;
     font-size: 1rem;
+  }
+
+  .content-row {
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+  }
+
+  .feature-section {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+    padding: 0 1.5rem;
+    gap: 1.25rem;
+  }
+  
+  .feature-card {
+    padding: 2rem 1.5rem;
   }
 }
 
@@ -1101,4 +1230,31 @@ body {
   font-weight: 500;
   line-height: normal;
   display: inline-block;
+}
+
+.content-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+/* Add this to your CSS file */
+#contact-section {
+  scroll-margin-top: 80px; /* Adjust based on navbar height */
+}
+
+/* Make sure all scrolling is smooth */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+html {
+  scroll-padding-top: 80px; /* Adjust this value based on your navbar height */
+  scroll-behavior: smooth;
+}
+
+/* Style for the about section */
+#about-section {
+  scroll-margin-top: 80px; /* Alternative approach */
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Footer.css';
+import logo from "../../../../assets/mfpLogo.png";
 import winter from "/ImagePool/winter.png"; // Reusing the logo from navbar
 
 const Footer = () => {
@@ -11,8 +12,8 @@ const Footer = () => {
       <div className="footer-container">
         <div className="footer-section company-info">
           <div className="footer-logo">
-            <img src={winter} alt="Ice Factory Logo" className="footer-logo-img" />
-            <h3>Ice Factory</h3>
+            <img src={logo} alt="Ice Factory Logo" className="footer-logo-img" />
+            <h3>Muzaffarpur Ice</h3>
           </div>
           <p className="tagline">Providing premium quality ice blocks for all your cooling needs.</p>
           <div className="social-links">
@@ -50,15 +51,6 @@ const Footer = () => {
           </ul>
         </div>
         
-        <div className="footer-section links">
-          <h4>Customer Support</h4>
-          <ul>
-            <li><Link to="/order-history">Order History</Link></li>
-            <li><Link to="/faq">FAQ</Link></li>
-            <li><Link to="/terms">Terms of Service</Link></li>
-            <li><Link to="/privacy">Privacy Policy</Link></li>
-          </ul>
-        </div>
         
         <div className="footer-section contact-info">
           <h4>Contact Us</h4>

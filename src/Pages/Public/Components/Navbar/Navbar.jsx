@@ -69,23 +69,25 @@ const Navbar = () => {
     };
   }, []);
   
-  // New function to handle scrolling to sections
+  // Enhanced function to handle scrolling to sections from any page
   const scrollToSection = (sectionId) => {
     // Close mobile menu if open
     setMobileMenuOpen(false);
     setIsDropdownOpen(false);
     
     // Check if we're on the homepage
-    if (location.pathname !== '/') {
-      // If not on homepage, navigate to homepage with a section parameter
-      navigate('/?section=' + sectionId);
-      return;
-    }
-    
-    // If we're already on the homepage, scroll to the section
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    if (location.pathname === '/') {
+      // If we're already on the homepage, just scroll to the section
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      // If on another page, navigate to homepage with section parameter
+      // and add a flag to scroll immediately after navigation
+      navigate('/', { 
+        state: { scrollToSection: sectionId, immediate: true } 
+      });
     }
   };
 
@@ -163,8 +165,8 @@ const Navbar = () => {
             <div className="navbar-brand">Muzaffarpur Ice</div>
           </Link>
           
-          {/* Welcome message when user is logged in */}
-          {userPhone && firstName && (
+          {/* Welcome message when user is logged in - only on larger screens */}
+          {userPhone && firstName && window.innerWidth > 768 && (
             <div className="welcome-message">
               Welcome, {firstName}!
             </div>
@@ -205,12 +207,17 @@ const Navbar = () => {
                 HISTORY
               </Link>
             )}
-            <Link to="/contact" 
+            {/* Update Contact link to use scroll function */}
+            <a 
+              href="#contact-section" 
               className={location.pathname === '/contact' ? 'nav-link active' : 'nav-link'}
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToSection('contact-section');
+              }}
             >
               CONTACT
-            </Link>
+            </a>
           </div>
         </div>
         

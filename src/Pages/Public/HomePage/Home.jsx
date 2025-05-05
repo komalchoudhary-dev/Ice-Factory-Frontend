@@ -86,22 +86,23 @@ export const HomePage = () => {
           <div className="hero-text">
             <h1 className="hero-title">CURRENT ICE RATES AND AVAILABILITY AT YOUR FINGERTIPS</h1>
             
-            <p className="hero-description">
-              Stay updated with our competitive ice rates and real-time
-              availability. Order effortlessly and ensure your business never runs
-              out of ice
-            </p>
-          </div>
-          <div className="hero-action">
-            <Link to="/orders" className="cta-button">
-              GET STARTED
-            </Link>
+            <div className="content-row">
+              <div className="hero-action">
+                <Link to="/orders" className="cta-button">
+                  GET STARTED
+                </Link>
+              </div>
+              <p className="hero-description">
+                Stay updated with our competitive ice rates and real-time
+                availability. Order effortlessly and ensure your business never runs
+                out of ice
+              </p>
+            </div>
           </div>
         </div>
         
         {/* Features Section - Now inside the hero section */}
-        <div className="feature-section flex flex-col items-center justify-center gap-6 md:flex-row md:justify-between md:items-start">
-  {/* Cards */}
+        <div className="feature-section">
           <div className="feature-card">
             <img className="feature-icon" alt="File delivery" src={fileDelivery} />
             <h3 className="feature-title">Faster Delivery</h3>
@@ -122,7 +123,7 @@ export const HomePage = () => {
             <img className="feature-icon" alt="File delivery" src={fileDelivery} />
             <h3 className="feature-title">Quality Guarantee</h3>
             <p className="feature-description">
-              We ensure the highest quality ice products for all your cooling needs
+              We ensure the highest quality ice products for all your cooling needs  <br />
             </p>
           </div>
         </div>

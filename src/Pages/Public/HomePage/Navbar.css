@@ -74,8 +74,14 @@
 }
 
 .navbar-logo {
-  height: 2.5rem;
-  margin-right: 0.75rem;
+  /*height: 2.5rem;
+  margin-right: 0.75rem;*/
+  width: 40px;       /* or any desired size */
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;  /* Ensures it fills the circle without distortion */
+  border: 0px solid #fff; /* Optional: adds a border around the circle */
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
 }
 
 .navbar-brand {
@@ -102,7 +108,8 @@
 .navbar-center {
   flex: 1;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
+  padding: 0;
 }
 
 .navbar-links {
@@ -320,7 +327,7 @@
   
   .navbar-brand {
     font-size: 1.25rem;
-    max-width: 150px;
+    /* max-width: 150px; */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -402,7 +409,7 @@
   
   .navbar-brand {
     font-size: 1.1rem;
-    max-width: 120px;
+    /* max-width: 120px; */
   }
   
   .navbar-links {
