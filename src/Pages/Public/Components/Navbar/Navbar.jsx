@@ -163,8 +163,8 @@ const Navbar = () => {
             <div className="navbar-brand">Muzaffarpur Ice</div>
           </Link>
           
-          {/* Welcome message when user is logged in */}
-          {userPhone && firstName && (
+          {/* Welcome message when user is logged in - only on larger screens */}
+          {userPhone && firstName && window.innerWidth > 768 && (
             <div className="welcome-message">
               Welcome, {firstName}!
             </div>
