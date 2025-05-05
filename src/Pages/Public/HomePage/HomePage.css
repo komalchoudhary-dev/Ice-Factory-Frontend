@@ -1238,3 +1238,23 @@ body {
   gap: 2rem;
   margin-top: 2rem;
 }
+
+/* Add this to your CSS file */
+#contact-section {
+  scroll-margin-top: 80px; /* Adjust based on navbar height */
+}
+
+/* Make sure all scrolling is smooth */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+html {
+  scroll-padding-top: 80px; /* Adjust this value based on your navbar height */
+  scroll-behavior: smooth;
+}
+
+/* Style for the about section */
+#about-section {
+  scroll-margin-top: 80px; /* Alternative approach */
+}
