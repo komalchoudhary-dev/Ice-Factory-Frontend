@@ -13,7 +13,16 @@ import Footer from '../Components/Footer/Footer.jsx';
 
 export default function Frame_1() {
   return (
-   <><Home /><About /><Footer /></>
+    <>
+     <Home />
+      <div id="about-section">
+        <About />
+      </div>
+      {/* Add id here for the contact/footer section */}
+      <div id="contact-section">
+        <Footer />
+      </div>
+  </>
      );
 }
 
