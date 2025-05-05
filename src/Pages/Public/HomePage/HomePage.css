@@ -180,7 +180,7 @@ body {
   align-items: center;
   max-width: 1200px;
   width: 100%;
-  padding: 6rem 4rem 3rem;
+  padding: 6rem 3rem 6rem;
   margin: 0 auto;
   text-align: left;
   flex: 1;
@@ -216,7 +216,7 @@ body {
 .hero-title {
   font-size: 3rem;
   font-weight: 700;
-  margin-top: 4rem;
+  margin-top: 10rem;
   margin-bottom: 3rem;
   margin-right: 3rem;
   line-height: 1.2;

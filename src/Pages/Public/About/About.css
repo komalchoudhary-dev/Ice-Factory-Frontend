@@ -40,7 +40,7 @@
 .about-section,
 .about-contact{
     background: #f6f5f5;
-    padding: 70px 30px;
+    padding: 70px 3rem;
     /*box-shadow: 0 4px 18px rgba(0, 0, 0, 0.07);*/
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     animation: slideUpFade 1.2s ease-out forwards;
@@ -50,7 +50,7 @@
 .aboutt-section,
 .aboutf-section{
     background: white;
-    padding: 70px 30px;
+    padding: 70px 3rem;
     /*box-shadow: 0 4px 18px rgba(0, 0, 0, 0.07);*/
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     animation: slideUpFade 1.2s ease-out forwards;
