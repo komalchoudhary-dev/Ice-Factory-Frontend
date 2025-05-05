@@ -94,6 +94,7 @@ function Consumer() {
   const [selectedUser, setSelectedUser] = useState(null);
   const [newRate, setNewRate] = useState("");
   const [message, setMessage] = useState({ type: "", text: "" });
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const modalRef = useRef();
 
@@ -102,6 +103,7 @@ function Consumer() {
   }, []);
 
   function getData() {
+    setLoading(true);
     axios.get(`http://localhost:8080/api/public/users`)
       .then((response) => {
         console.log("Consumer Data aa gaya oo ", response.data);
@@ -109,6 +111,9 @@ function Consumer() {
       })
       .catch((error) => {
         console.error("Error fetching data", error);
+      })
+      .finally(() => {
+        setLoading(false); 
       });
   }
 
@@ -154,6 +159,16 @@ function Consumer() {
     // Remove message after 3 seconds
     setTimeout(() => setMessage({ type: "", text: "" }), 3000);
   };
+
+  if (loading) {
+    return (
+      
+          <div className="flex flex-1 items-center justify-center bg-gray-100">
+            <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+          </div>
+        
+    );
+  }
 
   return (
     <div className="flex flex-col w-full p-2 relative">

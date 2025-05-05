@@ -122,19 +122,26 @@ function Detail() {
   };
 
   const [apiData, setApiData] = useState([]);
+  const [loading, setLoading] = useState(true); 
   const [selectedRows, setSelectedRows] = useState([]);
 
+
   function getData() {
+    setLoading(true); 
     axios
       .get(`http://localhost:8080/api/public/orders/detailed?deliveryDate=${getFormattedDateForAPI()}`)
       .then((response) => {
         setApiData(response.data);
-        console.log("Aaj ka delivery", data, response.data);
+        console.log("Aaj ka delivery", response.data);
       })
       .catch((error) => {
         console.error("Error fetching data", error);
+      })
+      .finally(() => {
+        setLoading(false); // ✅ This will now run properly
       });
   }
+  
 
   useEffect(() => {
     getData();
@@ -156,7 +163,20 @@ function Detail() {
       }
     };
  
-
+    if (loading) {
+      return (
+        <div className="flex flex-col min-h-screen">
+          <Navbar />
+          <div className="flex flex-1">
+            <Sidebar />
+            <div className="flex flex-1 items-center justify-center bg-gray-100">
+              <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+    
 
 
   return (
