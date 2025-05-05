@@ -29,6 +29,7 @@
 /* Company information section */
 .company-info {
   flex: 2;
+  padding-right: 20rem;
 }
 
 .footer-logo {
@@ -44,6 +45,7 @@
     width: 40px;       /* or any desired size */
     height: 40px;
     border-radius: 50%;
+    margin-right: 10px;
     object-fit: cover;  /* Ensures it fills the circle without distortion */
     border: 0px solid #fff; /* Optional: adds a border around the circle */
     box-shadow: 0 0 5px rgba(0,0,0,0.1);
