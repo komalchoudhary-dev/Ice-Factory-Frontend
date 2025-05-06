@@ -94,6 +94,7 @@ function Consumer() {
   const [selectedUser, setSelectedUser] = useState(null);
   const [newRate, setNewRate] = useState("");
   const [message, setMessage] = useState({ type: "", text: "" });
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const modalRef = useRef();
 
@@ -102,6 +103,7 @@ function Consumer() {
   }, []);
 
   function getData() {
+    setLoading(true);
     axios.get(`http://localhost:8080/api/public/users`)
       .then((response) => {
         console.log("Consumer Data aa gaya oo ", response.data);
@@ -109,6 +111,9 @@ function Consumer() {
       })
       .catch((error) => {
         console.error("Error fetching data", error);
+      })
+      .finally(() => {
+        setLoading(false); 
       });
   }
 
@@ -155,6 +160,16 @@ function Consumer() {
     setTimeout(() => setMessage({ type: "", text: "" }), 3000);
   };
 
+  if (loading) {
+    return (
+      
+          <div className="flex flex-1 items-center justify-center bg-gray-100">
+            <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+          </div>
+        
+    );
+  }
+
   return (
     <div className="flex flex-col w-full p-2 relative">
       <div className='bg-white-200 w-full'>
@@ -189,7 +204,7 @@ function Consumer() {
                 <td className="border px-4 py-2">{user.lastName}</td>
                 <td className="border px-4 py-2">{user.phone}</td>
                 <td className="border px-4 py-2">{user.rate ?? '-'}</td>
-                <td className="border px-4 py-2 flex flex-col items-center justify-center">
+                {/* <td className="border px-4 py-2 flex flex-row space-x-2 items-center justify-center">
                   <button
                     className="bg-blue-400 hover:bg-gray-400 text-black font-semibold py-1 px-3 rounded border border-black mb-2"
                     onClick={() => openModal(user)}
@@ -209,7 +224,33 @@ function Consumer() {
                   >
                     View Detail
                   </button>
-                </td>
+                </td> */}
+                <td className="border px-4 py-2 align-middle">
+  <div className="flex flex-row items-center justify-center space-x-2">
+    <button
+      className="bg-blue-400 hover:bg-gray-400 text-black font-semibold py-1 px-3 rounded border border-black"
+      onClick={() => openModal(user)}
+    >
+      Edit Rate
+    </button>
+
+    <button
+      className="bg-gray-200 hover:bg-gray-400 text-black font-semibold py-1 px-3 rounded border border-black"
+      onClick={() =>
+        navigate("/admin-Customer-detail", {
+          state: {
+            phone: user.phone,
+            firstName: user.firstName,
+            lastName: user.lastName
+          }
+        })
+      }
+    >
+      View Detail
+    </button>
+  </div>
+</td>
+
               </tr>
             ))}
           </tbody>
