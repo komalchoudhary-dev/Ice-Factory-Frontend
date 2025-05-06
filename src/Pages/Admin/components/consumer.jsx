@@ -204,7 +204,7 @@ function Consumer() {
                 <td className="border px-4 py-2">{user.lastName}</td>
                 <td className="border px-4 py-2">{user.phone}</td>
                 <td className="border px-4 py-2">{user.rate ?? '-'}</td>
-                <td className="border px-4 py-2 flex flex-col items-center justify-center">
+                {/* <td className="border px-4 py-2 flex flex-row space-x-2 items-center justify-center">
                   <button
                     className="bg-blue-400 hover:bg-gray-400 text-black font-semibold py-1 px-3 rounded border border-black mb-2"
                     onClick={() => openModal(user)}
@@ -224,7 +224,33 @@ function Consumer() {
                   >
                     View Detail
                   </button>
-                </td>
+                </td> */}
+                <td className="border px-4 py-2 align-middle">
+  <div className="flex flex-row items-center justify-center space-x-2">
+    <button
+      className="bg-blue-400 hover:bg-gray-400 text-black font-semibold py-1 px-3 rounded border border-black"
+      onClick={() => openModal(user)}
+    >
+      Edit Rate
+    </button>
+
+    <button
+      className="bg-gray-200 hover:bg-gray-400 text-black font-semibold py-1 px-3 rounded border border-black"
+      onClick={() =>
+        navigate("/admin-Customer-detail", {
+          state: {
+            phone: user.phone,
+            firstName: user.firstName,
+            lastName: user.lastName
+          }
+        })
+      }
+    >
+      View Detail
+    </button>
+  </div>
+</td>
+
               </tr>
             ))}
           </tbody>
