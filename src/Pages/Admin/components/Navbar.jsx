@@ -119,7 +119,7 @@ const Navbar = () => {
     navigate("/admin-changePassword");
   };
   return (
-    <div className="h-15 bg-white border-b border-black flex items-center justify-between px-6 z-10">
+    <div className="h-15 bg-white border-b border-black flex items-center justify-between px-2 z-10">
       <div className="flex items-center space-x-2">
         <img src={logo} alt="Ice Factory" className="h-14 w-14" />
         <span className="text-2xl font-bold text-black">Muzaffarpur Ice Factory</span>

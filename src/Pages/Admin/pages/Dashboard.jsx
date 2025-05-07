@@ -245,6 +245,7 @@
 
 import Sidebar from '../components/Sidebar';
 import Navbar from '../components/Navbar';
+import Graph from '../components/graph';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import DeliveryTruck from '../../../assets/deliveryTruckOndashboard.png';
@@ -368,8 +369,9 @@ function Dashboard() {
 
               {/* Graph Placeholder */}
               <p className="font-bold text-xl mb-3">Monthly Sales</p>
-              <div className="h-64 bg-gray border border-gray-300 rounded-lg shadow flex items-center justify-center">
-                Graph Placeholder
+              <div className=" bg-gray border border-gray-300 rounded-lg shadow flex items-center justify-center">
+                
+                 <Graph />
               </div>
             </>
           )}
