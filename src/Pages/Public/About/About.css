@@ -2,7 +2,7 @@
 .about-page {
     width: 100%;
     font-family: 'Roboto', sans-serif;
-    background: #f6f5f5;
+    background: white;
     animation: fadeInPage 1.2s ease-out forwards;
 
     position: relative;

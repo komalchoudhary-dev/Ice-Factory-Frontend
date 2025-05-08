@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./about.css";
-import muzaf from "../../../assets/Muzaffarpur.jpg";
+import muzaf from "../../../assets/muz_map.png";
 export default function About() {
   const funFacts = [
     "Our factory uses energy-efficient cooling systems that reduce energy consumption by 20% compared to traditional methods.",
