@@ -112,12 +112,17 @@
 }
 
 .navbar-logo {
-  height: 36px;
-  width: 36px;
   margin-right: 0.75rem;
   filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.3));
   transition: transform 0.3s ease;
-}
+  width: 40px;       /* or any desired size */
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;  /* Ensures it fills the circle without distortion */
+  border: 0px solid #fff; /* Optional: adds a border around the circle */
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  }
+
 
 .navbar-left:hover .navbar-logo {
   transform: rotate(-8deg);
