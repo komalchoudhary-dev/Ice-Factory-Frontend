@@ -81,6 +81,32 @@ const Navbar = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  const scrollToAbout = (e) => {
+  e.preventDefault();
+  setMobileMenuOpen(false);
+  
+  const aboutSection = document.getElementById('about-section');
+  if (aboutSection) {
+    aboutSection.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+  }
+};
+const scrollToContact = (e) => {
+  e.preventDefault();
+  setMobileMenuOpen(false);
+  
+  const contactSection = document.getElementById('contact-section');
+  if (contactSection) {
+    contactSection.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+  }
+};
+
   
   // Get first name if user is logged in
   const firstName = userDetails?.firstName || '';
@@ -110,33 +136,35 @@ const Navbar = () => {
             >
               HOME
             </Link>
-            <Link to="/about" 
+            <a 
+              href="#about-section" 
               className={location.pathname === '/about' ? 'nav-link active' : 'nav-link'}
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={scrollToAbout}
             >
               ABOUT
-            </Link>
-            <Link to="/orders" 
-              className={location.pathname.includes('/order') && !location.pathname.includes('/order-history') ? 'nav-link active' : 'nav-link'}
+            </a>
+                  <Link to="/orders" 
+            className={location.pathname.includes('/order') && !location.pathname.includes('/order-history') ? 'nav-link active' : 'nav-link'}
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            ORDER
+          </Link>
+          {/* Only show History link for logged-in users */}
+          {userPhone && (
+            <Link to="/order-history" 
+              className={location.pathname === '/order-history' ? 'nav-link active' : 'nav-link'}
               onClick={() => setMobileMenuOpen(false)}
             >
-              ORDER
+              HISTORY
             </Link>
-            {/* Only show History link for logged-in users */}
-            {userPhone && (
-              <Link to="/order-history" 
-                className={location.pathname === '/order-history' ? 'nav-link active' : 'nav-link'}
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                HISTORY
-              </Link>
             )}
-            <Link to="/contact" 
+            <a 
+              href="#contact-section" 
               className={location.pathname === '/contact' ? 'nav-link active' : 'nav-link'}
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={scrollToContact}
             >
               CONTACT
-            </Link>
+            </a>
           </div>
         </div>
         

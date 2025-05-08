@@ -238,7 +238,7 @@ const Order = () => {
                     </div>
                   </div>
                   
-                  <div className="availability-indicator">
+                  {/* <div className="availability-indicator">
                     <div className="availability-label">
                       Availability: 
                       <span className={`status-${availability.status}`}>
@@ -252,7 +252,7 @@ const Order = () => {
                         style={{ width: `${availability.percentage}%` }}
                       ></div>
                     </div>
-                  </div>
+                  </div> */}
                   
                   <div className="order-info">
                   

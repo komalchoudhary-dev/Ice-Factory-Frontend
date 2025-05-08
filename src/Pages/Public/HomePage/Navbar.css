@@ -108,7 +108,8 @@
 .navbar-center {
   flex: 1;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
+  padding: 0;
 }
 
 .navbar-links {
@@ -326,7 +327,7 @@
   
   .navbar-brand {
     font-size: 1.25rem;
-    max-width: 150px;
+    /* max-width: 150px; */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -408,7 +409,7 @@
   
   .navbar-brand {
     font-size: 1.1rem;
-    max-width: 120px;
+    /* max-width: 120px; */
   }
   
   .navbar-links {

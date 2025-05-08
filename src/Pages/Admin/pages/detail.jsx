@@ -873,11 +873,13 @@ function Detail() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [newRate, setNewRate] = useState("");
+  const [loading, setLoading] = useState(true); 
   const [message, setMessage] = useState({ type: "", text: "" });
   const modalRef = useRef();
 
   // Fetch API data
   function getData() {
+    setLoading(true);
     axios
       .get(`http://localhost:8080/api/public/orders/detailed?deliveryDate=${data.deliveryDate}`)
       .then((response) => {
@@ -885,6 +887,9 @@ function Detail() {
       })
       .catch((error) => {
         console.error("Error fetching data", error);
+      })
+      .finally(() => {
+        setLoading(false); // End loading
       });
   }
 
@@ -954,17 +959,34 @@ function Detail() {
         amt += apiData[i].quantity;
       }
     }
-    return 1400 - amt;
+    return 1200 - amt;
   };
+
+
+  if (loading) {
+    return (
+      <div className="flex flex-col min-h-screen">
+        <Navbar />
+        <div className="flex flex-1">
+          <Sidebar />
+          <div className="flex flex-1 items-center justify-center bg-gray-100">
+            <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  
 
   return (
     <div className="flex flex-col">
       <Navbar />
       <div className="flex">
         <Sidebar />
-        <div className="flex flex-col w-full ">
-          <div className='bg-white-200 w-full'>
+        <div className="flex flex-col w-full gap-4">
+          <div className='bg-white-200 w-full gap-4'>
             <p className='text-2xl font-bold px-4'>Delivery Date - {formattedDate}</p>
+            
             {message.text && (
         <div className={`fixed top-4 right-4 px-4 py-2 rounded text-white shadow-md z-50
           ${message.type === "success" ? "bg-green-500" : "bg-red-500"}`}>
@@ -1022,7 +1044,7 @@ function Detail() {
         <td className="py-2 px-4 border">{item.phone}</td>
         <td className="py-2 px-4 border capitalize">{item.status}</td>
         <td className="py-2 px-4 border">{new Date(item.deliveryDate).toLocaleDateString()}</td>
-        <td className="py-2 px-4 border">{item.rate}</td>
+        <td className="py-2 px-4 border">{item.totalAmount/item.quantity}</td>
         <td className="py-2 px-4 border">{item.totalAmount}</td>
       </tr>
   ))}
@@ -1030,7 +1052,7 @@ function Detail() {
             </table>
           </div>
           {/* Accepted Rejected Table */}
-          <h1 className=" px-6 text-2xl font-bold mt-6">Order Rejected</h1>
+          {/* <h1 className=" px-6 text-2xl font-bold mt-6">Order Rejected</h1>
           <div className=" px-6 overflow-x-auto rounded shadow">
             <table className="min-w-full bg-white border border-gray-300">
               <thead className="bg-sky-200 text-black">
@@ -1065,7 +1087,46 @@ function Detail() {
 </tbody>
 
             </table>
-          </div>
+          </div> */}
+          {apiData.filter(item => item.status === "rejected").length > 0 && (
+  <>
+    <h1 className="px-6 text-2xl font-bold mt-6">Order Rejected</h1>
+    <div className="px-6 overflow-x-auto rounded shadow">
+      <table className="min-w-full bg-white border border-gray-300">
+        <thead className="bg-sky-200 text-black">
+          <tr>
+            <th className="py-2 px-4 border">#</th>
+            <th className="py-2 px-4 border">Order ID</th>
+            <th className="py-2 px-4 border">Customer Name</th>
+            <th className="py-2 px-4 border">Quantity</th>
+            <th className="py-2 px-4 border">Address</th>
+            <th className="py-2 px-4 border">Phone</th>
+            <th className="py-2 px-4 border">Status</th>
+            <th className="py-2 px-4 border">Delivery Date</th>
+            <th className="py-2 px-4 border">Rate</th>
+          </tr>
+        </thead>
+        <tbody>
+          {apiData
+            .filter(item => item.status === "rejected")
+            .map((item, index) => (
+              <tr key={item.orderId} className="text-center border-t">
+                <td className="py-2 px-4 border">{index + 1}</td>
+                <td className="py-2 px-4 border">{item.orderId}</td>
+                <td className="py-2 px-4 border">{item.firstName} {item.lastName}</td>
+                <td className="py-2 px-4 border">{item.quantity}</td>
+                <td className="py-2 px-4 border">{item.street}, {item.city} - {item.pincode}</td>
+                <td className="py-2 px-4 border">{item.phone}</td>
+                <td className="py-2 px-4 border capitalize">{item.status}</td>
+                <td className="py-2 px-4 border">{new Date(item.deliveryDate).toLocaleDateString()}</td>
+                <td className="py-2 px-4 border">{item.rate}</td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
+    </div>
+  </>
+)}
 
           {/* Pending Orders Table */}
           <h1 className="px-6 text-2xl font-bold mt-6">Order Pending</h1>
@@ -1107,7 +1168,7 @@ function Detail() {
           <td className="py-2 px-4 border capitalize">{item.status}</td>
           <td className="py-2 px-4 border">{new Date(item.deliveryDate).toLocaleDateString()}</td>
           <td className="py-2 px-4 border">{item.rate}</td>
-          <td className="py-2 px-4 border">{item.totalAmount}</td>
+          <td className="py-2 px-4 border">{item.rate*item.quantity}</td>
           <td className="py-2 px-4 border">
           <div className="flex items-center gap-x-4">
   <button
@@ -1189,3 +1250,8 @@ function Detail() {
 }
 
 export default Detail;
+
+
+
+
+

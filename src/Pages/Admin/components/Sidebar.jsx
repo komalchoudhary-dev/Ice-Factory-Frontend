@@ -102,7 +102,7 @@ const Sidebar = (props) => {
   ];
 
   return (
-    <div className="w-20 h-screen bg-white border-r shadow-md flex flex-col items-center py-4">
+    <div className="w-20 h-full-screen bg-white border-r shadow-md flex flex-col items-center py-4">
       <div className="mb-4">
         {/* Optional Logo */}
       </div>

@@ -417,6 +417,11 @@
 
 /* Enhanced responsive styles */
 @media (max-width: 768px) {
+  /* Hide welcome message on mobile screens */
+  .welcome-message {
+    display: none !important;
+  }
+  
   /* Make sure the hamburger menu is visible and clickable */
   .hamburger {
     display: flex;
@@ -482,20 +487,56 @@
   body.menu-open {
     overflow: hidden;
   }
-}
-
-@media (max-width: 576px) {
+  
+  /* Fix navbar container layout */
   .navbar-container {
-    padding: 0 1rem;
+    padding: 0 16px;
+    justify-content: space-between;
   }
   
+  /* Adjust brand name for better visibility */
   .navbar-brand {
     font-size: 1.25rem;
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  /* Ensure only needed elements are shown */
+  .navbar-left {
+    flex: 0 0 auto;
+  }
+  
+  .navbar-center {
+    position: static;
+  }
+  
+  .navbar-auth {
+    margin-right: 10px;
+  }
+}
+
+/* Smaller screens - further optimize layout */
+@media (max-width: 576px) {
+  .navbar-brand {
+    font-size: 1.1rem;
+    max-width: 130px;
+  }
+  
+  .navbar-container {
+    padding: 0 12px;
   }
   
   .navbar-logo {
-    height: 32px;
-    width: 32px;
+    height: 28px;
+    width: 28px;
+    margin-right: 0.5rem;
+  }
+  
+  /* Further hide welcome message */
+  .welcome-message {
+    display: none !important;
   }
   
   .auth-button {

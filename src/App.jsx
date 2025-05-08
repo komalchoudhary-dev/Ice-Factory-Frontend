@@ -22,6 +22,7 @@ const Customer=lazy(() => import('./Pages/Admin/pages/Customer.jsx'));
 const Profile=lazy(() => import('./Pages/Public/UserProfile/UserProfile.jsx'));
 const CustDetail=lazy(() => import('./Pages/Admin/pages/custDetail.jsx'));
 const PastorderHistory=lazy(() => import('./Pages/Admin/pages/orderHistory.jsx'));
+const ChangePassword=lazy(() => import('./Pages/Admin/pages/changePassword.jsx'));
 // Add missing components
 const LoadingBar = () => (
   <div className="loading-bar">
@@ -104,6 +105,11 @@ function AppRoutes() {
           <Route path="/admin-dashboard" element={
             <PageTransition>
               <AdminDashboard />
+            </PageTransition>
+          } />
+          <Route path="/admin-changePassword" element={
+            <PageTransition>
+              <ChangePassword />
             </PageTransition>
           } />
           <Route path="/admin-order-request" element={
