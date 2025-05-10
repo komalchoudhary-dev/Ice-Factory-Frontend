@@ -18,6 +18,18 @@ const LoginSignup = () => {
   });
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [resetPassword, setResetPassword] = useState({
+    email: '',
+    otp: '',
+    newPassword: '',
+    confirmPassword: ''
+  });
+  const [resetStep, setResetStep] = useState(1); // 1: email, 2: OTP, 3: new password
+  const [resetMessage, setResetMessage] = useState('');
+  const [isResetting, setIsResetting] = useState(false);
+  const [resetError, setResetError] = useState(false);
   const navigate = useNavigate();
   const { login, loading: userContextLoading } = useContext(UserContext);
 
@@ -98,6 +110,107 @@ const LoginSignup = () => {
     }
   };
 
+  const handleForgotPasswordClick = (e) => {
+    e.preventDefault();
+    setShowForgotPassword(true);
+    setResetStep(1);
+    setResetMessage('');
+    setResetError(false);
+  };
+
+  const handleResetChange = (e) => {
+    const { name, value } = e.target;
+    setResetPassword(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSendResetCode = async (e) => {
+    e.preventDefault();
+    setIsResetting(true);
+    setResetMessage('');
+    setResetError(false);
+    
+    try {
+      const response = await axios.post('http://localhost:8080/api/public/password/forgot', { 
+        email: resetPassword.email 
+      });
+      setResetMessage(response.data.message);
+      setResetStep(2);
+    } catch (error) {
+      setResetMessage('Failed to send reset code. Please try again.');
+      setResetError(true);
+    } finally {
+      setIsResetting(false);
+    }
+  };
+
+  const handleVerifyOtp = async (e) => {
+    e.preventDefault();
+    setIsResetting(true);
+    setResetMessage('');
+    setResetError(false);
+
+    try {
+      const response = await axios.post('http://localhost:8080/api/public/password/verify-otp', {
+        email: resetPassword.email,
+        otp: resetPassword.otp
+      });
+      
+      localStorage.setItem('resetToken', response.data.resetToken);
+      setResetMessage('OTP verified successfully');
+      setResetStep(3);
+    } catch (error) {
+      setResetMessage('Invalid or expired code');
+      setResetError(true);
+    } finally {
+      setIsResetting(false);
+    }
+  };
+
+  const handleResetPassword = async (e) => {
+    e.preventDefault();
+    setIsResetting(true);
+    setResetMessage('');
+    setResetError(false);
+
+    if (resetPassword.newPassword !== resetPassword.confirmPassword) {
+      setResetMessage('Passwords do not match');
+      setResetError(true);
+      setIsResetting(false);
+      return;
+    }
+
+    try {
+      const resetToken = localStorage.getItem('resetToken');
+      const response = await axios.post('http://localhost:8080/api/public/password/reset', {
+        resetToken,
+        newPassword: resetPassword.newPassword
+      });
+
+      setResetMessage(response.data.message);
+      localStorage.removeItem('resetToken');
+
+      // Close modal and reset state after 2 seconds
+      setTimeout(() => {
+        setShowForgotPassword(false);
+        setResetPassword({
+          email: '',
+          otp: '',
+          newPassword: '',
+          confirmPassword: ''
+        });
+        setResetStep(1);
+      }, 2000);
+    } catch (error) {
+      setResetMessage(error.response?.data?.message || 'Failed to reset password');
+      setResetError(true);
+    } finally {
+      setIsResetting(false);
+    }
+  };
+
   // Determine if we're in any loading state
   const isLoading = loading || userContextLoading;
 
@@ -149,8 +262,22 @@ const LoginSignup = () => {
         </div>
 
         {action === "Login" && (
-          <div className="forgot-password">
-            Lost password? <span>Click Here</span>
+          <div className="auth-options">
+            <div className="remember-me">
+              <input
+                type="checkbox"
+                id="remember"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+              />
+              <label htmlFor="remember">Remember me</label>
+            </div>
+            <button 
+              className="forgot-password-link"
+              onClick={handleForgotPasswordClick}
+            >
+              Forgot Password?
+            </button>
           </div>
         )}
 
@@ -175,6 +302,103 @@ const LoginSignup = () => {
           </button>
         </div>
       </form>
+
+      {showForgotPassword && (
+        <div className="reset-password-modal">
+          <div className="modal-content">
+            <button className="close-modal" onClick={() => setShowForgotPassword(false)}>×</button>
+            
+            <div className="step-indicator">
+              <span className={`step-dot ${resetStep >= 1 ? 'active' : ''}`}></span>
+              <span className={`step-dot ${resetStep >= 2 ? 'active' : ''}`}></span>
+              <span className={`step-dot ${resetStep >= 3 ? 'active' : ''}`}></span>
+            </div>
+
+            {resetMessage && (
+              <div className={`reset-message ${resetError ? 'error' : 'success'}`}>
+                {resetMessage}
+              </div>
+            )}
+
+            {resetStep === 1 && (
+              <form onSubmit={handleSendResetCode}>
+                <h3>Forgot Password</h3>
+                <div className="input">
+                  <img src={email_icon} alt="Email" />
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    value={resetPassword.email}
+                    onChange={handleResetChange}
+                    required
+                  />
+                </div>
+                <button type="submit" className="submit" disabled={isResetting}>
+                  {isResetting ? 'Sending...' : 'Send Reset Code'}
+                </button>
+              </form>
+            )}
+
+            {resetStep === 2 && (
+              <form onSubmit={handleVerifyOtp}>
+                <h3>Verify Email Code</h3>
+                <p>We've sent a 6-digit code to {resetPassword.email}</p>
+                <div className="input">
+                  <input
+                    type="text"
+                    name="otp"
+                    placeholder="Enter 6-digit code"
+                    value={resetPassword.otp}
+                    onChange={handleResetChange}
+                    maxLength={6}
+                    pattern="[0-9]{6}"
+                    required
+                  />
+                </div>
+                <button type="submit" className="submit" disabled={isResetting}>
+                  {isResetting ? 'Verifying...' : 'Verify Code'}
+                </button>
+              </form>
+            )}
+
+            {resetStep === 3 && (
+              <form onSubmit={handleResetPassword}>
+                <h3>Create New Password</h3>
+                <div className="password-fields">
+                  <div className="input">
+                    <img src={password_icon} alt="Password" />
+                    <input
+                      type="password"
+                      name="newPassword"
+                      placeholder="New password"
+                      value={resetPassword.newPassword}
+                      onChange={handleResetChange}
+                      required
+                      minLength={8}
+                    />
+                  </div>
+                  <div className="input">
+                    <img src={password_icon} alt="Password" />
+                    <input
+                      type="password"
+                      name="confirmPassword"
+                      placeholder="Confirm password"
+                      value={resetPassword.confirmPassword}
+                      onChange={handleResetChange}
+                      required
+                      minLength={8}
+                    />
+                  </div>
+                </div>
+                <button type="submit" className="submit" disabled={isResetting}>
+                  {isResetting ? 'Resetting...' : 'Reset Password'}
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

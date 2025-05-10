@@ -71,7 +71,7 @@ input {
   width: 100%;
   padding: 0.75rem 1rem;
   border: 1px solid #e0e0e0;
-  border-radius: 4px;
+  border-radius: 8px;
   font-size: 0.95rem;
   transition: all 0.2s ease;
   background-color: #f9f9f9;
@@ -105,15 +105,16 @@ input {
   background: linear-gradient(135deg, var(--primary-blue), var(--primary-dark-blue));
   color: white;
   border: none;
-  border-radius: 4px;
-  padding: 0.85rem;
+  border-radius: 8px;
+  padding: 0.75rem 2rem;
   font-weight: 600;
   font-size: 1rem;
   cursor: pointer;
-  transition: all 0.2s ease;
-  margin-top: 1rem;
-  width: 100%;
-  max-width: 250px;
+  transition: all 0.3s ease;
+  margin-top: 1.5rem;
+  width: auto;
+  min-width: 160px;
+  max-width: 200px;
   align-self: center;
 }
 
