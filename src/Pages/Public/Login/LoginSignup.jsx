@@ -59,7 +59,7 @@ const LoginSignup = () => {
         try {
           // Try admin verification first with GET method
           const adminResponse = await axios.get(
-            `http://localhost:8080/api/admin/verifyLogin?phone=${encodeURIComponent(formData.phone)}&password=${encodeURIComponent(formData.password)}`
+            `http://localhost:8080/api/public/verifyadminLogin?phone=${encodeURIComponent(formData.phone)}&password=${encodeURIComponent(formData.password)}`
           );
           
           // If admin verification succeeds (returns true)
@@ -183,12 +183,28 @@ const LoginSignup = () => {
     }
 
     try {
+      // Check if token exists
       const resetToken = localStorage.getItem('resetToken');
+      if (!resetToken) {
+        setResetMessage('Reset session expired. Please start over.');
+        setResetError(true);
+        setIsResetting(false);
+        return;
+      }
+
+      // Log for debugging
+      console.log('Sending reset request with token:', resetToken);
+      
       const response = await axios.post('http://localhost:8080/api/public/password/reset', {
-        resetToken,
+        resetToken: resetToken,
         newPassword: resetPassword.newPassword
+      }, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
       });
 
+      console.log('Reset response:', response.data);
       setResetMessage(response.data.message);
       localStorage.removeItem('resetToken');
 
@@ -204,7 +220,22 @@ const LoginSignup = () => {
         setResetStep(1);
       }, 2000);
     } catch (error) {
-      setResetMessage(error.response?.data?.message || 'Failed to reset password');
+      console.error('Password reset error:', error);
+      
+      // Better error handling
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.error('Error response data:', error.response.data);
+        setResetMessage(error.response.data.message || 'Failed to reset password. Please try again.');
+      } else if (error.request) {
+        // The request was made but no response was received
+        setResetMessage('No response from server. Please check your connection.');
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        setResetMessage('An error occurred. Please try again.');
+      }
+      
       setResetError(true);
     } finally {
       setIsResetting(false);
