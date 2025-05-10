@@ -25,6 +25,8 @@ function Registration() {
     pinCode: "",
     place: "",
     country: "India", // Default value
+    password: "",
+    confirmPassword: "",
     acceptTerms: false
   });
   
@@ -32,6 +34,10 @@ function Registration() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [fieldErrors, setFieldErrors] = useState({});
+  
+  // Add state for modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('terms');
   
   // Handle input changes
   const handleChange = (e) => {
@@ -77,6 +83,28 @@ function Registration() {
     if (!formData.country.trim()) errors.country = "Country is required";
     if (!formData.acceptTerms) errors.acceptTerms = "You must accept the terms and conditions";
     
+    // Password validation
+    if (!formData.password) {
+      errors.password = "Password is required";
+    } else if (formData.password.length < 8) {
+      errors.password = "Password must be at least 8 characters long";
+    } else if (!/(?=.*[a-z])/.test(formData.password)) {
+      errors.password = "Password must contain at least one lowercase letter";
+    } else if (!/(?=.*[A-Z])/.test(formData.password)) {
+      errors.password = "Password must contain at least one uppercase letter";
+    } else if (!/(?=.*\d)/.test(formData.password)) {
+      errors.password = "Password must contain at least one number";
+    } else if (!/(?=.*[!@#$%^&*])/.test(formData.password)) {
+      errors.password = "Password must contain at least one special character (!@#$%^&*)";
+    }
+    
+    // Confirm password validation
+    if (!formData.confirmPassword) {
+      errors.confirmPassword = "Please confirm your password";
+    } else if (formData.confirmPassword !== formData.password) {
+      errors.confirmPassword = "Passwords do not match";
+    }
+    
     setFieldErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -102,6 +130,7 @@ function Registration() {
           phone: formData.phone,
           firstName: formData.firstName,
           lastName: formData.lastName,
+          password: formData.password, // Include password in the user data
           // rate is not collected in the form, using default value
           rate: 0
         },
@@ -163,6 +192,16 @@ function Registration() {
     }
   };
 
+  // Add these functions before the return statement
+  const openModal = (section) => {
+    setActiveSection(section);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <div className="registration-container">
       <div className="form-section right">
@@ -218,6 +257,31 @@ function Registration() {
               className={fieldErrors.email ? "error" : ""}
             />
             {fieldErrors.email && <span className="field-error">{fieldErrors.email}</span>}
+          </div>
+          
+          {/* Password fields moved here */}
+          <div className="input-group">
+            <input 
+              type="password" 
+              name="password"
+              placeholder="Create Password" 
+              value={formData.password}
+              onChange={handleChange}
+              className={fieldErrors.password ? "error" : ""}
+            />
+            {fieldErrors.password && <span className="field-error">{fieldErrors.password}</span>}
+          </div>
+
+          <div className="input-group">
+            <input 
+              type="password" 
+              name="confirmPassword"
+              placeholder="Confirm Password" 
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              className={fieldErrors.confirmPassword ? "error" : ""}
+            />
+            {fieldErrors.confirmPassword && <span className="field-error">{fieldErrors.confirmPassword}</span>}
           </div>
           
           <div className="input-group">
@@ -281,7 +345,7 @@ function Registration() {
                 onChange={handleChange}
               />
               <label htmlFor="terms-checkbox" className="terms-text">
-                I do accept the terms and conditions of your company.
+                I agree to the <button type="button" onClick={() => openModal('terms')} className="terms-link">Terms and Conditions</button> and <button type="button" onClick={() => openModal('privacy')} className="terms-link">Privacy Policy</button>
               </label>
             </div>
             {fieldErrors.acceptTerms && <span className="field-error">{fieldErrors.acceptTerms}</span>}
@@ -296,6 +360,45 @@ function Registration() {
           </button>
         </form>
       </div>
+      
+      {/* Add the modal */}
+      {isModalOpen && (
+        <div className="legal-modal">
+          <div className="modal-content">
+            <button className="modal-close" onClick={closeModal}>&times;</button>
+            
+            {activeSection === 'terms' && (
+              <div className="legal-section" id="terms">
+                <div className="terms-section">
+                  <h3>Terms and Conditions</h3>
+                  <p>By registering and creating an account with Muzaffarpur Ice, you agree to the following terms and conditions. Please read them carefully before proceeding.</p>
+                  <ol>
+                    <li><strong>Eligibility:</strong> You must be at least 18 years old to create an account and use our services.</li>
+                    <li><strong>Accurate Information:</strong> You agree to provide accurate, current, and complete information during the registration process and to update such information to keep it accurate and complete.</li>
+                    <li><strong>Account Security:</strong> You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account. Notify us immediately of any unauthorized use.</li>
+                    <li><strong>Use of Services:</strong> You agree to use the services only for lawful purposes and in accordance with these terms.</li>
+                    <li><strong>Termination:</strong> We reserve the right to suspend or terminate your account if any information provided during the registration process or thereafter is found to be inaccurate or misleading.</li>
+                  </ol>
+                </div>
+              </div>
+            )}
+            
+            {activeSection === 'privacy' && (
+              <div className="legal-section" id="privacy">
+                <div className="terms-section">
+                  <h3>Privacy Policy</h3>
+                  <p>Your privacy is important to us. By registering, you agree to the collection and use of your personal information as outlined in our Privacy Policy.</p>
+                  <ul>
+                    <li>We collect personal details like name, phone number, email, and address solely for service-related purposes.</li>
+                    <li>We do not share your data with third parties without your consent, except as required by law.</li>
+                    <li>You can request to review, update, or delete your information at any time.</li>
+                  </ul>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
