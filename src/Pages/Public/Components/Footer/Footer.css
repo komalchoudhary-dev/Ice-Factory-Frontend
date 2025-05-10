@@ -36,28 +36,22 @@
 .footer-logo {
   display: flex;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 }
 
 .footer-logo-img {
-  width: 40px;
-  height: 40px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   margin-right: 10px;
   object-fit: cover;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
-.footer-logo h3 {
-  font-family: 'DM Serif Text', serif;
-  font-size: 1.5rem;
-  margin: 0;
-  font-weight: 400;
-  color: white;
-}
+
 
 .tagline {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.1rem;
   font-size: 0.95rem;
   opacity: 0.9;
   max-width: 300px;
@@ -95,7 +89,7 @@
 .links h4,
 .contact-info h4 {
   font-size: 1.2rem;
-  margin-bottom: 1.25rem;
+  margin-bottom: 2rem;
   font-weight: 600;
   position: relative;
   color: white;
@@ -146,7 +140,8 @@
 
 .contact-icon {
   margin-right: 10px;
-  color: rgba(255, 255, 255, 0.6);
+  color: #FFD700;
+
   font-size: 1rem;
   margin-top: 2px;
 }
@@ -215,4 +210,25 @@
   .social-links {
     justify-content: flex-start;
   }
+}
+.quick-links {
+  list-style: none;
+  padding-left: 0;
+}
+
+.quick-links li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.quick-links li::before {
+  content: "›"; /* Unicode chevron */
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #FFD700;
+/* Optional: match theme */
+  font-size: 1rem;
+  line-height: 1.5;
 }

@@ -14,7 +14,7 @@ const Footer = () => {
         <div className="footer-section company-info">
           <div className="footer-logo">
             <img src={logo} alt="Ice Factory Logo" className="footer-logo-img" />
-            <h3>Muzaffarpur Ice</h3>
+            
           </div>
           <p className="tagline">Providing premium quality ice blocks for all your cooling needs.</p>
           <div className="social-links">
@@ -43,14 +43,15 @@ const Footer = () => {
         </div>
         
         <div className="footer-section links">
-          <h4>Quick Links</h4>
-          <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/about">About Us</Link></li>
-            <li><Link to="/orders">Place Order</Link></li>
-            <li><Link to="/contact">Contact Us</Link></li>
-          </ul>
-        </div>
+  <h4>Quick Links</h4>
+  <ul className="quick-links">
+    <li><Link to="/">Home</Link></li>
+    <li><Link to="/about">About Us</Link></li>
+    <li><Link to="/orders">Place Order</Link></li>
+    <li><Link to="/contact">Contact Us</Link></li>
+  </ul>
+</div>
+
         
         
         <div className="footer-section contact-info">
