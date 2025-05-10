@@ -273,8 +273,12 @@ const LoginSignup = () => {
               <label htmlFor="remember">Remember me</label>
             </div>
             <button 
+              type="button"
               className="forgot-password-link"
-              onClick={handleForgotPasswordClick}
+              onClick={(e) => {
+                e.preventDefault();
+                handleForgotPasswordClick(e);
+              }}
             >
               Forgot Password?
             </button>
