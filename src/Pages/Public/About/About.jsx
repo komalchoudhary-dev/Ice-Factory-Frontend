@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./about.css";
 import muzaf from "../../../assets/muz_map.png";
+
 export default function About() {
   const funFacts = [
     "Our factory uses energy-efficient cooling systems that reduce energy consumption by 20% compared to traditional methods.",
@@ -71,6 +72,36 @@ export default function About() {
       clearInterval(testimonialInterval);
     };
   }, [funFacts.length, testimonials.length]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          // When map container is in view, add the 'in-view' class
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            // Once it's animated in, no need to observe anymore
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      // Start animation when element is 20% in view
+      { threshold: 0.2 }
+    );
+
+    // Get the map container and observe it
+    const mapContainer = document.querySelector('.map-container');
+    if (mapContainer) {
+      observer.observe(mapContainer);
+    }
+
+    // Clean up
+    return () => {
+      if (mapContainer) {
+        observer.unobserve(mapContainer);
+      }
+    };
+  }, []); // Empty dependency array means this runs once after initial render
 
   return (
     <div className="about-page">

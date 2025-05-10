@@ -282,3 +282,96 @@
     85% { opacity: 1; }
     100% { opacity: 0; }
 }
+
+/* Scroll-driven zoom animation for map image */
+.map-container {
+  position: relative;
+  perspective: 1000px;
+  overflow: hidden;
+  border-radius: 8px;
+  transition: all 0.5s ease;
+  /* Added this to track when element enters viewport */
+  opacity: 0;
+}
+
+/* Initial state for the scroll animation */
+.map-image {
+  width: 100%;
+  height: auto;
+  transform: scale(0.85) rotateX(5deg) rotateY(5deg);
+  transition: transform 0.8s cubic-bezier(0.215, 0.61, 0.355, 1), 
+              filter 0.8s cubic-bezier(0.215, 0.61, 0.355, 1);
+  filter: drop-shadow(0 10px 15px rgba(0, 50, 100, 0.3)) blur(2px);
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Class that will be added via JavaScript when scrolled into view */
+.map-container.in-view {
+  opacity: 1;
+  animation: fadeIn 0.8s forwards;
+}
+
+.map-container.in-view .map-image {
+  transform: scale(1) rotateX(5deg) rotateY(5deg);
+  filter: drop-shadow(0 10px 15px rgba(0, 50, 100, 0.3)) blur(0);
+}
+
+.map-container:hover .map-image {
+  transform: rotateX(0deg) rotateY(0deg) scale(1.05);
+  filter: drop-shadow(0 15px 20px rgba(0, 50, 100, 0.4));
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Floating animation */
+@keyframes float {
+  0% {
+    transform: rotateX(5deg) rotateY(5deg) translateY(0px);
+  }
+  50% {
+    transform: rotateX(8deg) rotateY(8deg) translateY(-10px);
+  }
+  100% {
+    transform: rotateX(5deg) rotateY(5deg) translateY(0px);
+  }
+}
+
+/* Add an interactive highlighting effect */
+.map-container::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(45deg);
+  transition: all 0.7s ease;
+  opacity: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.map-container:hover::before {
+  animation: shine 1.5s ease-in-out;
+  opacity: 1;
+}
+
+@keyframes shine {
+  0% {
+    top: -150%;
+    left: -150%;
+  }
+  100% {
+    top: 150%;
+    left: 150%;
+  }
+}

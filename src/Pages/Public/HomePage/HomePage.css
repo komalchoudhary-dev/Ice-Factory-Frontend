@@ -279,11 +279,11 @@ body {
   align-items: center;
   justify-content: flex-start; /* Ensure content is aligned at the top */
   border-radius: 8px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  /* box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15); */
   text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  color: var(--gray-800);
-  background-color: rgba(255, 255, 255, 0);
+  /* transition: transform 0.3s ease, box-shadow 0.3s ease; */
+  /* color: var(--gray-800); */
+  /* background-color: rgba(255, 255, 255, 0); */
 }
 .feature-card:hover {
   transform: translateY(-10px);
@@ -346,11 +346,11 @@ body {
   align-items: center;
   justify-content: flex-start;
   padding: 2.5rem 2rem;
-  background-color: rgba(255, 255, 255, 0.1);
+  /* background-color: rgba(255, 255, 255, 0.1); */
   border-radius: 12px;
   transition: all 0.3s ease;
   height: 100%;
-  backdrop-filter: blur(8px);
+  /* backdrop-filter: blur(8px); */
   margin: 0; /* Reset any margins */
 }
 
