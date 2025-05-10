@@ -47,7 +47,7 @@ const Order = () => {
         setLoading(true);
         
         // Fetch capacity forecast for the next 15 days
-        const capacityResponse = await fetch('http://localhost:8080/api/admin/capacity/forecast');
+        const capacityResponse = await fetch('http://localhost:8080/api/public/capacity/forecast');
         
         if (!capacityResponse.ok) {
           throw new Error(`HTTP error fetching capacity! Status: ${capacityResponse.status}`);
