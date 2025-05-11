@@ -55,20 +55,20 @@ const LoginSignup = () => {
       try {
         setLoading(true);
         
-        // First, check if the credentials belong to an admin using GET method
+        // First, check if the credentials belong to an admin
         try {
-          // Try admin verification first with GET method
           const adminResponse = await axios.get(
             `http://localhost:8080/api/public/verifyadminLogin?phone=${encodeURIComponent(formData.phone)}&password=${encodeURIComponent(formData.password)}`
           );
           
-          // If admin verification succeeds (returns true)
-          if (adminResponse.data === true) {
+          // If admin verification succeeds, adminResponse.data will contain the JWT token
+          if (adminResponse.status === 200 && adminResponse.data) {
             console.log("Admin login successful");
             
-            // Store admin info in localStorage
+            // Store admin info and token in localStorage
             localStorage.setItem('adminPhone', formData.phone);
             localStorage.setItem('isAdmin', 'true');
+            localStorage.setItem('authToken', adminResponse.data); // Store the JWT token
             
             // Redirect to admin dashboard
             navigate('/admin-dashboard');
@@ -80,23 +80,40 @@ const LoginSignup = () => {
         }
         
         // If we get here, admin check failed, so check if it's a regular user
-        const userResponse = await fetch(`http://localhost:8080/api/public/verifyLogin?phone=${encodeURIComponent(formData.phone)}&password=${encodeURIComponent(formData.password)}`);
-        
-        if (!userResponse.ok) {
-          throw new Error(`Server error: ${userResponse.status}`);
-        }
-        
-        const result = await userResponse.json();
-        
-        if (result === true) {
-          // Login successful - call the login function from context
-          await login(formData.phone);
+        try {
+          const userResponse = await axios.get(
+            `http://localhost:8080/api/public/verifyLogin?phone=${encodeURIComponent(formData.phone)}&password=${encodeURIComponent(formData.password)}`
+          );
           
-          // Redirect to home page
-          navigate('/');
-        } else {
-          // Login failed - neither admin nor regular user
-          setError("Invalid phone number or password");
+          // If user verification succeeds, userResponse.data will contain token and message fields
+          if (userResponse.status === 200 && userResponse.data.token) {
+            console.log("User login successful:", userResponse.data.message);
+            
+            // Store the JWT token
+            localStorage.setItem('authToken', userResponse.data.token);
+            
+            // Login successful - call the login function from context
+            // Pass the token to the login function
+            await login(formData.phone, userResponse.data.token);
+            
+            // Redirect to home page
+            navigate('/');
+          } else {
+            // Unexpected response format
+            console.error("Unexpected response format:", userResponse.data);
+            setError("Login failed. Please try again.");
+          }
+        } catch (userErr) {
+          // Check if it's an unauthorized error
+          if (userErr.response && userErr.response.status === 401) {
+            setError("Invalid phone number or password");
+          } else if (userErr.response && userErr.response.status === 500) {
+            console.error("Server error:", userErr);
+            setError("Server error. Please try again later.");
+          } else {
+            console.error("User login error:", userErr);
+            setError("Failed to connect to the server. Please try again.");
+          }
         }
       } catch (err) {
         console.error("Login error:", err);
