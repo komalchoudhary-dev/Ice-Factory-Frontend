@@ -6,7 +6,7 @@ import Footer from "../Components/Footer/Footer.jsx";
 import "./UserProfile.css";
 
 function UserProfile() {
-  const { userPhone, userDetails,userAddress, setUserDetails } = useContext(UserContext);
+  const { userPhone, userDetails, userAddress, userEmail, setUserDetails } = useContext(UserContext);
   const [userData, setUserData] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -17,6 +17,7 @@ function UserProfile() {
     // Fetch user details from localStorage first
     const storedUser = localStorage.getItem('userDetails');
     const storedAddress = localStorage.getItem('userAddress');
+    const storedEmail = localStorage.getItem('userEmail');
     
     if (storedUser) {
       try {
@@ -41,6 +42,7 @@ function UserProfile() {
           firstName: parsedUser.firstName || "",
           lastName: parsedUser.lastName || "",
           contact: parsedUser.phone || "",
+          email: storedEmail || parsedUser.email || "", // Add email from localStorage or user details
           address: addressData.street || "",
           pinCode: addressData.pincode || "",
           place: addressData.city || "",
@@ -67,6 +69,7 @@ function UserProfile() {
           firstName: userDetails.firstName || "",
           lastName: userDetails.lastName || "",
           contact: userDetails.phone || "",
+          email: userEmail || userDetails.email || "", // Add email from context
           address: addressData.street || "",
           pinCode: addressData.pincode || "",
           place: addressData.city || "",
@@ -78,7 +81,7 @@ function UserProfile() {
         setLoading(false);
       }
     }
-  }, [userDetails, userAddress]);
+  }, [userDetails, userAddress, userEmail]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -108,6 +111,7 @@ function UserProfile() {
         phone: userData.contact,
         firstName: userData.firstName,
         lastName: userData.lastName,
+        email: userData.email, // Add email to the update data
         // Keep the existing rate if available or use default
         rate: userDetails?.rate || 10.0
       };
@@ -190,16 +194,17 @@ function UserProfile() {
         }
       }
       
-      // Update local storage with the new user data regardless of address update
-      // First update userDetails in localStorage
+      // Update local storage with the new user data
       const updatedUserDetails = {
         firstName: userData.firstName,
         lastName: userData.lastName,
         phone: userData.contact,
+        email: userData.email, // Add email to localStorage update
         rate: userDetails?.rate || 10.0
       };
       
       localStorage.setItem('userDetails', JSON.stringify(updatedUserDetails));
+      localStorage.setItem('userEmail', userData.email); // Update email in localStorage
       
       // If address was successfully updated or created, update it in localStorage
       if (addressUpdateSuccess && updatedAddressData) {
@@ -265,6 +270,7 @@ function UserProfile() {
             <div className="name-email">
               <h2>{userData.firstName} {userData.lastName}</h2>
               <p>{userData.contact}</p>
+              <p className="user-email">{userData.email}</p> {/* Display email in header */}
             </div>
           </div>
           
@@ -293,6 +299,18 @@ function UserProfile() {
                   type="text"
                   name="lastName"
                   value={userData.lastName}
+                  onChange={handleChange}
+                  readOnly={!isEditing}
+                  className={`form-input ${isEditing ? 'editable' : ''}`}
+                />
+              </div>
+              
+              <div className="detail-item">
+                <span>Email:</span>
+                <input
+                  type="email"
+                  name="email"
+                  value={userData.email}
                   onChange={handleChange}
                   readOnly={!isEditing}
                   className={`form-input ${isEditing ? 'editable' : ''}`}
