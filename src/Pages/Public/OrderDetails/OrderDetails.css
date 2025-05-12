@@ -1,14 +1,12 @@
+/* Enhanced OrderDetails.css with classy animations */
+
 :root {
-  /* Primary colors */
+  /* Colors and variables (keeping your existing ones) */
   --primary-blue: #3A59D1;
   --primary-dark-blue: #261FB3;
   --primary-light-blue: #3D90D7;
-  
-  /* Secondary colors */
   --secondary-light-blue: #6CBBF7;
   --secondary-periwinkle: #8193E3;
-  
-  /* Neutral colors */
   --white: #FFFFFF;
   --gray-50: #F8FAFC;
   --gray-100: #F1F5F9;
@@ -20,33 +18,32 @@
   --gray-700: #334155;
   --gray-800: #1E293B;
   --gray-900: #0F172A;
-  
-  /* Status colors */
   --success: #10B981;
   --warning: #F59E0B;
   --danger: #EF4444;
   --success-light: #D1FAE5;
   --warning-light: #FEF3C7;
   --danger-light: #FEE2E2;
-  
-  /* Shadow values */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  
-  /* Transition */
   --transition: all 0.3s ease;
-  
-  /* Radius */
   --radius-sm: 0.25rem;
   --radius-md: 0.375rem;
   --radius-lg: 0.5rem;
   --radius-xl: 0.75rem;
   --radius-2xl: 1rem;
+
+  /* Animation timing values for coordinated animations */
+  --anim-duration-short: 0.3s;
+  --anim-duration-medium: 0.5s;
+  --anim-duration-long: 0.8s;
+  --anim-easing: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --anim-easing-bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* Full-screen layout */
+/* Full-screen layout with enhanced background */
 .order-details-container {
   display: flex;
   justify-content: center;
@@ -56,6 +53,41 @@
   padding: 0;
   background: linear-gradient(160deg, var(--gray-50) 0%, var(--white) 100%);
   width: 100%;
+  position: relative;
+  overflow: hidden;
+  animation: fadeInBackground 1s var(--anim-easing);
+}
+
+/* Background animation pattern */
+.order-details-container::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(129, 147, 227, 0.05) 0%, rgba(129, 147, 227, 0) 70%);
+  border-radius: 50%;
+  animation: floatBackground 20s infinite alternate var(--anim-easing);
+  pointer-events: none;
+}
+
+@keyframes fadeInBackground {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes floatBackground {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(-5%, -5%);
+  }
 }
 
 .order-details-card {
@@ -70,9 +102,21 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  animation: slideUpCard 0.8s var(--anim-easing);
 }
 
-/* Decorative top border */
+@keyframes slideUpCard {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Animated top border */
 .order-details-card::before {
   content: '';
   position: absolute;
@@ -81,9 +125,21 @@
   right: 0;
   height: 6px;
   background: linear-gradient(90deg, var(--primary-blue), var(--primary-light-blue));
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: expandBorder 1.2s var(--anim-easing-bounce) forwards 0.3s;
 }
 
-/* Content container */
+@keyframes expandBorder {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Content container with shimmer effect */
 .order-details-card::after {
   content: '';
   position: fixed;
@@ -93,6 +149,17 @@
   height: 8px;
   background: linear-gradient(90deg, var(--primary-blue), var(--primary-light-blue));
   z-index: 100;
+  background-size: 200% 100%;
+  animation: shimmerBorder 3s infinite linear;
+}
+
+@keyframes shimmerBorder {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
 }
 
 h1 {
@@ -105,6 +172,18 @@ h1 {
   position: relative;
   display: inline-block;
   width: 100%;
+  animation: fadeInDown 0.8s var(--anim-easing);
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 h1::after {
@@ -113,13 +192,99 @@ h1::after {
   bottom: -8px;
   left: 50%;
   transform: translateX(-50%);
-  width: 80px;
+  width: 0;
   height: 4px;
   background: linear-gradient(90deg, var(--primary-blue), var(--primary-light-blue));
   border-radius: var(--radius-lg);
+  animation: expandUnderline 1s var(--anim-easing) forwards 0.5s;
 }
 
-/* Form layout */
+@keyframes expandUnderline {
+  from {
+    width: 0;
+  }
+  to {
+    width: 80px;
+  }
+}
+
+/* Error message with attention animation */
+.error-message {
+  background-color: var(--danger-light);
+  color: var(--danger);
+  border-radius: var(--radius-lg);
+  padding: 1rem 1.5rem;
+  border-left: 4px solid var(--danger);
+  margin-bottom: 2rem;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  animation: shakeError 0.5s var(--anim-easing), fadeIn 0.3s var(--anim-easing);
+  box-shadow: 0 4px 8px rgba(239, 68, 68, 0.15);
+}
+
+@keyframes shakeError {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+/* Success message with scale and bounce animation */
+.success-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  animation: successBounce 0.6s var(--anim-easing-bounce);
+  padding: 2rem;
+  margin: 0 auto;
+  max-width: 600px;
+}
+
+@keyframes successBounce {
+  0% { transform: scale(0.8); opacity: 0; }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.success-icon {
+  background-color: var(--success);
+  color: white;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  animation: successIconPop 0.5s var(--anim-easing-bounce) 0.3s both;
+}
+
+.success-icon::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 3px solid var(--success);
+  opacity: 0;
+  animation: successRipple 1.5s ease-out infinite;
+}
+
+@keyframes successIconPop {
+  0% { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes successRipple {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+/* Form layout with staggered animation */
 .order-form {
   width: 100%;
   max-width: 1200px;
@@ -129,31 +294,48 @@ h1::after {
   gap: 2rem;
 }
 
-/* Form sections */
+/* Form sections with staggered animation */
 .form-section {
   flex: 1 1 calc(50% - 1rem);
   min-width: 300px;
-  animation: fadeIn 0.5s ease-out;
   background-color: var(--white);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-sm);
   padding: 1.5rem;
   border: 1px solid var(--gray-200);
   transition: var(--transition);
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.6s var(--anim-easing) forwards;
+}
+
+.form-section:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.form-section:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.form-section:nth-child(3) {
+  animation-delay: 0.5s;
+  flex: 1 1 100%; /* Last section is full width */
+}
+
+@keyframes fadeInUp {
+  from { 
+    opacity: 0; 
+    transform: translateY(20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
 }
 
 .form-section:hover {
   box-shadow: var(--shadow-md);
-}
-
-/* Last section is full width */
-.form-section:last-of-type {
-  flex: 1 1 100%;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  transform: translateY(-4px);
 }
 
 h3 {
@@ -163,14 +345,37 @@ h3 {
   border-bottom: 2px solid var(--gray-200);
   padding-bottom: 0.75rem;
   font-weight: 600;
+  position: relative;
+  overflow: hidden;
+}
+
+h3::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary-blue), var(--primary-light-blue));
+  animation: slideRightBorder 0.8s var(--anim-easing) forwards 0.6s;
+}
+
+@keyframes slideRightBorder {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
 }
 
 .form-group {
   margin-bottom: 1.5rem;
   position: relative;
+  transition: var(--transition);
 }
 
-/* Form label styling */
+/* Form label with subtle animation on focus */
 label {
   display: block;
   margin-bottom: 0.75rem;
@@ -178,10 +383,12 @@ label {
   font-weight: 500;
   font-size: 1.125rem;
   transition: var(--transition);
+  position: relative;
 }
 
 .form-group:focus-within label {
   color: var(--primary-blue);
+  transform: translateX(5px);
 }
 
 .required {
@@ -191,9 +398,19 @@ label {
   position: relative;
   top: 3px;
   margin-left: 2px;
+  animation: pulseStar 1.5s infinite;
 }
 
-/* Input styling */
+@keyframes pulseStar {
+  0%, 100% { 
+    opacity: 1; 
+  }
+  50% { 
+    opacity: 0.6; 
+  }
+}
+
+/* Enhanced input styling with focus animation */
 .input-field {
   width: 100%;
   padding: 1rem 1.25rem;
@@ -203,6 +420,8 @@ label {
   transition: var(--transition);
   background-color: var(--gray-50);
   box-shadow: var(--shadow-sm);
+  position: relative;
+  z-index: 1;
 }
 
 .input-field:hover {
@@ -214,6 +433,26 @@ label {
   border-color: var(--primary-blue);
   box-shadow: 0 0 0 3px rgba(58, 89, 209, 0.2);
   background-color: var(--white);
+  transform: translateY(-2px);
+}
+
+.form-group::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--primary-blue);
+  transition: all 0.3s ease;
+  z-index: 0;
+  opacity: 0;
+}
+
+.form-group:focus-within::after {
+  width: 100%;
+  left: 0;
+  opacity: 1;
 }
 
 textarea.input-field {
@@ -221,7 +460,7 @@ textarea.input-field {
   resize: vertical;
 }
 
-/* Ice block quantity input */
+/* Ice block quantity input with enhanced styling */
 .quantity-input {
   width: 200px;
   text-align: center;
@@ -229,16 +468,15 @@ textarea.input-field {
   color: var(--primary-dark-blue);
   font-size: 1.25rem;
   padding: 1.25rem;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* Date input styling */
-input[type="date"].input-field {
-  color: var(--gray-700);
-  font-family: inherit;
-  padding: 0.9rem 1.25rem;
+.quantity-input:focus {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(58, 89, 209, 0.2);
 }
 
-/* Availability info */
+/* Animated availability info */
 .availability-info {
   margin-top: 0.75rem;
   font-size: 1rem;
@@ -248,6 +486,43 @@ input[type="date"].input-field {
   padding: 0.75rem 1rem;
   display: inline-block;
   border: 1px solid var(--gray-200);
+  animation: fadeInInfo 0.8s var(--anim-easing);
+  position: relative;
+  overflow: hidden;
+}
+
+.availability-info::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0) 100%);
+  animation: shimmerInfo 3s infinite;
+}
+
+@keyframes fadeInInfo {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmerInfo {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
 }
 
 .availability-info span {
@@ -255,44 +530,87 @@ input[type="date"].input-field {
   color: var(--primary-dark-blue);
 }
 
-/* Form actions */
+/* Form actions with animated buttons */
 .form-actions {
   flex: 1 1 100%;
   display: flex;
   gap: 1.5rem;
   margin-top: 3rem;
   justify-content: center;
+  opacity: 1 !important; /* Force visibility instead of relying on animation */
+  animation: fadeIn 0.5s var(--anim-easing) 0.8s;
 }
 
-/* Buttons */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Enhanced button animations */
 .btn {
   padding: 1.25rem 2.5rem;
   border-radius: var(--radius-lg);
   font-size: 1.125rem;
   font-weight: 600;
   cursor: pointer;
-  transition: var(--transition);
+  transition: transform 0.3s var(--anim-easing-bounce), box-shadow 0.3s ease, background-color 0.3s ease;
   border: none;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   width: 250px;
   text-align: center;
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  opacity: 1 !important; /* Force visibility */
+  z-index: 10; /* Ensure buttons appear above other elements */
+}
+
+.btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%);
+  transform-origin: 50% 50%;
+}
+
+.btn:active::after {
+  opacity: 0.2;
+  transform: scale(0, 0);
+  transition: 0s;
+}
+
+.primary, .secondary {
+  display: inline-block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 .primary {
   background-color: var(--primary-blue);
   color: var(--white);
   box-shadow: 0 4px 6px rgba(58, 89, 209, 0.2);
+  border: 2px solid var(--primary-blue); /* Added border for clarity */
 }
 
 .primary:hover {
   background-color: var(--primary-dark-blue);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 10px rgba(58, 89, 209, 0.25);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(58, 89, 209, 0.3);
 }
 
 .primary:active {
-  transform: translateY(0);
+  transform: translateY(-2px);
 }
 
 .primary:disabled {
@@ -305,21 +623,32 @@ input[type="date"].input-field {
 .secondary {
   background-color: var(--gray-200);
   color: var(--gray-700);
+  position: relative;
+  overflow: hidden;
+  border: 2px solid var(--gray-400); /* Added border for clarity */
 }
 
 .secondary:hover {
   background-color: var(--gray-300);
-  transform: translateY(-2px);
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .secondary:active {
-  transform: translateY(0);
+  transform: translateY(-2px);
 }
 
-/* Form validation styling */
+/* Form validation styling with transition */
 .input-field:invalid:not(:placeholder-shown) {
   border-color: var(--danger);
   background-color: var(--danger-light);
+  animation: shakeLightly 0.3s var(--anim-easing);
+}
+
+@keyframes shakeLightly {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  75% { transform: translateX(3px); }
 }
 
 .input-field:valid:not(:placeholder-shown) {
@@ -327,7 +656,7 @@ input[type="date"].input-field {
   background-color: var(--success-light);
 }
 
-/* Loading state */
+/* Improved loading state with animation */
 .loading-indicator {
   display: flex;
   flex-direction: column;
@@ -335,21 +664,47 @@ input[type="date"].input-field {
   justify-content: center;
   gap: 1rem;
   margin-top: 1rem;
+  animation: fadeIn 0.3s var(--anim-easing);
 }
 
 .loading-spinner {
   width: 40px;
   height: 40px;
-  border: 4px solid var(--gray-200);
+  border: 4px solid rgba(58, 89, 209, 0.1);
   border-top-color: var(--primary-blue);
   border-radius: 50%;
   animation: spinner 0.8s linear infinite;
 }
 
 @keyframes spinner {
-  to {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
     transform: rotate(360deg);
   }
+}
+
+/* Processing text animation */
+.loading-indicator span {
+  position: relative;
+  display: inline-block;
+}
+
+.loading-indicator span::after {
+  content: '';
+  position: absolute;
+  right: -12px;
+  bottom: 0;
+  animation: processingDots 1.5s infinite;
+}
+
+@keyframes processingDots {
+  0% { content: ''; }
+  25% { content: '.'; }
+  50% { content: '..'; }
+  75% { content: '...'; }
+  100% { content: ''; }
 }
 
 /* Responsive adjustments */
@@ -378,6 +733,11 @@ input[type="date"].input-field {
     width: 100%;
     padding: 1rem 1.5rem;
   }
+  
+  /* Reduce animation for performance on mobile */
+  .order-details-container::before {
+    display: none;
+  }
 }
 
 @media (max-width: 640px) {
@@ -401,6 +761,23 @@ input[type="date"].input-field {
   .input-field {
     font-size: 1rem;
     padding: 0.85rem 1rem;
+  }
+  
+  /* Simplify animations on small screens */
+  .btn:hover {
+    transform: translateY(-2px);
+  }
+}
+
+/* Reduced motion preference support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 

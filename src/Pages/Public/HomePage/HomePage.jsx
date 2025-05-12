@@ -1,12 +1,9 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { h1 } from 'framer-motion/client';
+import './HomepageEnhanced.css';
 
-import Login from './Login.jsx';
-import History from './History.jsx';
-import Orders from './Orders.jsx';
 import Home from './Home.jsx';
-import Contact from './Contact.jsx';
 import About from '../About/About.jsx';
 import Footer from '../Components/Footer/Footer.jsx';
 
@@ -38,6 +35,38 @@ export default function Frame_1() {
       }
     }
   }, [location]);
+
+  // Intersection Observer for scroll animations
+  useEffect(() => {
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.2,
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          // Once the animation has played, no need to observe this element anymore
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+    
+    // Observe all elements with the reveal classes
+    const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .about-section');
+    revealElements.forEach(element => {
+      observer.observe(element);
+    });
+    
+    // Clean up
+    return () => {
+      revealElements.forEach(element => {
+        observer.unobserve(element);
+      });
+    };
+  }, []);
   
   return (
     <>
