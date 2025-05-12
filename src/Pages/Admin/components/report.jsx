@@ -57,9 +57,8 @@ const SalesReport = () => {
         responseData = res.data;
       }
 
-      // Always filter to delivered
       responseData = responseData.filter(
-        (order) => order.orderStatus === "delivered"
+        (order) => order.status === "delivered"
       );
 
       setSalesData(responseData);
@@ -86,6 +85,11 @@ const SalesReport = () => {
     doc.autoTable({ head: [tableColumn], body: tableRows });
     doc.save("sales_report.pdf");
   };
+
+  const totalRevenue = salesData.reduce(
+    (sum, order) => sum + (order.totalAmount || 0),
+    0
+  );
 
   return (
     <div className="p-4">
@@ -188,24 +192,48 @@ const SalesReport = () => {
             <thead>
               <tr>
                 <th className="border px-4 py-2 bg-gray-100">S.No</th>
-                {Object.keys(salesData[0]).map((key) => (
-                  <th key={key} className="border px-4 py-2 bg-gray-100 text-left">
-                    {key}
-                  </th>
-                ))}
+                <th className="border px-4 py-2 bg-gray-100">Order ID</th>
+                <th className="border px-4 py-2 bg-gray-100">Name</th>
+                <th className="border px-4 py-2 bg-gray-100">Phone</th>
+                <th className="border px-4 py-2 bg-gray-100">Address</th>
+                <th className="border px-4 py-2 bg-gray-100">Order Date</th>
+                <th className="border px-4 py-2 bg-gray-100">Delivery Date</th>
+                <th className="border px-4 py-2 bg-gray-100">Status</th>
+                <th className="border px-4 py-2 bg-gray-100">Quantity</th>
+                <th className="border px-4 py-2 bg-gray-100">Rate</th>
+                <th className="border px-4 py-2 bg-gray-100">Amount</th>
               </tr>
             </thead>
             <tbody>
               {salesData.map((row, index) => (
                 <tr key={index}>
                   <td className="border px-4 py-2">{index + 1}</td>
-                  {Object.values(row).map((value, i) => (
-                    <td key={i} className="border px-4 py-2">{value}</td>
-                  ))}
+                  <td className="border px-4 py-2">{row.orderId}</td>
+                  <td className="border px-4 py-2">{`${row.firstName} ${row.lastName}`}</td>
+                  <td className="border px-4 py-2">{row.phone}</td>
+                  <td className="border px-4 py-2">{`${row.street}, ${row.city}, ${row.pincode}`}</td>
+                  <td className="border px-4 py-2">
+                    {row.orderDate
+                      ? format(new Date(row.orderDate), "dd-MMM-yyyy")
+                      : "-"}
+                  </td>
+                  <td className="border px-4 py-2">
+                    {row.deliveryDate
+                      ? format(new Date(row.deliveryDate), "dd-MMM-yyyy")
+                      : "-"}
+                  </td>
+                  <td className="border px-4 py-2">{row.status}</td>
+                  <td className="border px-4 py-2">{row.quantity}</td>
+                  <td className="border px-4 py-2">{row.totalAmount/row.quantity}</td>
+                  <td className="border px-4 py-2">{row.totalAmount}</td>
                 </tr>
               ))}
             </tbody>
           </table>
+
+          <div className="mt-4 text-right text-lg font-semibold">
+            Total Revenue: ₹{totalRevenue.toFixed(2)}
+          </div>
         </div>
       ) : (
         !loading && <p className="mt-4 text-gray-600">No data to display.</p>
@@ -214,4 +242,4 @@ const SalesReport = () => {
   );
 };
 
-export default SalesReport;//Working fine by 15:04 01-05-2025
+export default SalesReport;

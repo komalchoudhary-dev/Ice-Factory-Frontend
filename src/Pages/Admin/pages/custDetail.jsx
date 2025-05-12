@@ -32,6 +32,7 @@ function Detail() {
         console.error("Error fetching data", error);
       });
   }
+  console.log("Data from API: ", apiData);
   useEffect(() => {
       getData();
     }, []);
@@ -48,13 +49,21 @@ function Detail() {
         <div className ='flex'>
             <Sidebar/>
   <div className="flex flex-col w-full p-2">
-  <p>{`Order Details for ${data.firstName} ${data.lastName}`}</p>
+    <h1 className="text-2xl font-bold">
+  Order Details 
+</h1>
+  <h2 className="text-xl font-gray font-semibold flex justify-between">
+  <span>{`Customer Name: ${data.firstName} ${data.lastName}`}</span>
+  <span>{`Phone number: ${data.phone}`}</span>
+</h2>
+
+
 
        <br/>
             {apiData.length > 0 ? (
   <div className="overflow-x-auto">
     <table className="min-w-full bg-white border">
-      <thead>
+      {/* <thead>
         <tr>
           <th className="border px-4 py-2 bg-gray-100">S.No</th>
           {Object.keys(apiData[0]).map((key) => (
@@ -73,7 +82,57 @@ function Detail() {
             ))}
           </tr>
         ))}
-      </tbody>
+      </tbody> */}
+      <thead>
+  <tr>
+    <th className="border px-4 py-2 bg-gray-100">S.No</th>
+    <th className="border px-4 py-2 bg-gray-100 text-left">ID</th>
+    <th className="border px-4 py-2 bg-gray-100 text-left">Phone</th>
+    <th className="border px-4 py-2 bg-gray-100 text-left">Email</th>
+    <th className="border px-4 py-2 bg-gray-100 text-left">Order Date</th>
+    <th className="border px-4 py-2 bg-gray-100 text-left">Delivery Date</th>
+    <th className="border px-4 py-2 bg-gray-100 text-left">Quantity</th>
+    <th className="border px-4 py-2 bg-gray-100 text-left">Rate</th>
+    <th className="border px-4 py-2 bg-gray-100 text-left">Total Amount</th>
+  </tr>
+</thead>
+<tbody>
+  {apiData
+    .slice() // copy array so original doesn't mutate
+    .sort((a, b) => {
+      const dateA = a.deliveryDate ? new Date(a.deliveryDate) : new Date(0);
+      const dateB = b.deliveryDate ? new Date(b.deliveryDate) : new Date(0);
+      return dateB - dateA; // descending order
+    })
+    .map((row, index) => {
+      const formatDate = (dateStr) => {
+        if (!dateStr) return '';
+        const date = new Date(dateStr);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}-${month}-${year}`;
+      };
+
+      return (
+        <tr key={index}>
+          <td className="border px-4 py-2">{index + 1}</td>
+          <td className="border px-4 py-2">{row.id}</td>
+          <td className="border px-4 py-2">{row.phone}</td>
+          <td className="border px-4 py-2">{row.email || ''}</td>
+          <td className="border px-4 py-2">{formatDate(row.orderDate)}</td>
+          <td className="border px-4 py-2">{formatDate(row.deliveryDate)}</td>
+          <td className="border px-4 py-2">{row.quantity}</td>
+          <td className="border px-4 py-2">
+            {row.quantity ? (row.totalAmount / row.quantity).toFixed(2) : ''}
+          </td>
+          <td className="border px-4 py-2">{row.totalAmount}</td>
+        </tr>
+      );
+    })}
+</tbody>
+
+
     </table>
   </div>
 ) : (
