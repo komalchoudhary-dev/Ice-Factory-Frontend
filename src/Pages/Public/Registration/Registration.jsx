@@ -131,6 +131,7 @@ function Registration() {
           phone: formData.phone,
           firstName: formData.firstName,
           lastName: formData.lastName,
+          email: formData.email,
           // rate is not collected in the form, using default value
           rate: 0
         },
