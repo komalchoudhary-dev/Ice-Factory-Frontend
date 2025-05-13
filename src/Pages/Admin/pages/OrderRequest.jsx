@@ -241,7 +241,7 @@ function Prakhar() {
   function getNext15Dates() {
     const dates = [];
     const today = new Date();
-    for (let i = 0; i < 15; i++) {
+    for (let i = 1; i <= 15; i++) {
       const nextDate = new Date(today);
       nextDate.setDate(today.getDate() + i);
       const localDate = new Date(nextDate.getTime() - nextDate.getTimezoneOffset() * 60000);
