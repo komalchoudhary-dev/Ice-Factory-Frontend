@@ -209,7 +209,7 @@ const Order = () => {
       <Navbar />
       <div className="order-container">
         <div className="order-page-header">
-          <h1>Select Delivery Date</h1>
+          <h1 className='order-heading'>Select Delivery Date</h1>
         </div>
         
         {error && <div className="error-message">{error}</div>}

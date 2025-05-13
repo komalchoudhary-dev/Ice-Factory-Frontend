@@ -132,10 +132,8 @@
   font-family: 'DM Serif Text', serif;
   font-size: 1.5rem;
   font-weight: 500;
-  color: var(--white);
-  letter-spacing: 0.5px;
-  position: relative;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: white;
+  white-space: nowrap;
 }
 
 /* Navigation links */
@@ -210,21 +208,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.6rem 1.2rem;
-  background-color: rgba(255, 255, 255, 0.15);
-  color: var(--white);
+  padding: 0.5rem 1.25rem;
+  background-color: white;
+  color: black;
   text-decoration: none;
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   font-weight: 600;
-  border-radius: 50px;
+  border-radius: 4px;
   transition: all 0.3s ease;
-  border: 2px solid transparent;
-  letter-spacing: 0.5px;
-  white-space: nowrap;
-  cursor: pointer;
+  margin-left: 20px;
 }
 
-.auth-button:hover {
+/*.auth-button:hover {
   background-color: var(--white);
   color: var(--primary-blue);
   transform: translateY(-2px);
@@ -244,16 +239,20 @@
   opacity: 0.9;
 }
 
-.login-icon {
-  width: 18px;
-  height: 18px;
-  margin-right: 0.5rem;
-  transition: transform 0.3s ease;
+
+.auth-button:hover {
+  transform: translateY(-1px);
+  background-color: #f3f3f3;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.auth-button:hover .login-icon {
-  transform: rotate(15deg);
+.login-icon {
+  width: 0.7rem;
+  margin-right: 0.4rem;
 }
+/*.auth-button:hover .login-icon {
+  transform: rotate(15deg);
+}*/
 
 .user-profile {
   background-color: rgba(255, 255, 255, 0.2);
