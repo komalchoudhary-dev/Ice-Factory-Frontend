@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./about.css";
 import muzaf from "../../../assets/muz_map.png";
-import abimg from "../../../assets/about_back.jpg";
 
 
 export default function About() {
