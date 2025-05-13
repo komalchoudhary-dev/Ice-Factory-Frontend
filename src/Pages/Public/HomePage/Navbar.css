@@ -119,14 +119,14 @@
 }
 
 .nav-link {
-  color: white;
-  text-decoration: none;
-  font-size: 0.9rem;
-  font-weight: 500;
-  letter-spacing: 1px;
-  transition: all 0.3s ease;
-  position: relative;
-  text-transform: uppercase;
+ color: white;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    position: relative;
+    text-transform: uppercase;
 }
 
 .nav-link:hover, 
@@ -185,6 +185,7 @@
 /* User dropdown styling */
 .user-dropdown-container {
   position: relative;
+  margin: 0 0 0 1rem;
 }
 
 .user-icon-button {
@@ -301,6 +302,8 @@
   height: 21px;
   cursor: pointer;
   z-index: 200;
+  opacity: 1;
+  margin: 0 0 0 1rem;
 }
 
 .hamburger .bar {
