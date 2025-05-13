@@ -109,7 +109,7 @@ function Registration() {
     return Object.keys(errors).length === 0;
   };
   
-  // Handle form submission
+  // Handle form submission with two-step API process
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -124,13 +124,14 @@ function Registration() {
     setLoading(true);
     
     try {
+      // Step 1: Create new user
       // Prepare data for API to match backend schema with nested structure
       const userData = {
         user: {
           phone: formData.phone,
           firstName: formData.firstName,
           lastName: formData.lastName,
-          password: formData.password, // Include password in the user data
+          email: formData.email,
           // rate is not collected in the form, using default value
           rate: 0
         },
@@ -141,37 +142,61 @@ function Registration() {
         }
       };
       
-      // Make API call
-      const response = await axios.post(
+      // Make first API call to create the user
+      const userResponse = await axios.post(
         "http://localhost:8080/api/public/users/new", 
         userData
       );
       
-      // Handle successful registration
-      if (response.status === 200 || response.status === 201) {
-        // Login the user with the new account - flatten structure for local use
-        login({
-          phone: formData.phone,
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          // Include address info for convenience
-          street: formData.address,
-          city: formData.place,
-          pincode: formData.pinCode,
-          // Include any other user data returned from the API
-          ...(response.data?.user || {}),
-          // Store complete address object
-          address: response.data?.address || {
-            street: formData.address,
-            city: formData.place,
-            pincode: formData.pinCode
+      // Handle successful user creation (Step 1)
+      if (userResponse.status === 200 || userResponse.status === 201) {
+        // Step 2: Create user credentials
+        try {
+          // Create credentials object
+          const credentialsData = {
+            phone: formData.phone,
+            password: formData.password
+          };
+          
+          // Make second API call to create credentials
+          const credentialsResponse = await axios.post(
+            "http://localhost:8080/api/public/users/credentials",
+            credentialsData  // Send directly in request body for @RequestBody
+          );
+          
+          // Check if credentials were created successfully
+          if (credentialsResponse.status === 201) {
+            // Show success message
+            setError(""); // Clear any previous errors
+            
+            // Create a success notification state
+            const [registrationSuccess, setRegistrationSuccess] = useState(false);
+            setRegistrationSuccess(true);
+            
+            // Instead of logging in the user automatically, navigate to login page
+            // with a success state parameter to show a welcome message
+            setTimeout(() => {
+              navigate('/login', { 
+                state: { 
+                  registrationSuccess: true,
+                  phone: formData.phone,
+                  message: "Registration successful! Please log in with your new credentials." 
+                } 
+              });
+            }, 1500); // Short delay to show success message
+          } else {
+            // Handle credentials creation failure
+            setError("Failed to create login credentials. Please contact support.");
           }
-        });
-        
-        // Redirect to the intended destination or home
-        navigate(redirectPath, { state: redirectState });
+        } catch (credError) {
+          console.error("Credentials creation error:", credError);
+          
+          // Handle credentials API error, but note that the user was already created
+          setError("Your account was created, but there was an issue setting up your login credentials. Please contact support.");
+        }
       } else {
-        setError(response.data?.message || "Registration failed. Please try again.");
+        // Handle user creation failure
+        setError(userResponse.data?.message || "Registration failed. Please try again.");
       }
     } catch (err) {
       console.error("Registration error:", err);
@@ -192,7 +217,7 @@ function Registration() {
     }
   };
 
-  // Add these functions before the return statement
+  // Modal functions
   const openModal = (section) => {
     setActiveSection(section);
     setIsModalOpen(true);
@@ -361,7 +386,7 @@ function Registration() {
         </form>
       </div>
       
-      {/* Add the modal */}
+      {/* Modal for terms and privacy policy */}
       {isModalOpen && (
         <div className="legal-modal">
           <div className="modal-content">

@@ -1,0 +1,647 @@
+/* Enhanced Homepage Styling with Modern Animations */
+
+:root {
+  /* Core color palette */
+  --primary-blue: #3A59D1;
+  --primary-dark-blue: #261FB3;
+  --primary-light-blue: #3D90D7;
+  --secondary-light-blue: #6CBBF7;
+  --secondary-periwinkle: #8193E3;
+  --accent-gold: #FFC107;
+  --accent-teal: #38B2AC;
+  
+  /* Neutral colors */
+  --white: #FFFFFF;
+  --gray-50: #F8FAFC;
+  --gray-100: #F1F5F9;
+  --gray-200: #E2E8F0;
+  --gray-300: #CBD5E1;
+  --gray-400: #94A3B8;
+  --gray-500: #64748B;
+  --gray-600: #475569;
+  --gray-700: #334155;
+  --gray-800: #1E293B;
+  --gray-900: #0F172A;
+  
+  /* Status colors */
+  --success: #10B981;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+  --info: #3B82F6;
+  
+  /* Animation timings */
+  --transition-fast: 0.2s;
+  --transition-medium: 0.4s;
+  --transition-slow: 0.8s;
+  --easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --easing-decelerate: cubic-bezier(0, 0, 0.2, 1);
+  --easing-accelerate: cubic-bezier(0.4, 0, 1, 1);
+  --easing-bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* ===== Global Homepage Enhancements ===== */
+
+/* Smooth page entry animation */
+.homepage-container {
+  opacity: 0;
+  animation: fadeInPage 1.2s var(--easing-decelerate) forwards;
+}
+
+@keyframes fadeInPage {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Enhance scrolling behavior */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+/* Add subtle parallax to background elements */
+.hero-background {
+  transform: translateZ(0);
+  will-change: transform;
+  transition: transform 0.3s var(--easing-standard);
+}
+
+.homepage-container:hover .hero-background {
+  transform: translateZ(-10px) scale(1.05);
+  transition: transform 8s var(--easing-standard);
+}
+
+/* ===== Enhanced Hero Section ===== */
+.hero-section {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Add subtle light rays effect */
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, transparent 70%);
+  transform: rotate(15deg);
+  animation: rotateLightRays 25s linear infinite;
+  z-index: 0;
+  pointer-events: none;
+}
+
+@keyframes rotateLightRays {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Enhance hero title with text reveal animation */
+.hero-title {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  animation: revealHeroTitle 1.2s var(--easing-decelerate) forwards;
+}
+
+@keyframes revealHeroTitle {
+  0% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Add gradient text effect to hero title */
+.hero-title {
+  background: linear-gradient(90deg, var(--white) 0%, #e0e0e0 50%, var(--white) 100%);
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmerTitle 6s infinite linear;
+}
+
+@keyframes shimmerTitle {
+  to {
+    background-position: 200% center;
+  }
+}
+
+/* Enhance hero description with sequential fade-in */
+.hero-description {
+  opacity: 0;
+  animation: fadeInDescription 1s var(--easing-standard) forwards 0.6s;
+}
+
+@keyframes fadeInDescription {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Add pulse and float effects to CTA button */
+.cta-button {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s var(--easing-bounce);
+  animation: floatButton 5s ease-in-out infinite;
+}
+
+.cta-button::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transform: translateX(-100%);
+}
+
+.cta-button:hover::after {
+  animation: buttonSweep 1.5s var(--easing-standard);
+}
+
+@keyframes buttonSweep {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes floatButton {
+  0%, 100% {
+    transform: translateY(0);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+  50% {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* ===== Feature Cards Enhancement ===== */
+
+/* Add staggered entrance for feature cards */
+.feature-card {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInFeature 0.8s var(--easing-standard) forwards;
+}
+
+.feature-card:nth-child(1) { animation-delay: 0.2s; }
+.feature-card:nth-child(2) { animation-delay: 0.4s; }
+.feature-card:nth-child(3) { animation-delay: 0.6s; }
+.feature-card:nth-child(4) { animation-delay: 0.8s; }
+.feature-card:nth-child(5) { animation-delay: 1s; }
+.feature-card:nth-child(6) { animation-delay: 1.2s; }
+
+@keyframes fadeInFeature {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Add floating animation to feature icons */
+.feature-icon {
+  animation: pulseIcon 3s infinite alternate ease-in-out;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+  transition: all 0.3s var(--easing-bounce);
+}
+
+.feature-card:hover .feature-icon {
+  transform: scale(1.15) translateY(-5px);
+  filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.2));
+}
+
+@keyframes pulseIcon {
+  0% {
+    transform: scale(1) translateY(0);
+  }
+  100% {
+    transform: scale(1.05) translateY(-3px);
+  }
+}
+
+/* Add underline animation to feature titles */
+.feature-title {
+  position: relative;
+  display: inline-block;
+}
+
+.feature-title::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -4px;
+  left: 50%;
+  background: linear-gradient(90deg, var(--primary-light-blue), var(--secondary-periwinkle));
+  transition: all 0.4s var(--easing-standard);
+  transform: translateX(-50%);
+}
+
+.feature-card:hover .feature-title::after {
+  width: 80%;
+}
+
+/* Add subtle background glow on hover */
+.feature-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(61, 144, 215, 0.15), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s var(--easing-standard);
+  z-index: -1;
+}
+
+.feature-card:hover::before {
+  opacity: 1;
+}
+
+/* ===== Navbar Enhancement ===== */
+.navbar, .home-navbar {
+  transition: all 0.3s var(--easing-standard);
+  animation: fadeInDown 0.8s var(--easing-decelerate);
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Enhanced hover effects for nav links */
+.nav-link {
+  position: relative;
+  transition: all 0.3s var(--easing-standard);
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background-color: var(--white);
+  transition: width 0.3s var(--easing-standard);
+}
+
+.nav-link:hover {
+  transform: translateY(-2px);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+/* Add subtle authentication button animations */
+.auth-button {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s var(--easing-bounce);
+}
+
+.auth-button:hover {
+  transform: translateY(-3px);
+}
+
+.auth-button::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: -100%;
+  background: linear-gradient(90deg, 
+    rgba(255, 255, 255, 0) 0%, 
+    rgba(255, 255, 255, 0.2) 50%, 
+    rgba(255, 255, 255, 0) 100%);
+  transition: all 0.5s var(--easing-standard);
+}
+
+.auth-button:hover::after {
+  left: 100%;
+}
+
+/* ===== About Section Enhancement ===== */
+.about-section, .aboutt-section, .aboutf-section {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.5s var(--easing-standard);
+}
+
+/* Add scroll-triggered animation */
+.about-section {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.about-section.in-view {
+  animation: fadeInSection 0.8s var(--easing-decelerate) forwards;
+}
+
+@keyframes fadeInSection {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Add subtle background patterns */
+.about-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(var(--gray-200) 1px, transparent 1px);
+  background-size: 20px 20px;
+  opacity: 0.4;
+  z-index: -1;
+}
+
+/* Enhance section headings */
+.about-section h2, .aboutt-section h2, .aboutf-section h2 {
+  position: relative;
+  display: inline-block;
+}
+
+.about-section h2::after, .aboutt-section h2::after, .aboutf-section h2::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 3px;
+  bottom: -6px;
+  left: 0;
+  background: linear-gradient(90deg, var(--primary-blue), var(--primary-light-blue));
+  animation: expandUnderline 1s var(--easing-standard) forwards 0.3s;
+}
+
+@keyframes expandUnderline {
+  to {
+    width: 100%;
+  }
+}
+
+/* ===== Map/Location Section Enhancement ===== */
+.map-container {
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  transition: all 0.5s var(--easing-standard);
+}
+
+.map-container:hover {
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+.map-image {
+  transition: all 0.5s var(--easing-standard);
+}
+
+.map-container:hover .map-image {
+  transform: scale(1.05);
+}
+
+/* Add shine effect */
+.map-container::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 40%;
+  height: 200%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(30deg);
+  transition: all 0.7s var(--easing-standard);
+}
+
+.map-container:hover::after {
+  left: 100%;
+}
+
+/* ===== Footer Enhancement ===== */
+footer {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Add subtle top border animation */
+footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-blue), var(--primary-light-blue), var(--secondary-periwinkle), var(--primary-blue));
+  background-size: 300% 100%;
+  animation: gradientBorder 6s linear infinite;
+}
+
+@keyframes gradientBorder {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 300% 0%;
+  }
+}
+
+/* Enhanced footer links */
+footer a {
+  position: relative;
+  transition: all 0.3s var(--easing-standard);
+}
+
+footer a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 1px;
+  bottom: -2px;
+  left: 0;
+  background-color: currentColor;
+  transition: width 0.3s var(--easing-standard);
+}
+
+footer a:hover {
+  transform: translateX(3px);
+}
+
+footer a:hover::after {
+  width: 100%;
+}
+
+/* Add staggered fade-in for footer columns */
+.footer-column {
+  opacity: 0;
+  animation: fadeInUp 0.8s var(--easing-standard) forwards;
+}
+
+.footer-column:nth-child(1) { animation-delay: 0.1s; }
+.footer-column:nth-child(2) { animation-delay: 0.3s; }
+.footer-column:nth-child(3) { animation-delay: 0.5s; }
+.footer-column:nth-child(4) { animation-delay: 0.7s; }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== Scroll Indicator Animation ===== */
+/* Add this HTML to your HomePage component */
+.scroll-indicator {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 50px;
+  border: 2px solid var(--white);
+  border-radius: 15px;
+  opacity: 0.7;
+  animation: fadeInScroll 1s var(--easing-standard) forwards 1.5s;
+  opacity: 0;
+}
+
+.scroll-indicator::before {
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  background: var(--white);
+  border-radius: 50%;
+  transform: translateX(-50%);
+  animation: scrollDown 2s var(--easing-standard) infinite;
+}
+
+@keyframes scrollDown {
+  0% {
+    top: 6px;
+    opacity: 1;
+  }
+  80% {
+    opacity: 0;
+  }
+  100% {
+    top: 32px;
+    opacity: 0;
+  }
+}
+
+@keyframes fadeInScroll {
+  to {
+    opacity: 0.7;
+  }
+}
+
+/* ===== Intersection Observer Animations ===== */
+/* Add the 'reveal' class to elements you want to animate on scroll */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s var(--easing-standard);
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Left-to-right reveal variant */
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: all 0.8s var(--easing-standard);
+}
+
+.reveal-left.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Right-to-left reveal variant */
+.reveal-right {
+  opacity: 0;
+  transform: translateX(50px);
+  transition: all 0.8s var(--easing-standard);
+}
+
+.reveal-right.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ===== Responsive Adjustments ===== */
+@media (max-width: 768px) {
+  .cta-button {
+    animation: none; /* Disable floating on mobile for better performance */
+  }
+  
+  .feature-card:nth-child(n) {
+    animation-delay: 0.2s; /* Reduce staggering on mobile */
+  }
+  
+  .hero-section::before {
+    display: none; /* Disable complex backgrounds on mobile */
+  }
+  
+  .map-container::after {
+    display: none; /* Disable shine effect on mobile */
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
