@@ -89,7 +89,7 @@
 
 /* Hero Section */
 .about-hero {
-  min-height: 80vh;
+  /* min-height: 80vh; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -984,7 +984,7 @@
 
 @media (max-width: 768px) {
   .about-hero {
-    min-height: 60vh;
+    /* min-height: 60vh; */
     padding: 3rem 1.5rem;
   }
   
