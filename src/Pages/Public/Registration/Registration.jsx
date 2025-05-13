@@ -338,7 +338,7 @@ function Registration() {
               <input 
                 type="text" 
                 name="place"
-                placeholder="Place" 
+                placeholder="City" 
                 value={formData.place}
                 onChange={handleChange}
                 className={fieldErrors.place ? "error" : ""}
