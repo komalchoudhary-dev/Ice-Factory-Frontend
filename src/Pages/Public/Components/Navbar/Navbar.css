@@ -267,7 +267,10 @@
   z-index: 101;
   border-radius: var(--radius);
   transition: all 0.3s ease;
+  opacity: 1;
+  margin: 0 0 0 1rem;
 }
+
 
 .hamburger:hover {
   background-color: rgba(255, 255, 255, 0.1);
