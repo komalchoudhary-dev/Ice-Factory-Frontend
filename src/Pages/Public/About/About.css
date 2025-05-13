@@ -24,7 +24,7 @@
     font-size: 50px;
     margin-bottom: 20px;
     text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
-    animation: pulse 2s infinite alternate;
+    /* animation: pulse 2s infinite alternate; */
     font-weight: 750;
 }
 
