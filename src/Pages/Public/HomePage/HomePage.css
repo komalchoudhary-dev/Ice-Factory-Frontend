@@ -180,7 +180,7 @@ body {
   align-items: center;
   max-width: 1200px;
   width: 100%;
-  padding: 6rem 3rem 6rem;
+  padding: 4rem 3rem 6rem;
   margin: 0 auto;
   text-align: left;
   flex: 1;
@@ -592,7 +592,6 @@ body {
     padding: 2rem 1.5rem;
   }
 }
-
 /* Home navbar specific styles */
 .home-navbar {
   position: absolute;
