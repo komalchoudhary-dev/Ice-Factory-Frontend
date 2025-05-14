@@ -21,7 +21,11 @@ function Consumer() {
     axios.get(`http://localhost:8080/api/public/users`)
       .then((response) => {
         console.log("Consumer Data aa gaya oo ", response.data);
-        setApiData(response.data);
+        const sortedData = response.data.sort((a, b) =>
+        a.firstName.localeCompare(b.firstName)
+      );
+      setApiData(sortedData);
+        //setApiData(response.data);
       })
       .catch((error) => {
         console.error("Error fetching data", error);

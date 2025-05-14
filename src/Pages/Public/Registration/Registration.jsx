@@ -39,6 +39,9 @@ function Registration() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('terms');
   
+  // Add this state for registration success at the top level
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
+  
   // Handle input changes
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -169,8 +172,7 @@ function Registration() {
             // Show success message
             setError(""); // Clear any previous errors
             
-            // Create a success notification state
-            const [registrationSuccess, setRegistrationSuccess] = useState(false);
+            // Use the existing state setter - this is the fix!
             setRegistrationSuccess(true);
             
             // Instead of logging in the user automatically, navigate to login page
@@ -229,6 +231,12 @@ function Registration() {
 
   return (
     <div className="registration-container">
+      {registrationSuccess && (
+        <div className="success-message">
+          Registration successful! Redirecting to login page...
+        </div>
+      )}
+      
       <div className="form-section right">
         <form onSubmit={handleSubmit} className="form-fields">
           <h2>Contact Details</h2>
@@ -338,7 +346,7 @@ function Registration() {
               <input 
                 type="text" 
                 name="place"
-                placeholder="Place" 
+                placeholder="City" 
                 value={formData.place}
                 onChange={handleChange}
                 className={fieldErrors.place ? "error" : ""}

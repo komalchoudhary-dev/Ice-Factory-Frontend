@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./about.css";
+import "./contactNew"
+import ContactUs from "./contactNew";
 import muzaf from "../../../assets/muz_map.png";
 
 
@@ -169,7 +171,7 @@ export default function About() {
       <div className="about-section">
         <h2>History of Muzaffarpur Ice Factory</h2>
         <p>
-          Muzaffarpur Ice Factory was established in 2020 with the goal of
+          Muzaffarpur Ice Factory was established in 2022 with the goal of
           delivering reliable and high-quality ice to the residents and businesses
           of Muzaffarpur. Over the years, we have expanded our capacity and
           adopted state-of-the-art technology to meet the growing demand.
@@ -187,13 +189,13 @@ export default function About() {
       </div>
 
 
-     <div className="about-contact">
+     {/* <div className="about-contact">
   <div className="contact-info">
     <h2>Contact Us</h2>
     <p>Muzaffarpur Ice Factory</p>
-    <p>Station Road, Muzaffarpur, Bihar</p>
-    <p>Phone: +91-1234567890</p>
-    <p>Email: contact@muzaffarpurice.com</p>
+    <p>Sakari Saraiya, Via- Turki, Kudhani, Muzaffarpur, Bihar, 844127</p>
+    <p>Phone: +91 7808485240</p>
+    <p>Email: muzaffarpurice@gmail.com, contact@muzaffarpurice.com</p>
   </div>
 
   <div className="map-wrapper">
@@ -214,8 +216,8 @@ export default function About() {
       referrerPolicy="no-referrer-when-downgrade"
     ></iframe>
   </div>
-</div>
-
+</div> */}
+   <ContactUs/>
 
 
 
